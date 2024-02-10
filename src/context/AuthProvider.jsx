@@ -1,108 +1,104 @@
-import { createContext } from "react";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-// import clienteAxios from "../config/clienteAxios";
+import { createContext, useState, useEffect, useContext } from "react";
+import axios from "../api/axios";
+import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState([]);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-  const navigate = useNavigate();
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("use Auth propvider");
+  }
+  return context;
+};
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isAuth, setIsAuth] = useState(
+    JSON.parse(localStorage.getItem("isAuth")) ?? false
+  );
+  const [error, setError] = useState(null);
+  const [spinner, setSpinner] = useState(false);
 
   useEffect(() => {
-    async function loadData() {
-      const respusta = await axios.get(`http://localhost:1337/api/users`);
-      setAuth(respusta.data);
-    }
-    loadData();
+    setSpinner(true);
+    setTimeout(() => {
+      setSpinner(false);
+    }, 1000);
   }, []);
 
-  const handleSubmitLogin = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    localStorage.setItem("isAuth", JSON.stringify(isAuth));
+  }, [isAuth]);
 
-    if ([username, password].includes("")) {
-      setError(true);
-    } else {
-      try {
-        await axios.post(`http://localhost:1337/api/users`, {
-          data: {
-            username: username,
-            password: password,
-          },
-        });
+  //login
+  const signin = async (data) => {
+    try {
+      const res = await axios.post("/signin", data);
 
-        navigate("/app/home");
-        //localStorage.getItem("email", email);
-      } catch (error) {
-        console.log(error);
+      setUser(res.data);
+      setIsAuth(true);
+
+      return res.data;
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setError(error.response.data);
       }
+      setError([error.response.data.message]);
     }
   };
 
-  console.log(auth);
-  //   const [auth, setAuth] = useState({});
-  //   const [cargando, setCargando] = useState(true);
+  //registro
+  const signup = async (data) => {
+    try {
+      const res = await axios.post("/signup", data);
+      setUser(res.data);
+      setUser(res.data);
+      setIsAuth(true);
+      return res.data;
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setError(error.response.data);
+      }
+      setError([error.response.data.message]);
+    }
+  };
 
-  //   const navigate = useNavigate();
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      axios
+        .get("/profile")
+        .then((res) => {
+          setUser(res.data);
+          setIsAuth(true);
+        })
+        .catch((err) => {
+          setUser(null);
+          setIsAuth(false);
+        });
+    }
+  }, [isAuth]);
 
-  //   useEffect(() => {
-  //     const autenticarUsuario = async () => {
-  //       const token = localStorage.getItem("token");
-  //       if (!token) {
-  //         setCargando(false);
-  //         return;
-  //       }
-
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       };
-
-  //       try {
-  //         const { data } = await clienteAxios("/usuarios/perfil", config);
-  //         setAuth(data);
-  //         // navigate('/proyectos')
-  //       } catch (error) {
-  //         setAuth({});
-  //       }
-
-  //       setCargando(false);
-  //     };
-  //     autenticarUsuario();
-  //   }, []);
-
-  //   const cerrarSesionAuth = () => {
-  //     setAuth({});
-  //   };
+  const signout = async () => {
+    const res = await axios.post("/signout");
+    setUser(null);
+    setIsAuth(false);
+  };
 
   return (
     <AuthContext.Provider
       value={{
-        // auth,
-        // setAuth,
-        // cargando,
-        // cerrarSesionAuth,
-        handleSubmitLogin,
-        username,
-        password,
-        setUsername,
-        setPassword,
+        user,
+        isAuth,
         error,
+        signup,
+        signin,
+        signout,
+        spinner,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
-export { AuthProvider };
-
-export default AuthContext;

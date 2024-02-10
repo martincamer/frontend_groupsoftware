@@ -1,32 +1,9 @@
 import { Outlet, Navigate } from "react-router-dom";
 
-// import Header from "../components/Header";
-// import Sidebar from "../components/Sidebar";
-// import useAuth from "../hooks/useAuth";
+const RutaProtegida = ({ isAllowed, children, redirectTo }) => {
+  if (!isAllowed) return <Navigate to={redirectTo} replace />;
 
-const RutaProtegida = () => {
-  //   const { auth, cargando } = useAuth();
-  //   if (cargando) return "Cargando...";
-
-  return (
-    <>
-      {/* {auth._id ? 
-            ( */}
-      {
-        <div className="bg-gray-100">
-          {/* <Header /> */}
-          xd
-          <div className="md:flex md:min-h-screen">
-            {/* <Sidebar /> */}
-            <main className="p-10 flex-1 ">
-              <Outlet />
-            </main>
-          </div>
-        </div>
-      }
-      {/* ) : <Navigate to="/" />} */}
-    </>
-  );
+  return children ? children : <Outlet />;
 };
 
 export default RutaProtegida;

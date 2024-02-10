@@ -1,17 +1,27 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 import img from "../../../public/06.jpg";
-import useAuth from "../../hooks/useAuth";
-import { useContext } from "react";
-import AuthContext from "../../context/AuthProvider";
+
 export const Login = () => {
+  const { signin, error } = useAuth();
+
+  const navigate = useNavigate();
+
   const {
-    handleSubmitLogin,
-    username,
-    password,
-    setUsername,
-    setPassword,
-    error,
-  } = useContext(AuthContext);
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit(async (data) => {
+    const user = await signin(data);
+
+    if (user) {
+      navigate("/home");
+    }
+  });
 
   return (
     <section
@@ -23,40 +33,54 @@ export const Login = () => {
       className="flex justify-center items-center"
     >
       <form
-        onSubmit={handleSubmitLogin}
+        onSubmit={onSubmit}
         className="bg-white py-20 px-10 w-1/3 rounded-xl shadow-lg shadow-black/30 relative"
       >
-        {error && <span>Error</span>}
         <div className="text-2xl font-extrabold text-white bg-secondary rounded-lg absolute top-[-16px] left-[35%] p-2">
           Software Group
         </div>
-        <div>
+        <div className="space-y-2">
+          {error &&
+            error.map((err) => (
+              <p className="text-sm bg-red-100 text-red-600 py-2 px-2 rounded w-2/3 mx-auto text-center border-[1px] border-red-200">
+                {err}
+              </p>
+            ))}
+
           <p className="text-lg text-center font-semibold">
             Ingreso al sistema
           </p>
         </div>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <label className="text-lg font-bold">Usuario</label>
+            <label className="text-lg font-bold">Email</label>
             <input
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              {...register("email", { required: true })}
               type="text"
-              placeholder="Nombre de usuario"
+              placeholder="Email"
               className="bg-gray-200 rounded-lg shadow-md shadow-black/30 py-3 px-2 placeholder:text-black/50 outline-none"
             />
+            {errors.email && (
+              <span className="text-sm bg-red-100 text-red-600 py-2 px-2 rounded w-1/3 text-center shadow border-[1px] border-red-200">
+                El email es requerido
+              </span>
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="text-lg font-bold">Password</label>
             <input
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
+              {...register("password", { required: true })}
               type="password"
               placeholder="Contraseña de usuario"
               className="bg-gray-200 rounded-lg shadow-md shadow-black/30 py-3 px-2 placeholder:text-black/50 outline-none"
             />
+            {errors.password && (
+              <span className="text-sm bg-red-100 text-red-600 py-2 px-2 rounded w-1/3 text-center shadow border-[1px] border-red-200">
+                El password es requerido
+              </span>
+            )}
           </div>
-          <div className="">
+          <div>
             <input
               type="submit"
               value="Ingresar"
