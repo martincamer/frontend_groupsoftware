@@ -14,6 +14,8 @@ import { ModalVerColores } from "../../../components/ui/ModalVerColores";
 import { useAuth } from "../../../context/AuthProvider";
 import { Spinner } from "../../../components/Spinner";
 import { SelectProductCategory } from "../../../components/ui/SelectProductCategory";
+import { ModalEliminarProductoOriginal } from "../../../components/eliminar/ModalEliminarProductoOriginal";
+import { useState } from "react";
 
 export const Productos = () => {
   const {
@@ -36,6 +38,21 @@ export const Productos = () => {
   } = useAluminioContext();
 
   const { spinner } = useAuth();
+
+  let [isOpenModal, setIsOpen] = useState(false);
+  const [obtenerIdEliminar, setObtenerIdEliminar] = useState("");
+
+  const openEliminarProducto = () => {
+    setIsOpen(true);
+  };
+
+  const closeEliminarProducto = () => {
+    setIsOpen(false);
+  };
+
+  const handleIdEliminar = (id) => {
+    setObtenerIdEliminar(id);
+  };
 
   return spinner ? (
     <Spinner />
@@ -62,6 +79,8 @@ export const Productos = () => {
         />
 
         <TableProducts
+          handleIdEliminar={handleIdEliminar}
+          openEliminarProducto={openEliminarProducto}
           handlePerfilSeleccionado={handlePerfilSeleccionado}
           openModalEditar={openModalEditar}
           results={results}
@@ -91,6 +110,12 @@ export const Productos = () => {
           openModalEditar={openModalEditar}
           closeModalEditar={closeModalEditar}
           isOpenEditar={isOpenEditar}
+        />
+
+        <ModalEliminarProductoOriginal
+          obtenerIdEliminar={obtenerIdEliminar}
+          closeEliminarProducto={closeEliminarProducto}
+          isOpenModal={isOpenModal}
         />
 
         <ToastContainer />

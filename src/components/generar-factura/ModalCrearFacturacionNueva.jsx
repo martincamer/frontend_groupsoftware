@@ -7,12 +7,14 @@ import { ModalSeleccionarClienteFacturacion } from "./ModalSeleccionarClienteFac
 import { editarPerfilEliminarStock } from "../../api/perfiles.api";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ToastContainer } from "react-toastify";
+import { ModalResetearCampos } from "../eliminar/ModalResetearCampos";
 
 export const ModalCrearFacturacionNueva = () => {
   const { closeModal, isOpen, handleEditarProductoModalOpen } =
     useFacturaContext();
   let [isOpenCliente, setIsOpenCliente] = useState(false);
   let [isOpenProductos, setIsOpenProductos] = useState(false);
+  let [isOpenReset, setIsOpenReset] = useState(false);
 
   const {
     register,
@@ -40,6 +42,14 @@ export const ModalCrearFacturacionNueva = () => {
 
   function openModalProductos() {
     setIsOpenProductos(true);
+  }
+
+  function closeModalReset() {
+    setIsOpenReset(false);
+  }
+
+  function openModalReset() {
+    setIsOpenReset(true);
   }
 
   const result = totalPagar().toLocaleString("es-ar", {
@@ -317,12 +327,18 @@ export const ModalCrearFacturacionNueva = () => {
 
                   <div>
                     <button
-                      onClick={() => deleteToResetProductos()}
+                      // onClick={() => deleteToResetProductos()}
+                      onClick={openModalReset}
                       className="inline-flex justify-center px-4 py-2 text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer font-bold uppercase text-sm"
                       type="button"
                     >
                       Resetear productos
                     </button>
+
+                    <ModalResetearCampos
+                      closeModalReset={closeModalReset}
+                      isOpenReset={isOpenReset}
+                    />
                   </div>
                   <div className="flex gap-2 items-center">
                     <p className="font-bold uppercase">
@@ -330,12 +346,15 @@ export const ModalCrearFacturacionNueva = () => {
                     </p>{" "}
                     <select
                       onChange={(e) => setTipoFactura(e.target.value)}
-                      className="py-2 px-4 rounded bg-white font-bold border-[1px] shadow uppercase w-[54px]"
+                      className="py-2 px-4 rounded bg-white font-bold border-[1px] shadow uppercase"
                     >
-                      <option>N</option>
+                      <option>SELECCIONAR</option>
                       <option>A</option>
                       <option>B</option>
                       <option>C</option>
+                      <option>R</option>
+                      <option>N</option>
+                      <option>X</option>
                       <option>-</option>
                     </select>
                   </div>

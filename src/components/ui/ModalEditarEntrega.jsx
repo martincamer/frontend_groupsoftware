@@ -26,15 +26,15 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
       const res = await obtenerCliente(obtenerId);
       setCliente(res.data);
 
-      setValue("nombre", res.data.nombre);
-      setValue("apellido", res.data.apellido);
-      setValue("email", res.data.email);
-      setValue("telefono", res.data.telefono);
-      setValue("domicilio", res.data.domicilio);
-      setValue("localidad", res.data.localidad);
-      setValue("provincia", res.data.provincia);
-      setValue("id", res.data.id);
-      setValue("total_facturado", res.data.total_facturado);
+      // setValue("nombre", res.data.nombre);
+      // setValue("apellido", res.data.apellido);
+      // setValue("email", res.data.email);
+      // setValue("telefono", res.data.telefono);
+      // setValue("domicilio", res.data.domicilio);
+      // setValue("localidad", res.data.localidad);
+      // setValue("provincia", res.data.provincia);
+      // setValue("id", res.data.id);
+      // setValue("total_facturado", res.data.total_facturado);
       setValue("entrega", res.data.entrega);
       setValue("deuda_restante", res.data.deuda_restante);
     }
@@ -42,46 +42,63 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
   }, [obtenerId]);
 
   const onSubmitEditarCliente = handleSubmit(async (data) => {
-    // Validar que la entrega no sea mayor que la deuda restante
-    const entrega = parseFloat(data.entrega);
-    const deudaRestante = parseFloat(data.deuda_restante);
+    try {
+      // Validar que la entrega no sea mayor que la deuda restante
+      // const entrega = parseFloat(data.entrega);
+      // const deudaRestante = parseFloat(data.deuda_restante);
 
-    if (entrega > deudaRestante) {
-      toast.error("La entrega no puede ser mayor que la deuda restante", {
-        // Configuración del mensaje de error
+      // if (entrega > deudaRestante) {
+      //   toast.error("La entrega no puede ser mayor que la deuda restante", {
+      //     Configuración del mensaje de error
+      //   });
+      //   return;
+      // }
+
+      // Continuar con la lógica para actualizar el cliente si la validación es exitosa
+
+      const res = await actualizarClienteEntrega(obtenerId, data);
+
+      // const objetEN = JSON.parse(res.config.data);
+
+      // const clientesActualizados = results.map((clienteState) =>
+      //   clienteState.id === objetEN.id ? objetEN : clienteState
+      // );
+
+      // setClientes(clientesActualizados);
+
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+
+      toast.success("¡Cliente editado correctamente!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-      return;
+
+      return res.config.data;
+    } catch (error) {
+      // Validar que la entrega no sea mayor que la deuda restante
+      const entrega = parseFloat(data.entrega);
+      const deudaRestante = parseFloat(data.deuda_restante);
+      if (entrega > deudaRestante) {
+        toast.error("La entrega no puede ser mayor que la deuda restante", {
+          // Configuración del mensaje de error
+        });
+        return;
+      }
+      console.log(error.response.data);
+      // Continuar con la lógica para actualizar el cliente si la validación es exitosa
     }
-
-    // Continuar con la lógica para actualizar el cliente si la validación es exitosa
-
-    const res = await actualizarClienteEntrega(obtenerId, data);
-
-    const objetEN = JSON.parse(res.config.data);
-
-    const clientesActualizados = results.map((clienteState) =>
-      clienteState.id === objetEN.id ? objetEN : clienteState
-    );
-
-    setClientes(clientesActualizados);
-
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-
-    toast.success("¡Cliente editado correctamente!", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-
-    return res.config.data;
   });
+
+  console.log(cliente?.deuda_restante);
+
   return (
     <Menu as="div" className="z-50">
       <ToastContainer />
@@ -158,22 +175,6 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
                       placeholder="editar entrega"
                     />
                   </div>
-                  {/* 
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-bold">
-                      Total Facturado:
-                    </label>
-                    <div className="font-bold text-green-500">
-                      {Number(cliente?.total_facturado).toLocaleString(
-                        "es-ar",
-                        {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumFractionDigits: 2,
-                        }
-                      )}
-                    </div>
-                  </div> */}
 
                   <div className="flex flex-col">
                     <label className="text-[14px] font-bold">

@@ -367,6 +367,10 @@ export const FacturaProvider = ({ children }) => {
       theme: "light",
     });
 
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
+
     setDatosPresupuesto(presupuestoActualizado);
   };
 

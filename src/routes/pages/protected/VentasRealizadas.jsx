@@ -10,6 +10,8 @@ import { ModalCrearFacturacionNueva } from "../../../components/generar-factura/
 import { useFacturaContext } from "../../../context/FacturaProvider";
 import { SearchSelect } from "../../../components/gastos/SearchSelect";
 import { SearchSelectAnio } from "../../../components/gastos/SearchSelectAnio";
+import { useState } from "react";
+import { ModalEliminarVentas } from "../../../components/eliminar/ModalEliminarVentas";
 
 export const VentasRealizadas = () => {
   const { spinner } = useAuth();
@@ -21,6 +23,22 @@ export const VentasRealizadas = () => {
     anioSeleccionado,
     handleAnioChange,
   } = useFacturaContext();
+
+  let [isOpenModal, setIsOpen] = useState(false);
+  const [obtenerIdEliminar, setObtenerIdEliminar] = useState("");
+
+  const openEliminarProducto = () => {
+    setIsOpen(true);
+  };
+
+  const closeEliminarProducto = () => {
+    setIsOpen(false);
+  };
+
+  const handleIdEliminar = (id) => {
+    setObtenerIdEliminar(id);
+  };
+
   return spinner ? (
     <Spinner />
   ) : (
@@ -47,9 +65,18 @@ export const VentasRealizadas = () => {
         </div>
         <CategoriaFacturacion />
 
-        <TableFacturacion />
+        <TableFacturacion
+          openEliminarProducto={openEliminarProducto}
+          handleIdEliminar={handleIdEliminar}
+        />
 
         <ModalCrearFacturacionNueva />
+
+        <ModalEliminarVentas
+          obtenerIdEliminar={obtenerIdEliminar}
+          closeEliminarProducto={closeEliminarProducto}
+          isOpenModal={isOpenModal}
+        />
 
         <ToastContainer />
       </section>

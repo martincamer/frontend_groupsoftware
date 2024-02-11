@@ -4,7 +4,8 @@ export const TableClients = ({
   results,
   handleClienteSeleccionado,
   openModalEditar,
-  handleEliminar,
+  openEliminarProducto,
+  handleIdEliminar,
 }) => {
   const itemsPerPage = 10; // Cantidad de elementos por página
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,7 +71,10 @@ export const TableClients = ({
               <th className="border-[1px] border-gray-300 p-3 font-bold uppercase text-sm">
                 <button
                   className="bg-red-500 py-1 px-2 text-white rounded cursor-pointer uppercase text-xs"
-                  onClick={() => handleEliminar(p.id)}
+                  // onClick={() => handleEliminar(p.id)}
+                  onClick={() => {
+                    handleIdEliminar(p?.id), openEliminarProducto();
+                  }}
                 >
                   eliminar
                 </button>

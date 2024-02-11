@@ -34,6 +34,12 @@ export const ModalCrearDatosFacturar = () => {
       theme: "light",
     });
 
+    closeModal();
+
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
+
     reset();
   });
 
@@ -90,7 +96,7 @@ export const ModalCrearDatosFacturar = () => {
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium leading-6 text-gray-900 uppercase"
                 >
                   Crear datos facturacion
                 </Dialog.Title>
@@ -99,7 +105,12 @@ export const ModalCrearDatosFacturar = () => {
                   className="mt-2 border-t pt-4 pb-4 space-y-2"
                 >
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Nombre de la empresa</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Nombre de la empresa
+                    </label>
                     <input
                       {...register("nombre", { required: true })}
                       className="border-[1px] border-gray-200 rounded shadow shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
@@ -114,7 +125,12 @@ export const ModalCrearDatosFacturar = () => {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Email de la empresa</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Email de la empresa
+                    </label>
                     <input
                       {...register("email", { required: true })}
                       className="border-[1px] border-gray-200 rounded shadow shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
@@ -128,7 +144,12 @@ export const ModalCrearDatosFacturar = () => {
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Numero de telefono</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Numero de telefono
+                    </label>
                     <input
                       {...register("telefono", { required: true })}
                       className="border-[1px] border-gray-200 rounded shadow shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
@@ -142,7 +163,12 @@ export const ModalCrearDatosFacturar = () => {
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Dirección de la compania</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Dirección de la compania
+                    </label>
                     <input
                       {...register("direccion", { required: true })}
                       className="border-[1px] border-gray-200 rounded shadow shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
@@ -156,7 +182,12 @@ export const ModalCrearDatosFacturar = () => {
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Localidad de la compania</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Localidad de la compania
+                    </label>
                     <input
                       {...register("localidad", { required: true })}
                       className="border-[1px] border-gray-200 rounded shadow shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
@@ -170,7 +201,12 @@ export const ModalCrearDatosFacturar = () => {
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Detalle de la distribucion</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Detalle de la distribucion
+                    </label>
                     <input
                       {...register("detalle", { required: true })}
                       className="border-[1px] border-gray-200 rounded shadow shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
@@ -184,12 +220,17 @@ export const ModalCrearDatosFacturar = () => {
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="">Crear datos facturación</label>
+                    <label
+                      className="uppercase text-sm font-semibold"
+                      htmlFor=""
+                    >
+                      Crear datos facturación
+                    </label>
                     <input
-                      onClick={closeModal}
+                      // onClick={closeModal}
                       type="submit"
                       value={"Crear datos"}
-                      className="cursor-pointer py-2 px-2 bg-secondary rounded shadow shadow-black/20 text-white font-bold w-1/2"
+                      className="cursor-pointer py-2 px-2 bg-secondary rounded shadow shadow-black/20 text-white font-bold w-1/2 uppercase text-sm"
                     />
                   </div>
                 </form>
@@ -197,7 +238,7 @@ export const ModalCrearDatosFacturar = () => {
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
+                    className="uppercase inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
                     onClick={closeModal}
                   >
                     Cerrar Ventana

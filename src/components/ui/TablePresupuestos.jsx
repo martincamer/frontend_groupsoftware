@@ -6,8 +6,11 @@ import { BiSolidDownArrow } from "react-icons/bi";
 import { ModalPresupuestoEstado } from "./ModalPresupuestoEstado";
 import { DescargarPresupuesto } from "../DescargarPresupuesto";
 
-export const TablePresupuestos = () => {
-  const { results, handleDeletePresupuesto } = usePresupuestoContext();
+export const TablePresupuestos = ({
+  openEliminarProducto,
+  handleIdEliminar,
+}) => {
+  const { results } = usePresupuestoContext();
   let [isOpen, setIsOpen] = useState(false);
   let [obtenerId, setObtenerId] = useState("");
   let [isOpenEstado, setIsEstado] = useState(false);
@@ -99,7 +102,10 @@ export const TablePresupuestos = () => {
               </th>
               <th className="border-[1px] border-gray-300 p-3">
                 <Link
-                  onClick={() => handleDeletePresupuesto(p.id)}
+                  // onClick={() => handleDeletePresupuesto(p.id)}
+                  onClick={() => {
+                    handleIdEliminar(p?.id), openEliminarProducto();
+                  }}
                   className="bg-red-500 py-1 px-2 text-center font-bold text-xs text-white rounded"
                 >
                   eliminar

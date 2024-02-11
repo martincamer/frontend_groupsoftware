@@ -48,7 +48,7 @@ function App() {
             {/* <Route path="/register" element={<Register />} />
             <Route path="/planes" element={<Planes />} />
             <Route path="/contacto" element={<Contacto />} /> */}
-            <Route path="/change-password" element={<PasswordChange />} />
+            <Route path="/password-change" element={<PasswordChange />} />
           </Route>
           <Route
             element={<RutaProtegida isAllowed={isAuth} redirectTo={"/"} />}
@@ -96,7 +96,7 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </>
   );

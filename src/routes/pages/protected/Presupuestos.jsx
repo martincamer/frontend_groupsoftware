@@ -10,6 +10,8 @@ import { Spinner } from "../../../components/Spinner";
 import { SearchSelect } from "../../../components/gastos/SearchSelect";
 import { SearchSelectAnio } from "../../../components/gastos/SearchSelectAnio";
 import { usePresupuestoContext } from "../../../context/PresupuestoProvider";
+import { ModalEliminarPresupuesto } from "../../../components/eliminar/ModalEliminarPresupuesto";
+import { useState } from "react";
 
 export const Presupuestos = () => {
   const { spinner } = useAuth();
@@ -21,6 +23,21 @@ export const Presupuestos = () => {
     anioSeleccionado,
     handleCategoriaChange,
   } = usePresupuestoContext();
+
+  let [isOpenModal, setIsOpen] = useState(false);
+  const [obtenerIdEliminar, setObtenerIdEliminar] = useState("");
+
+  const openEliminarProducto = () => {
+    setIsOpen(true);
+  };
+
+  const closeEliminarProducto = () => {
+    setIsOpen(false);
+  };
+
+  const handleIdEliminar = (id) => {
+    setObtenerIdEliminar(id);
+  };
 
   return spinner ? (
     <Spinner />
@@ -49,9 +66,18 @@ export const Presupuestos = () => {
           />
         </div>
 
-        <TablePresupuestos />
+        <TablePresupuestos
+          openEliminarProducto={openEliminarProducto}
+          handleIdEliminar={handleIdEliminar}
+        />
 
         <ModalCrearPresupuestoNuevo />
+
+        <ModalEliminarPresupuesto
+          obtenerIdEliminar={obtenerIdEliminar}
+          closeEliminarProducto={closeEliminarProducto}
+          isOpenModal={isOpenModal}
+        />
 
         <ToastContainer />
       </section>

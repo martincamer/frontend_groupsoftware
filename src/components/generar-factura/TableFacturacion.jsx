@@ -4,7 +4,10 @@ import { BiSolidDownArrow } from "react-icons/bi";
 import { useFacturaContext } from "../../context/FacturaProvider";
 import { ModalEditarEstadoFactura } from "../ui/ModalEditarEstadoFactura";
 
-export const TableFacturacion = () => {
+export const TableFacturacion = ({
+  openEliminarProducto,
+  handleIdEliminar,
+}) => {
   const { results, handleDeletePresupuesto } = useFacturaContext();
   let [obtenerId, setObtenerId] = useState("");
   let [isOpenEstado, setIsEstado] = useState(false);
@@ -92,7 +95,10 @@ export const TableFacturacion = () => {
               </th>
               <th className="border-[1px] border-gray-300 p-3 text-sm">
                 <Link
-                  onClick={() => handleDeletePresupuesto(p.id)}
+                  // onClick={() => handleDeletePresupuesto(p.id)}
+                  onClick={() => {
+                    handleIdEliminar(p?.id), openEliminarProducto();
+                  }}
                   className="bg-red-500 py-1 px-2 text-center font-bold text-white rounded"
                 >
                   eliminar

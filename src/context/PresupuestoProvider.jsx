@@ -151,6 +151,10 @@ export const PresupuestoProvider = ({ children }) => {
       progress: undefined,
       theme: "light",
     });
+
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
   };
 
   const addToClientes = (
@@ -330,6 +334,10 @@ export const PresupuestoProvider = ({ children }) => {
       progress: undefined,
       theme: "light",
     });
+
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
 
     setDatosPresupuesto(presupuestoActualizado);
   };

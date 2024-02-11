@@ -5,9 +5,9 @@ export const TableProducts = ({
   results,
   openModalEditar,
   handlePerfilSeleccionado,
+  openEliminarProducto,
+  handleIdEliminar,
 }) => {
-  const { handleEliminar } = useAluminioContext();
-
   const itemsPerPage = 12; // Cantidad de elementos por página
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -64,7 +64,10 @@ export const TableProducts = ({
               <th className="border-[1px] border-gray-300 p-3 font-bold ">
                 <button
                   className="bg-red-500 py-1 px-2 text-white rounded text-xs cursor-pointer uppercase"
-                  onClick={() => handleEliminar(p.id)}
+                  // onClick={() => handleEliminar(p.id)}
+                  onClick={() => {
+                    handleIdEliminar(p.id), openEliminarProducto();
+                  }}
                 >
                   eliminar
                 </button>
