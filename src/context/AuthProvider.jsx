@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "../api/axios";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
 
 export const AuthContext = createContext();
 

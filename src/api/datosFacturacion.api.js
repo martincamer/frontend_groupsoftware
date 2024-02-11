@@ -7,3 +7,6 @@ export const actualizarDatosFacturacion = (datosFacturar, data) =>
 
 export const crearDatosFacturacion = (data) =>
   axios.post(`/datos-facturacion`, data);
+
+export const changePassword = (datos) =>
+  axios.post(`/change-password/${datos}`);

@@ -30,6 +30,7 @@ import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { FacturaPresupuestoDocumentHTML } from "./routes/pages/protected/FacturaPresupuestoDocumentHTML";
+import { PasswordChange } from "./routes/pages/PasswordChange";
 
 function App() {
   const { isAuth } = useAuth();
@@ -47,9 +48,10 @@ function App() {
             {/* <Route path="/register" element={<Register />} />
             <Route path="/planes" element={<Planes />} />
             <Route path="/contacto" element={<Contacto />} /> */}
+            <Route path="/change-password" element={<PasswordChange />} />
           </Route>
           <Route
-            element={<RutaProtegida isAllowed={isAuth} redirectTo={"/login"} />}
+            element={<RutaProtegida isAllowed={isAuth} redirectTo={"/"} />}
           >
             <Route
               element={
