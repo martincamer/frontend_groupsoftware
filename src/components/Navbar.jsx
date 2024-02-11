@@ -96,12 +96,7 @@ export const Navbar = () => {
                   <div className="font-semibold text-sm text-secondary bg-primary shadow shadow-md text-white p-1 rounded-full px-2">
                     {user?.username}
                   </div>
-                  {/* <Link to={"profile"}>
-                    <img
-                      className="rounded-full w-[40px] shadow shadow-md shadow-black/10"
-                      src={user?.gravatar}
-                    />
-                  </Link> */}
+
                   <Link
                     onClick={() => signout()}
                     className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-secondary px-4 rounded-full py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02]"

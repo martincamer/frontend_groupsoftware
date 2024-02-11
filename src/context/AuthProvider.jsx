@@ -14,7 +14,9 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) ?? null
+  );
   const [isAuth, setIsAuth] = useState(
     JSON.parse(localStorage.getItem("isAuth")) ?? false
   );
@@ -22,15 +24,12 @@ export const AuthProvider = ({ children }) => {
   const [spinner, setSpinner] = useState(false);
 
   useEffect(() => {
-    setSpinner(true);
-    setTimeout(() => {
-      setSpinner(false);
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem("isAuth", JSON.stringify(isAuth));
   }, [isAuth]);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   //login
   const signin = async (data) => {
