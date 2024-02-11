@@ -2,18 +2,18 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
 const rutasPublicas = [
-  {
-    name: "Inicio",
-    path: "/",
-  },
-  {
-    name: "Planes",
-    path: "/planes",
-  },
-  {
-    name: "Contacto",
-    path: "/contacto",
-  },
+  // {
+  //   name: "Inicio",
+  //   path: "/",
+  // },
+  // {
+  //   name: "Planes",
+  //   path: "/planes",
+  // },
+  // {
+  //   name: "Contacto",
+  //   path: "/contacto",
+  // },
 ];
 
 const rutasPrivadas = [
@@ -47,14 +47,14 @@ const rutasuno = [
 ];
 
 const rutasdos = [
-  {
-    name: "Login",
-    path: "/login",
-  },
-  {
-    name: "Registrarse",
-    path: "/register",
-  },
+  // {
+  //   name: "Login",
+  //   path: "/",
+  // },
+  // {
+  //   name: "Registrarse",
+  //   path: "/register",
+  // },
 ];
 
 export const Navbar = () => {

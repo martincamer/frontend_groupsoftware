@@ -42,11 +42,11 @@ function App() {
           <Route
             element={<RutaProtegida isAllowed={!isAuth} redirectTo={"/home"} />}
           >
-            <Route path="/" index element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            {/* <Route path="/" index element={<HomePage />} /> */}
+            <Route path="/" element={<Login />} />
+            {/* <Route path="/register" element={<Register />} />
             <Route path="/planes" element={<Planes />} />
-            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/contacto" element={<Contacto />} /> */}
           </Route>
           <Route
             element={<RutaProtegida isAllowed={isAuth} redirectTo={"/login"} />}

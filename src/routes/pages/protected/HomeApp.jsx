@@ -105,7 +105,7 @@ export const HomeApp = () => {
   }, [data]);
 
   return (
-    <div className="py-[30px] px-[30px] w-full h-full flex flex-col gap-12">
+    <div className="py-[30px] px-[30px] w-full h-full flex flex-col gap-6">
       <div className="border-[1px] border-gray-100 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5">
         <div className="grid grid-cols-4 gap-10">
           {ventasPorMes.map((mesVentas) => (
@@ -117,7 +117,11 @@ export const HomeApp = () => {
                 VENTAS {mesVentas.mes.toUpperCase()}
               </p>
               <p className="text-2xl font-bold text-center text-green-600">
-                ${mesVentas.totalVentas.toFixed(2)}
+                {mesVentas.totalVentas.toLocaleString("es-ar", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumFractionDigits: 2,
+                })}
               </p>
               <p className="text-sm text-gray-500 text-center">
                 Perfiles Vendidos: {mesVentas.perfilesVendidos}

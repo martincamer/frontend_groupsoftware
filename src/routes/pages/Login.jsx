@@ -94,12 +94,12 @@ export const Login = () => {
             >
               ¿Olvidaste tu contraseña?
             </Link>
-            <Link
+            {/* <Link
               className="hover:underline transition-all ease-in-out"
               to={"/register"}
             >
               ¿No te registraste? Registrase
-            </Link>
+            </Link> */}
           </div>
         </div>
       </form>
