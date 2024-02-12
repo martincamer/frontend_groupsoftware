@@ -397,7 +397,7 @@ export const ModalCrearFacturacionNueva = () => {
                       }}
                       className="bg-green-500 py-2 px-2 rounded text-white font-bold shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
                     >
-                      Generar Presupuesto
+                      Generar Venta
                     </button>
                   </div>
                 </form>
