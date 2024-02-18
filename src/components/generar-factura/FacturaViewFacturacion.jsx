@@ -537,7 +537,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
               <Text style={styles.row3}>{p.barras}</Text>
               <Text style={styles.row3}>{p.nombre}</Text>
               <Text style={styles.row3}>
-                {p.totalKG.toLocaleString("arg", {
+                {p?.totalKG?.toLocaleString("arg", {
                   minimumFractionDigits: 2,
                 })}
               </Text>
@@ -545,7 +545,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
               <Text style={styles.row3}>{p.color}</Text>
               <Text style={styles.row3}>{p.detalle}</Text>
               <Text style={styles.row3}>
-                {p.totalPrecioUnitario.toLocaleString("es-ar", {
+                {p?.totalPrecioUnitario?.toLocaleString("es-ar", {
                   style: "currency",
                   currency: "ARS",
                   minimumFractionDigits: 2,
