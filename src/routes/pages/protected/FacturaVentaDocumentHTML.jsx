@@ -181,27 +181,27 @@ export const FacturaVentaDocumentHTML = () => {
             {datos?.productos?.respuesta.map((p, index) => (
               <tr className="uppercase text-sm" key={index}>
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600  w-[20px] font-normal">
-                  {p.barras}
+                  {p?.barras}
                 </th>
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
-                  {p.nombre}
+                  {p?.nombre}
                 </th>
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
-                  {Number(p.totalKG).toLocaleString("es-ar", {
+                  {Number(p?.totalKG)?.toLocaleString("es-ar", {
                     minimumFractionDigits: 2,
                   })}
                 </th>
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
-                  {p.categoria}
+                  {p?.categoria}
                 </th>
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
-                  {p.color}
+                  {p?.color}
                 </th>
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
-                  {p.detalle}
+                  {p?.detalle}
                 </th>
                 <th className="border-[1px] border-gray-300 p-3 text-secondary font-semibold">
-                  {Number(p.totalPrecioUnitario).toLocaleString("es-ar", {
+                  {Number(p?.totalPrecioUnitario)?.toLocaleString("es-ar", {
                     style: "currency",
                     currency: "ARS",
                     minimumFractionDigits: 2,
@@ -217,7 +217,7 @@ export const FacturaVentaDocumentHTML = () => {
             <div className="pb-2">
               <p className="font-bold">Subtotal</p>{" "}
               <p className="text-sm text-secondary font-semibold">
-                {Number(datos?.estadistica?.total_pagar).toLocaleString(
+                {Number(datos?.estadistica?.total_pagar)?.toLocaleString(
                   "es-ar",
                   {
                     style: "currency",
@@ -236,7 +236,7 @@ export const FacturaVentaDocumentHTML = () => {
           <div>
             <p className="font-medium  text-xl flex gap-2 items-center text-secondary">
               <span className="font-bold text-lg text-black">Total:</span>{" "}
-              {Number(datos?.estadistica?.total_pagar).toLocaleString("es-ar", {
+              {Number(datos?.estadistica?.total_pagar)?.toLocaleString("es-ar", {
                 style: "currency",
                 currency: "ARS",
                 minimumFractionDigits: 2,
