@@ -110,6 +110,7 @@ export const PresupuestoProvider = ({ children }) => {
       color: e.color,
       categoria: e.categoria,
       totalPrecioUnitario: e.totalPrecioUnitario,
+      precio: e.precio,
     };
   });
 
@@ -204,7 +205,8 @@ export const PresupuestoProvider = ({ children }) => {
     barras,
     totalKG,
     categoria,
-    totalPrecioUnitario
+    totalPrecioUnitario,
+    precio
   ) => {
     const newProducto = {
       id,
@@ -215,6 +217,7 @@ export const PresupuestoProvider = ({ children }) => {
       totalKG,
       categoria,
       totalPrecioUnitario,
+      precio,
     };
 
     const productoSeleccionadoItem = productoSeleccionado.find((item) => {
@@ -240,7 +243,8 @@ export const PresupuestoProvider = ({ children }) => {
     barras,
     totalKG,
     categoria,
-    totalPrecioUnitario
+    totalPrecioUnitario,
+    precio
   ) => {
     const itemIndex = productoSeleccionado.findIndex(
       (item) =>
@@ -251,7 +255,8 @@ export const PresupuestoProvider = ({ children }) => {
         item.barras === barras &&
         item.totalKG === totalKG &&
         item.categoria === categoria &&
-        item.totalPrecioUnitario === totalPrecioUnitario
+        item.totalPrecioUnitario === totalPrecioUnitario &&
+        item.precio === precio
     );
     if (itemIndex) {
       const newItem = [...productoSeleccionado];

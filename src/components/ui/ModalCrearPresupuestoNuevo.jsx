@@ -44,35 +44,35 @@ export const ModalCrearPresupuestoNuevo = () => {
     minimumFractionDigits: 2,
   });
 
-  const sumasPorCategoria = {};
+  // Crear un objeto para almacenar los resultados agrupados
+  const resultados = {};
 
-  // Iteramos sobre los resultados
-  productoSeleccionado?.forEach((producto) => {
-    const { categoria, totalPrecioUnitario, totalKG } = producto;
+  // Iterar sobre los datos
+  productoSeleccionado.forEach((dato) => {
+    const clave = `${dato.categoria}-${dato.precio}`;
 
-    // Si la categoría ya existe en el objeto
-    if (sumasPorCategoria[categoria]) {
-      // Le sumamos el totalPrecioUnitario y totalKG
-      sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
-      sumasPorCategoria[categoria].totalKG += totalKG;
+    // Verificar si la clave ya existe en los resultados
+    if (resultados[clave]) {
+      // Si existe, sumar los valores correspondientes
+      resultados[clave].totalPrecioUnitario += dato.totalPrecioUnitario;
+      resultados[clave].totalKG += dato.totalKG;
     } else {
-      // Si no existe, creamos la entrada con el totalPrecioUnitario y totalKG
-      sumasPorCategoria[categoria] = {
-        totalPrecioUnitario,
-        totalKG,
+      // Si no existe, agregar una nueva entrada en los resultados
+      resultados[clave] = {
+        categoria: dato.categoria,
+        color: dato.color,
+        precio: dato.precio,
+        totalPrecioUnitario: dato.totalPrecioUnitario,
+        totalKG: dato.totalKG,
       };
     }
   });
 
-  // Convertimos el objeto a un arreglo
-  const arreglo = Object.entries(sumasPorCategoria).map(
-    ([categoria, valores]) => ({
-      categoria,
-      ...valores,
-    })
-  );
+  // Convertir el objeto de resultados de nuevo a un array
+  const resultadosArray = Object.values(resultados);
 
-  console.log("Arreglo:", arreglo);
+  // Mostrar los resultados
+  console.log(resultadosArray);
 
   return (
     <Menu as="div" className="z-50">
@@ -356,11 +356,11 @@ export const ModalCrearPresupuestoNuevo = () => {
                     </div>
                   </div>
 
-                  {arreglo?.map((a, index) => (
+                  {resultadosArray?.map((a, index) => (
                     <div key={index}>
-                      <p className="font-bold uppercase text-lg text-sky-500">
-                        TOTAL EN {a?.categoria}:{" "}
-                        <span className="font-normal text-slate-700">
+                      <p className="font-bold uppercase text-lg text-slate-700 flex gap-2">
+                        TOTAL EN {a?.categoria}{" "}
+                        <span className="text-sky-500 font-semibold">
                           {" "}
                           {a?.totalPrecioUnitario?.toLocaleString("es-ar", {
                             style: "currency",
@@ -369,8 +369,30 @@ export const ModalCrearPresupuestoNuevo = () => {
                           })}
                         </span>
                       </p>
-                      <p className="font-semibold uppercase text-sm">
-                        Total en kgs: {a?.totalKG} kgs
+                      <p className="font-semibold uppercase text-sm text-slate-700 flex gap-2">
+                        Color{" "}
+                        <span className=" text-sky-500 font-semibold">
+                          {a?.color}
+                        </span>
+                      </p>
+                      <p className="font-semibold uppercase text-sm text-slate-700 flex gap-2">
+                        Total en kg:{" "}
+                        <span className=" text-sky-500 font-semibold">
+                          {a?.totalKG?.toLocaleString("es-ar", {
+                            minimumFractionDigits: 2,
+                          })}{" "}
+                          kg
+                        </span>
+                      </p>
+                      <p className="font-semibold uppercase text-sm text-slate-700 border-b-[1px] border-gray-300 flex gap-2">
+                        Precio Unitario
+                        <span className=" text-sky-500 font-semibold">
+                          {Number(a?.precio).toLocaleString("es-ar", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumFractionDigits: 2,
+                          })}{" "}
+                        </span>
                       </p>
                     </div>
                   ))}

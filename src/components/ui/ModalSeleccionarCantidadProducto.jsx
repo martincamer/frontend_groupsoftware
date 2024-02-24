@@ -158,7 +158,8 @@ export const ModalSeleccionarCantidadProducto = ({
                         cantidad,
                         pesoBarraNeto * cantidad,
                         productoUnicoState.categoria,
-                        pesoBarraNeto * cantidad * precio
+                        pesoBarraNeto * cantidad * precio,
+                        precio
                       ),
                         closeModalCantidad();
                     }}

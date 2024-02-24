@@ -57,7 +57,7 @@ export const TableFacturacion = ({
             <th className="p-3 text-sm border-b-[2px]">Emision</th>
             <th className="p-3 text-sm border-b-[2px]">Cliente</th>
             <th className="p-3 text-sm border-b-[2px]">Total a pagar</th>
-            <th className="p-3 text-sm border-b-[2px]">Tipo Factura</th>
+            {/* <th className="p-3 text-sm border-b-[2px]">Tipo Factura</th> */}
             <th className="p-3 text-sm border-b-[2px]">Ver Factura</th>
             <th className="p-3 text-sm border-b-[2px]">Eliminar</th>
             <th className="p-3 text-sm border-b-[2px] w-[220px]">
@@ -87,9 +87,9 @@ export const TableFacturacion = ({
                   minimumFractionDigits: 2,
                 })}
               </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 text-sm font-normal">
+              {/* <th className="border-b-[1px] border-gray-300 py-4 px-3 text-sm font-normal">
                 {p.tipo_factura}
-              </th>
+              </th> */}
               <th className="border-b-[1px] border-gray-300 py-4 px-3 text-sm space--2 w-1/5">
                 <Link
                   to={`/factura-venta/${p.id}`}
@@ -113,10 +113,13 @@ export const TableFacturacion = ({
                 <Link
                   onClick={openModalEstado}
                   className={`${
-                    (p.estado === "aceptado" && "bg-green-500") ||
-                    (p.estado === "rechazado" && "bg-red-500") ||
-                    (p.estado === "pendiente" && "bg-yellow-500")
-                  } py-1 px-2 font-bold text-white rounded flex gap-1 flex-row justify-center items-center w-2/3 text-sm text-center mx-auto`}
+                    (p.estado === "aceptado" &&
+                      "bg-green-500/10 text-green-500 border-green-600 border-[1px]") ||
+                    (p.estado === "rechazado" &&
+                      "bg-red-500/10 text-red-500 border-red-600 border-[1px]") ||
+                    (p.estado === "pendiente" &&
+                      "bg-yellow-500/10 text-yellow-500 border-yellow-600 border-[1px]")
+                  } py-1 px-2 font-bold  rounded flex gap-1 flex-row justify-center items-center w-2/3 text-sm text-center mx-auto`}
                 >
                   <span onClick={() => seleccionarId(p.id)}>{p.estado}</span>
                   <BiSolidDownArrow className="text-[12px]" />
@@ -133,7 +136,7 @@ export const TableFacturacion = ({
                 key={index}
                 className={`mx-1 px-3 py-1 rounded ${
                   currentPage === index + 1
-                    ? "bg-secondary hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20"
+                    ? "bg-sky-500 hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20"
                     : "bg-gray-100 shadow shadow-black/20"
                 }`}
                 onClick={() => handlePageChange(index + 1)}

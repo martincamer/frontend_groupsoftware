@@ -221,30 +221,60 @@ function dateTime(data) {
 }
 
 export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
-  const sumasPorCategoria = {};
+  // const sumasPorCategoria = {};
 
-  // Iteramos sobre los productos
-  unicoPresupuesto?.productos?.respuesta?.forEach((producto) => {
-    const { categoria, totalKG, totalPrecioUnitario } = producto;
+  // // Iteramos sobre los productos
+  // unicoPresupuesto?.productos?.respuesta?.forEach((producto) => {
+  //   const { categoria, totalKG, totalPrecioUnitario } = producto;
 
-    // Si la categoría ya existe en el objeto, le sumamos los valores
-    if (sumasPorCategoria[categoria]) {
-      sumasPorCategoria[categoria].totalKG += totalKG;
-      sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
+  //   // Si la categoría ya existe en el objeto, le sumamos los valores
+  //   if (sumasPorCategoria[categoria]) {
+  //     sumasPorCategoria[categoria].totalKG += totalKG;
+  //     sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
+  //   } else {
+  //     // Si no existe, creamos la entrada con los valores
+  //     sumasPorCategoria[categoria] = {
+  //       totalKG,
+  //       totalPrecioUnitario,
+  //       categoria,
+  //     };
+  //   }
+  // });
+
+  // // Creamos un arreglo de los valores del objeto
+  // let arregloNew = Object.values(sumasPorCategoria);
+
+  // console.log(arregloNew);
+
+  // Crear un objeto para almacenar los resultados agrupados
+  const resultados = {};
+
+  // Iterar sobre los datos
+  unicoPresupuesto?.productos?.respuesta?.forEach((dato) => {
+    const clave = `${dato.categoria}-${dato.precio}`;
+
+    // Verificar si la clave ya existe en los resultados
+    if (resultados[clave]) {
+      // Si existe, sumar los valores correspondientes
+      resultados[clave].totalPrecioUnitario += dato.totalPrecioUnitario;
+      resultados[clave].totalKG += dato.totalKG;
     } else {
-      // Si no existe, creamos la entrada con los valores
-      sumasPorCategoria[categoria] = {
-        totalKG,
-        totalPrecioUnitario,
-        categoria,
+      // Si no existe, agregar una nueva entrada en los resultados
+      resultados[clave] = {
+        categoria: dato.categoria,
+        color: dato.color,
+        precio: dato.precio,
+        totalPrecioUnitario: dato.totalPrecioUnitario,
+        totalKG: dato.totalKG,
       };
     }
   });
 
-  // Creamos un arreglo de los valores del objeto
-  let arregloNew = Object.values(sumasPorCategoria);
+  // Convertir el objeto de resultados de nuevo a un array
+  const resultadosArray = Object.values(resultados);
 
-  console.log(arregloNew);
+  // Mostrar los resultados
+  console.log(resultadosArray);
 
   return (
     <Document pageMode="fullScreen">
@@ -335,9 +365,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                   textTransform: "uppercase",
                 }}
               >
-                {unicoPresupuesto?.tipo_factura === ""
-                  ? unicoPresupuesto?.tipo_factura
-                  : "-"}
+                {"-"}
               </Text>
               <Text
                 style={{
@@ -352,10 +380,11 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
             <View style={styles.content_uno}>
               <Text
                 style={{
-                  fontSize: "13px",
-                  fontWeight: "bold",
+                  fontSize: "14px",
                   fontFamily: "Montserrat",
-                  color: "#27D3D5",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
+                  color: "#279ca4",
                 }}
               >
                 N° 0000-{unicoPresupuesto?.id}
@@ -425,10 +454,21 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                       fontFamily: "Montserrat",
                       textTransform: "uppercase",
                       color: "rgb(55 65 81)",
+
+                      color: "#279ca4",
                     }}
                   >
-                    {unicoPresupuesto?.clientes?.nombre}{" "}
-                    {unicoPresupuesto?.clientes?.apellido}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {unicoPresupuesto?.clientes?.nombre}{" "}
+                      {unicoPresupuesto?.clientes?.apellido}
+                    </Text>
                   </Text>
                 </View>
                 <View
@@ -483,10 +523,19 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                       color: "rgb(55 65 81)",
                     }}
                   >
-                    {unicoPresupuesto?.clientes?.localidad}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {unicoPresupuesto?.clientes?.localidad}
+                    </Text>
                   </Text>
                 </View>
-                <View
+                {/* <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -512,7 +561,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                   >
                     {unicoPresupuesto?.clientes?.provincia}
                   </Text>
-                </View>
+                </View> */}
               </View>
               <View
                 style={{
@@ -520,7 +569,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                   gap: "4px",
                 }}
               >
-                <View>
+                {/* <View>
                   <Text
                     style={{
                       fontSize: "8px",
@@ -531,7 +580,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                   >
                     CONDICIÓN DE VENTA -
                   </Text>
-                </View>
+                </View> */}
                 <View
                   style={{
                     display: "flex",
@@ -555,13 +604,13 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                       fontSize: "8px",
                       fontFamily: "Montserrat",
                       textTransform: "uppercase",
-                      color: "rgb(55 65 81)",
+                      color: "#279ca4",
                     }}
                   >
                     {dateTime(unicoPresupuesto?.created_at)}
                   </Text>
                 </View>
-                <View>
+                {/* <View>
                   <Text
                     style={{
                       fontSize: "8px",
@@ -572,7 +621,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                   >
                     CONDICIÓN -
                   </Text>
-                </View>
+                </View> */}
               </View>
             </View>
 
@@ -610,7 +659,7 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
           </View>
 
           <View style={styles.content_footer}>
-            {arregloNew?.map((n, index) => (
+            {resultadosArray?.map((n, index) => (
               <View
                 key={index}
                 style={{
@@ -619,66 +668,69 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                   gap: "5px",
                 }}
               >
-                <Text
+                <View
                   style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    fontWeight: "semibold",
-                    textTransform: "uppercase",
+                    display: "flex",
+                    flexDirection: "col",
+                    gap: "3px",
+                    borderBottom: "0.5px",
+                    paddingBottom: "5px",
                   }}
                 >
-                  TOTAL DE KG {n?.categoria}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    color: "#279ca4",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {n?.totalKG?.toLocaleString("arg", {
-                    minimumFractionDigits: 2,
-                  })}{" "}
-                  kg
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: "8px",
+                      fontFamily: "Montserrat",
+                      fontWeight: "semibold",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Precio KG {n?.categoria} {n?.color}{" "}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        fontWeight: "semibold",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {Number(n?.precio).toLocaleString("es-ar", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumFractionDigits: 2,
+                      })}
+                    </Text>
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "8px",
+                      fontFamily: "Montserrat",
+                      fontWeight: "semibold",
+                      textTransform: "uppercase",
+                      // color: "#279ca4",
+                    }}
+                  >
+                    Total KG{" "}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        fontWeight: "semibold",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {n?.totalKG.toLocaleString("es-ar", {
+                        minimumFractionDigits: 2,
+                      })}{" "}
+                      kg
+                    </Text>
+                  </Text>
+                </View>
               </View>
             ))}
-            {arregloNew?.map((n, index) => (
-              <View
-                key={index}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "5px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    fontWeight: "semibold",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  TOTAL A PAGAR {n?.categoria}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    color: "#279ca4",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {n?.totalPrecioUnitario?.toLocaleString("es-ar", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumFractionDigits: 2,
-                  })}{" "}
-                </Text>
-              </View>
-            ))}
+
             <Text
               style={{
                 border: "0.5px solid #000",
@@ -704,8 +756,9 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                 style={{
                   fontSize: "8px",
                   fontFamily: "Montserrat",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
                   color: "#279ca4",
-                  fontWeight: "bold",
                 }}
               >
                 {unicoPresupuesto?.estadistica?.total_kg?.toLocaleString(
@@ -737,7 +790,8 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                 style={{
                   fontSize: "8px",
                   fontFamily: "Montserrat",
-                  fontWeight: "bold",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
                   color: "#279ca4",
                 }}
               >
@@ -764,8 +818,9 @@ export const FacturaViewFacturacion = ({ datosFacturar, unicoPresupuesto }) => {
                 style={{
                   fontSize: "8px",
                   fontFamily: "Montserrat",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
                   color: "#279ca4",
-                  fontWeight: "bold",
                 }}
               >
                 {unicoPresupuesto?.estadistica?.total_pagar?.toLocaleString(

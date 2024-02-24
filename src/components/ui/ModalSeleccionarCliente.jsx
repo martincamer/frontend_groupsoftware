@@ -101,16 +101,16 @@ export const ModalSeleccionarCliente = ({
                     <tbody>
                       {results.map((c) => (
                         <tr key={c.id}>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.nombre}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.apellido}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.localidad}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm w-[120px] text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm  w-[120px] text-center">
                             <button
                               onClick={() => {
                                 addToClientes(
@@ -125,7 +125,7 @@ export const ModalSeleccionarCliente = ({
                                 ),
                                   closeModalCliente();
                               }}
-                              className="bg-secondary py-1 px-2 text-center text-white rounded-md uppercase text-sm"
+                              className="bg-cyan-500 py-1 px-2 text-center text-white rounded-md uppercase text-sm"
                             >
                               Seleccionar
                             </button>

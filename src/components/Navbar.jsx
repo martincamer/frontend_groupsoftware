@@ -67,15 +67,16 @@ export const Navbar = () => {
           !isAuth ? "w-[1220px]" : "w-full px-6"
         } mx-auto`}
       >
-        <div>
+        <div className="flex gap-2 items-center">
           <Link
             to={"/"}
             className={`${
               isAuth ? "uppercase" : "capitalize"
             } text-2xl font-extrabold text-sky-500`}
           >
-            ALUMINIOS DEL SUR <span className="text-black">DISTRIBUIDORA.</span>
+            ALUMINIOS DEL SUR <span className="text-black">DISTRIBUIDORA.</span>{" "}
           </Link>
+          <img src="./LOGO.jpeg" className="w-[50px] cursor-pointer" />
         </div>
         <div className="flex flex-row gap-4">
           {!isAuth &&

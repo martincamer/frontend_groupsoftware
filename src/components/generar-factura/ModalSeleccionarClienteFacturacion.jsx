@@ -98,13 +98,13 @@ export const ModalSeleccionarClienteFacturacion = ({
                     <tbody>
                       {results.map((c) => (
                         <tr key={c.id}>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 font-normal text-sm text-center">
                             {c.nombre}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 font-normal text-sm text-center">
                             {c.apellido}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 font-normal text-sm text-center">
                             {c.localidad}
                           </th>
                           <th className="border-[1px] border-gray-300 p-2 text-sm w-[120px] text-center">

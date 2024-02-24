@@ -33,7 +33,8 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
         cantidad,
         totalKgFinal * cantidad,
         productoUnicoState.categoria,
-        Number(totalKgFinal * cantidad * precio)
+        Number(totalKgFinal * cantidad * precio),
+        precio
       );
 
       closeModalCantidad();

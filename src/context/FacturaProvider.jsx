@@ -124,6 +124,7 @@ export const FacturaProvider = ({ children }) => {
       totalKG: e.totalKG,
       color: e.color,
       totalPrecioUnitario: e.totalPrecioUnitario,
+      precio: e.precio,
     };
   });
 
@@ -235,7 +236,8 @@ export const FacturaProvider = ({ children }) => {
     barras,
     totalKG,
     categoria,
-    totalPrecioUnitario
+    totalPrecioUnitario,
+    precio
   ) => {
     const newProducto = {
       id,
@@ -246,6 +248,7 @@ export const FacturaProvider = ({ children }) => {
       totalKG,
       categoria,
       totalPrecioUnitario,
+      precio,
     };
 
     const productoSeleccionadoItem = productoSeleccionado.find((item) => {
@@ -271,7 +274,8 @@ export const FacturaProvider = ({ children }) => {
     barras,
     totalKG,
     categoria,
-    totalPrecioUnitario
+    totalPrecioUnitario,
+    precio
   ) => {
     const itemIndex = productoSeleccionado?.findIndex(
       (item) =>
@@ -282,7 +286,8 @@ export const FacturaProvider = ({ children }) => {
         item.barras === barras &&
         item.totalKG === totalKG &&
         item.categoria === categoria &&
-        item.totalPrecioUnitario === totalPrecioUnitario
+        item.totalPrecioUnitario === totalPrecioUnitario &&
+        item.precio === precio
     );
 
     if (itemIndex) {

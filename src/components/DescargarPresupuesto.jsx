@@ -198,7 +198,9 @@ const styles = StyleSheet.create({
   content_footer: {
     width: "86%",
     margin: "30px auto",
-
+    // padding: "8px 10px",
+    // borderTop: "0.6px solid #000",
+    // borderBottom: "0.6px solid #000",
     width: "87%",
     display: "flex",
     flexDirection: "column",
@@ -219,27 +221,59 @@ function dateTime(data) {
 }
 
 export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
-  const sumasPorCategoria = {};
+  // const sumasPorCategoria = {};
 
-  datos?.productos?.respuesta?.forEach((producto) => {
-    const { categoria, totalKG, totalPrecioUnitario } = producto;
+  // datos?.productos?.respuesta?.forEach((producto) => {
+  //   const { categoria, totalKG, totalPrecioUnitario } = producto;
 
-    // Si la categoría ya existe en el objeto, le sumamos los valores
-    if (sumasPorCategoria[categoria]) {
-      sumasPorCategoria[categoria].totalKG += totalKG;
-      sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
+  //   // Si la categoría ya existe en el objeto, le sumamos los valores
+  //   if (sumasPorCategoria[categoria]) {
+  //     sumasPorCategoria[categoria].totalKG += totalKG;
+  //     sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
+  //   } else {
+  //     // Si no existe, creamos la entrada con los valores
+  //     sumasPorCategoria[categoria] = {
+  //       totalKG,
+  //       totalPrecioUnitario,
+  //       categoria,
+  //     };
+  //   }
+  // });
+
+  // // Creamos un arreglo de los valores del objeto
+  // let arregloNew = Object.values(sumasPorCategoria);
+
+  // console.log(arregloNew);
+
+  // Crear un objeto para almacenar los resultados agrupados
+  const resultados = {};
+
+  // Iterar sobre los datos
+  datos?.productos?.respuesta?.forEach((dato) => {
+    const clave = `${dato.categoria}-${dato.precio}`;
+
+    // Verificar si la clave ya existe en los resultados
+    if (resultados[clave]) {
+      // Si existe, sumar los valores correspondientes
+      resultados[clave].totalPrecioUnitario += dato.totalPrecioUnitario;
+      resultados[clave].totalKG += dato.totalKG;
     } else {
-      // Si no existe, creamos la entrada con los valores
-      sumasPorCategoria[categoria] = {
-        totalKG,
-        totalPrecioUnitario,
-        categoria,
+      // Si no existe, agregar una nueva entrada en los resultados
+      resultados[clave] = {
+        categoria: dato.categoria,
+        color: dato.color,
+        precio: dato.precio,
+        totalPrecioUnitario: dato.totalPrecioUnitario,
+        totalKG: dato.totalKG,
       };
     }
   });
 
-  // Creamos un arreglo de los valores del objeto
-  let arregloNew = Object.values(sumasPorCategoria);
+  // Convertir el objeto de resultados de nuevo a un array
+  const resultadosArray = Object.values(resultados);
+
+  // Mostrar los resultados
+  console.log(resultadosArray);
 
   return (
     <Document pageMode="fullScreen">
@@ -256,7 +290,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
               <Text
                 style={{
                   fontSize: "10px",
-                  fontWeight: "semibold",
+                  fontWeight: "bold",
                   fontFamily: "Montserrat",
                   textTransform: "capitalize",
                 }}
@@ -325,7 +359,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                 style={{
                   position: "relative",
                   fontSize: "20px",
-                  fontWeight: "semibold",
+                  fontWeight: "bold",
                   fontFamily: "Montserrat",
                   textTransform: "uppercase",
                 }}
@@ -346,9 +380,10 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
               <Text
                 style={{
                   fontSize: "13px",
-                  fontWeight: "bold",
                   fontFamily: "Montserrat",
-                  color: "#27D3D5",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
+                  color: "#279ca4",
                 }}
               >
                 N° 0000- {datos?.id}
@@ -360,7 +395,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                   fontFamily: "Montserrat",
                 }}
               >
-                Presupuesto original
+                Presupuesto de venta original
               </Text>
               <View
                 style={{
@@ -420,7 +455,16 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                       color: "rgb(55 65 81)",
                     }}
                   >
-                    {datos?.clientes?.nombre} {datos?.clientes?.apellido}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {datos?.clientes?.nombre} {datos?.clientes?.apellido}
+                    </Text>
                   </Text>
                 </View>
                 <View
@@ -475,10 +519,19 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                       color: "rgb(55 65 81)",
                     }}
                   >
-                    {datos?.clientes?.localidad}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {datos?.clientes?.localidad}
+                    </Text>
                   </Text>
                 </View>
-                <View
+                {/* <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -502,9 +555,18 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                       fontFamily: "Montserrat",
                     }}
                   >
-                    {datos?.clientes?.provincia}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {datos?.clientes?.provincia}
+                    </Text>{" "}
                   </Text>
-                </View>
+                </View> */}
               </View>
               <View
                 style={{
@@ -512,7 +574,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                   gap: "4px",
                 }}
               >
-                <View>
+                {/* <View>
                   <Text
                     style={{
                       fontSize: "8px",
@@ -523,7 +585,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                   >
                     CONDICIÓN DE VENTA -
                   </Text>
-                </View>
+                </View> */}
                 <View
                   style={{
                     display: "flex",
@@ -550,10 +612,19 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                       color: "rgb(55 65 81)",
                     }}
                   >
-                    {dateTime(datos?.created_at)}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {dateTime(datos?.created_at)}
+                    </Text>{" "}
                   </Text>
                 </View>
-                <View>
+                {/* <View>
                   <Text
                     style={{
                       fontSize: "8px",
@@ -564,7 +635,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                   >
                     CONDICIÓN -
                   </Text>
-                </View>
+                </View> */}
               </View>
             </View>
 
@@ -602,7 +673,7 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
           </View>
 
           <View style={styles.content_footer}>
-            {arregloNew?.map((n, index) => (
+            {resultadosArray?.map((n, index) => (
               <View
                 key={index}
                 style={{
@@ -611,66 +682,69 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
                   gap: "5px",
                 }}
               >
-                <Text
+                <View
                   style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    fontWeight: "semibold",
-                    textTransform: "uppercase",
+                    display: "flex",
+                    flexDirection: "col",
+                    gap: "3px",
+                    borderBottom: "0.5px",
+                    paddingBottom: "5px",
                   }}
                 >
-                  TOTAL DE KG {n?.categoria}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    color: "#279ca4",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {n?.totalKG?.toLocaleString("arg", {
-                    minimumFractionDigits: 2,
-                  })}{" "}
-                  kg
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: "8px",
+                      fontFamily: "Montserrat",
+                      fontWeight: "semibold",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Precio KG {n?.categoria} {n?.color}{" "}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        fontWeight: "semibold",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {Number(n?.precio).toLocaleString("es-ar", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumFractionDigits: 2,
+                      })}
+                    </Text>
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "8px",
+                      fontFamily: "Montserrat",
+                      fontWeight: "semibold",
+                      textTransform: "uppercase",
+                      // color: "#279ca4",
+                    }}
+                  >
+                    Total KG{" "}
+                    <Text
+                      style={{
+                        fontSize: "8px",
+                        fontFamily: "Montserrat",
+                        fontWeight: "semibold",
+                        textTransform: "uppercase",
+                        color: "#279ca4",
+                      }}
+                    >
+                      {n?.totalKG.toLocaleString("es-ar", {
+                        minimumFractionDigits: 2,
+                      })}{" "}
+                      kg
+                    </Text>
+                  </Text>
+                </View>
               </View>
             ))}
-            {arregloNew?.map((n, index) => (
-              <View
-                key={index}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "5px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    fontWeight: "semibold",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  TOTAL A PAGAR {n?.categoria}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "8px",
-                    fontFamily: "Montserrat",
-                    color: "#279ca4",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {n?.totalPrecioUnitario?.toLocaleString("es-ar", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumFractionDigits: 2,
-                  })}{" "}
-                </Text>
-              </View>
-            ))}
+
             <Text
               style={{
                 border: "0.5px solid #000",
@@ -695,10 +769,11 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
               </Text>
               <Text
                 style={{
-                  fontSize: "7px",
+                  fontSize: "8px",
                   fontFamily: "Montserrat",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
                   color: "#279ca4",
-                  fontWeight: "bold",
                 }}
               >
                 {datos?.estadistica?.total_kg?.toLocaleString("arg", {
@@ -724,9 +799,10 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
               </Text>
               <Text
                 style={{
-                  fontSize: "7px",
+                  fontSize: "8px",
                   fontFamily: "Montserrat",
-                  fontWeight: "bold",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
                   color: "#279ca4",
                 }}
               >
@@ -751,10 +827,11 @@ export const DescargarPresupuesto = ({ datosFacturar, datos }) => {
               </Text>
               <Text
                 style={{
-                  fontSize: "7px",
+                  fontSize: "8px",
                   fontFamily: "Montserrat",
+                  fontWeight: "semibold",
+                  textTransform: "uppercase",
                   color: "#279ca4",
-                  fontWeight: "bold",
                 }}
               >
                 {datos?.estadistica?.total_pagar?.toLocaleString("es-ar", {

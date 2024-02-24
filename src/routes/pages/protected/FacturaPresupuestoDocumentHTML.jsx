@@ -51,7 +51,7 @@ export const FacturaPresupuestoDocumentHTML = () => {
           <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
             <BiDownload />{" "}
             <PDFDownloadLink
-              fileName={`${datos?.clientes?.nombre}" "${datos?.clientes?.apellido}_N " "${datos?.id}`}
+              fileName={`${datos?.clientes?.nombre}_${datos?.clientes?.apellido}_N_${datos?.id}`}
               document={
                 <DescargarPresupuesto
                   datos={datos}
@@ -182,7 +182,7 @@ export const FacturaPresupuestoDocumentHTML = () => {
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
                   {p.detalle}
                 </th>
-                <th className="border-[1px] border-gray-300 p-3 text-secondary font-semibold">
+                <th className="border-[1px] border-gray-300 p-3 text-sky-500 font-semibold">
                   {Number(p.totalPrecioUnitario).toLocaleString("es-ar", {
                     style: "currency",
                     currency: "ARS",
