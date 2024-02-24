@@ -47,18 +47,19 @@ export const TableEstadistica = () => {
     });
   };
 
-  const itemsPerPage = 12; // Cantidad de elementos por página
+  // Sort the results based on deuda_restante (ascending order)
+  const sortedResults = [...results].sort(
+    (a, b) => a.deuda_restante < b.deuda_restante
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
 
+  const itemsPerPage = 12;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentResults = results.slice(indexOfFirstItem, indexOfLastItem);
+  const currentResults = sortedResults.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(results.length / itemsPerPage);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  const totalPages = Math.ceil(sortedResults.length / itemsPerPage);
 
   return (
     <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full">
@@ -71,7 +72,7 @@ export const TableEstadistica = () => {
             <th className="p-3 text-sm border-b-[2px]">Deuda restante</th>
             <th className="p-3 text-sm border-b-[2px]">Resetear total deuda</th>
             <th className="p-3 text-sm border-b-[2px]">Editar entrega</th>
-            <th className="p-3 text-sm border-b-[2px]">Ver facturas</th>
+            {/* <th className="p-3 text-sm border-b-[2px]">Ver facturas</th> */}
             <th className="p-3 text-sm border-b-[2px]">Estado</th>
           </tr>
         </thead>
@@ -123,14 +124,14 @@ export const TableEstadistica = () => {
                   editar
                 </button>
               </th>
-              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
+              {/* <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 <button
                   type="button"
                   className="bg-green-100/20 border-green-600 border-[1px] py-1 px-2 rounded shadow text-green-500 font-bold uppercase text-xs"
                 >
                   ver facturas
                 </button>
-              </th>
+              </th> */}
               <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 <button
                   type="button"
