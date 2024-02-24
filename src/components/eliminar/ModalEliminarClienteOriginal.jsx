@@ -62,7 +62,7 @@ export const ModalEliminarClienteOriginal = ({
               <div className="space-y-4 w-1/3 inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg uppercase font-medium leading-6 text-gray-900"
                 >
                   Eliminar
                 </Dialog.Title>

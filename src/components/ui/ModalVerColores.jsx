@@ -84,7 +84,7 @@ export const ModalVerColores = () => {
                           handleColorSeleccionada(c.id);
                           openModalEditarColor();
                         }}
-                        className="text-[35px] text-green-400 cursor-pointer bg-white rounded-full py-1 px-1 shadow shadow-black/20 border-[1px] border-black/30"
+                        className="text-[35px] text-sky-400 cursor-pointer bg-white rounded-full py-1 px-1 shadow shadow-black/20 border-[1px] border-black/30"
                       />
                       <AiFillDelete
                         onClick={() => handleEliminarColor(c.id)}

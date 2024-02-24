@@ -11,21 +11,19 @@ export const IntroFacturacion = () => {
     }, 0);
   };
 
-  console.log(results);
-
   return (
     <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex gap-2 w-full text-center">
       <div className="py-[10px] px-[10px] border-gray-200 flex flex-col gap-2 border-r-[1px] w-full">
-        <p className="uppercase text-secondary font-semibold text-lg">
+        <p className="uppercase text-sky-500 font-semibold text-lg">
           Facturas De Ventas Totales
         </p>
-        <p className="font-bold text-lg">{results.length}</p>
+        <p className="font-bold text-xl text-slate-700">{results.length}</p>
       </div>
       <div className="py-[10px] px-[10px] border-gray-200 flex flex-col gap-2 border-r-[1px] w-full">
-        <p className="uppercase text-secondary font-semibold text-lg">
+        <p className="uppercase text-sky-500 font-semibold text-lg">
           Total Facturado - Ventas
         </p>
-        <p className="font-bold text-lg">
+        <p className="font-bold text-xl text-slate-700">
           {totalPagar().toLocaleString("es-ar", {
             style: "currency",
             currency: "ARS",
@@ -34,10 +32,10 @@ export const IntroFacturacion = () => {
         </p>
       </div>
       <div className="py-[10px] px-[10px] border-gray-200 flex flex-col gap-2 w-full">
-        <p className="uppercase text-secondary font-semibold text-lg">
+        <p className="uppercase text-sky-500 font-semibold text-lg">
           Total Clientes Ventas
         </p>
-        <p className="font-bold text-lg">{results.length}</p>
+        <p className="font-bold text-slate-700 text-xl">{results.length}</p>
       </div>
     </div>
   );

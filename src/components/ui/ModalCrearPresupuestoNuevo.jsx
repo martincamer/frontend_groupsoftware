@@ -44,6 +44,36 @@ export const ModalCrearPresupuestoNuevo = () => {
     minimumFractionDigits: 2,
   });
 
+  const sumasPorCategoria = {};
+
+  // Iteramos sobre los resultados
+  productoSeleccionado?.forEach((producto) => {
+    const { categoria, totalPrecioUnitario, totalKG } = producto;
+
+    // Si la categoría ya existe en el objeto
+    if (sumasPorCategoria[categoria]) {
+      // Le sumamos el totalPrecioUnitario y totalKG
+      sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
+      sumasPorCategoria[categoria].totalKG += totalKG;
+    } else {
+      // Si no existe, creamos la entrada con el totalPrecioUnitario y totalKG
+      sumasPorCategoria[categoria] = {
+        totalPrecioUnitario,
+        totalKG,
+      };
+    }
+  });
+
+  // Convertimos el objeto a un arreglo
+  const arreglo = Object.entries(sumasPorCategoria).map(
+    ([categoria, valores]) => ({
+      categoria,
+      ...valores,
+    })
+  );
+
+  console.log("Arreglo:", arreglo);
+
   return (
     <Menu as="div" className="z-50">
       <Transition appear show={isOpen} as={Fragment}>
@@ -110,7 +140,7 @@ export const ModalCrearPresupuestoNuevo = () => {
                   <div>
                     <Link
                       onClick={openModalCliente}
-                      className="font-semibold uppercase bg-secondary text-white py-2 px-2 rounded shadow shadow-black/30 hover:translate-x-1 transition-all ease-in-out text-sm"
+                      className="font-semibold uppercase bg-sky-500 text-white py-2 px-2 rounded shadow shadow-black/30 hover:translate-x-1 transition-all ease-in-out text-sm"
                     >
                       Seleccionar Cliente
                     </Link>
@@ -202,7 +232,7 @@ export const ModalCrearPresupuestoNuevo = () => {
                   <div>
                     <div
                       onClick={() => deleteToResetClientes()}
-                      className="inline-flex justify-center px-4 py-2 text-base font-bold text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase text-sm"
+                      className="inline-flex justify-center px-4 py-2 font-bold text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase text-sm"
                     >
                       Resetear campos del cliente
                     </div>
@@ -213,7 +243,7 @@ export const ModalCrearPresupuestoNuevo = () => {
                   <div>
                     <Link
                       onClick={openModalProductos}
-                      className="font-semibold uppercase text-sm bg-secondary text-white py-2 px-2 rounded shadow shadow-black/30 hover:translate-x-1 transition-all ease-in-out"
+                      className="font-semibold uppercase text-sm bg-sky-500 text-white py-2 px-2 rounded shadow shadow-black/30 hover:translate-x-1 transition-all ease-in-out"
                     >
                       Seleccionar Producto
                     </Link>
@@ -227,9 +257,9 @@ export const ModalCrearPresupuestoNuevo = () => {
                     <table className="border-[1px]  p-[5px] table-auto w-full rounded uppercase">
                       <thead>
                         <tr>
-                          <th className="p-2 text-sm font-extrabold text-center w-[20px]">
+                          {/* <th className="p-2 text-sm font-extrabold text-center w-[20px]">
                             Numero
-                          </th>
+                          </th> */}
                           <th className="p-2 text-sm font-extrabold text-center">
                             Codigo
                           </th>
@@ -256,28 +286,28 @@ export const ModalCrearPresupuestoNuevo = () => {
                       <tbody>
                         {productoSeleccionado.map((p) => (
                           <tr key={p.id}>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                            {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                               {p.id}
-                            </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            </th> */}
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               {p.nombre}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               {p.detalle}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               {p.color}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               {p.categoria}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               {p.barras}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               {p.totalKG.toLocaleString("arg")} kg
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                               <button
                                 className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer font-bold text-center uppercase"
                                 onClick={() => deleteProducto()}
@@ -293,7 +323,7 @@ export const ModalCrearPresupuestoNuevo = () => {
                   <div>
                     <button
                       onClick={() => deleteToResetProductos()}
-                      className="inline-flex justify-center px-4 py-2 text-base text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer font-bold uppercase text-sm"
+                      className="inline-flex justify-center px-4 py-2  text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer font-bold uppercase text-sm"
                       type="button"
                     >
                       Resetear productos
@@ -314,6 +344,7 @@ export const ModalCrearPresupuestoNuevo = () => {
                       {totalBarras()}
                     </div>
                   </div>
+
                   <div className="flex gap-2 items-center">
                     <p className="font-semibold uppercase">Total pagar:</p>{" "}
                     <div
@@ -324,13 +355,37 @@ export const ModalCrearPresupuestoNuevo = () => {
                       {result}
                     </div>
                   </div>
+
+                  {arreglo?.map((a, index) => (
+                    <div key={index}>
+                      <p className="font-bold uppercase text-lg text-sky-500">
+                        TOTAL EN {a?.categoria}:{" "}
+                        <span className="font-normal text-slate-700">
+                          {" "}
+                          {a?.totalPrecioUnitario?.toLocaleString("es-ar", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumFractionDigits: 2,
+                          })}
+                        </span>
+                      </p>
+                      <p className="font-semibold uppercase text-sm">
+                        Total en kgs: {a?.totalKG} kgs
+                      </p>
+                    </div>
+                  ))}
+                  {/* {totalKgNuevoResultado?.map((t) => (
+                    <div>
+                      <p>{t?.categoria}</p>
+                    </div>
+                  ))} */}
                   <div className="mt-5">
                     <button
                       type="button"
                       onClick={() => {
                         closeModal(), handlePerfil();
                       }}
-                      className="bg-green-500 py-2 px-2 rounded text-white font-bold shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
+                      className="bg-sky-500 py-2 px-2 rounded text-white font-bold shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
                     >
                       Generar Presupuesto
                     </button>

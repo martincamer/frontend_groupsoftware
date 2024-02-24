@@ -1,8 +1,8 @@
 export const IntroTitleFactura = () => {
   return (
-    <div>
-      <h3 className="uppercase text-2xl font-semibold text-gray-800">
-        Factura - Realiza una venta
+    <div className="flex">
+      <h3 className="uppercase text-2xl font-semibold text-sky-500 border-b-[3px] border-sky-500">
+        Factura - Realizar una venta
       </h3>
     </div>
   );

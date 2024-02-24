@@ -124,7 +124,7 @@ export const ModalSeleccionarClienteFacturacion = ({
                                 ),
                                   closeModalCliente();
                               }}
-                              className="bg-secondary py-1 px-2 text-center text-white rounded-md uppercase"
+                              className="bg-sky-500 py-1 px-2 text-center text-white rounded-md uppercase"
                             >
                               Seleccionar
                             </button>

@@ -22,10 +22,10 @@ export const SelectProductCategory = () => {
       value={selectedCategory}
       onChange={(e) => handleCategoryChange(e.target.value)}
     >
-      <option value="">TODAS LAS CATEGORIAS</option>
+      <option>TODAS LAS CATEGORIAS</option>
       {[...new Set(categorias?.map((dato) => dato.categoria))].map(
         (category) => (
-          <option key={category} value={category}>
+          <option className="" key={category} value={category}>
             {category}
           </option>
         )

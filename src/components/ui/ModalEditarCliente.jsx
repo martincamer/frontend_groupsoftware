@@ -227,7 +227,7 @@ export const ModalEditarCliente = ({ closeModalEditar, isOpenEditar }) => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold uppercase text-center cursor-pointer text-sm"
+                      className="bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold uppercase text-center cursor-pointer text-sm"
                       type="submit"
                       value={"Editar Cliente"}
                       onClick={closeModalEditar}

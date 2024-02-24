@@ -72,16 +72,16 @@ export const Navbar = () => {
             to={"/"}
             className={`${
               isAuth ? "uppercase" : "capitalize"
-            } text-2xl font-extrabold text-secondary`}
+            } text-2xl font-extrabold text-sky-500`}
           >
-            Software Group Aluminio
+            ALUMINIOS DEL SUR <span className="text-black">DISTRIBUIDORA.</span>
           </Link>
         </div>
         <div className="flex flex-row gap-4">
           {!isAuth &&
             rutasPublicas.map(({ path, name }) => (
               <Link
-                className="text-[17px] font-semibold hover:text-secondary transition-all ease-in-out duration-300"
+                className="text-[17px] font-semibold hover:text-sky-500 transition-all ease-in-out duration-300"
                 to={path}
                 key={path}
               >
@@ -93,13 +93,14 @@ export const Navbar = () => {
           {isAuth
             ? rutasuno.map(({ path, name }) => (
                 <div className="flex items-center gap-4">
-                  <div className="font-semibold text-sm text-secondary bg-primary shadow shadow-md text-white p-1 rounded-full px-2">
+                  <div className="font-semibold text-xs text-sky-500 bg-white shadow border-[1px] uppercase border-gray-500 py-[5px] rounded-full px-2">
+                    <span className="text-black text-sm">usuario:</span>{" "}
                     {user?.username}
                   </div>
 
                   <Link
                     onClick={() => signout()}
-                    className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-secondary px-4 rounded-full py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02]"
+                    className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-sky-500 px-4 rounded-xl py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02] uppercase text-sm"
                     key={path}
                   >
                     {name}
@@ -108,7 +109,7 @@ export const Navbar = () => {
               ))
             : rutasdos.map(({ path, name }) => (
                 <Link
-                  className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-secondary px-4 rounded-full py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02]"
+                  className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-sky-500 px-4 rounded-full py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02]"
                   to={path}
                   key={path}
                 >

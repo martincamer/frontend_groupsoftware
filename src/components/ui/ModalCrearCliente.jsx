@@ -96,7 +96,7 @@ export const ModalCrearCliente = ({ closeModal, isOpen }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-2/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -105,7 +105,7 @@ export const ModalCrearCliente = ({ closeModal, isOpen }) => {
                 </Dialog.Title>
                 <form
                   onSubmit={onSubmitCrearCliente}
-                  className="mt-2 border-t pt-4 pb-4 space-y-2"
+                  className="mt-2 border-t pt-4 pb-6 grid grid-cols-2 gap-2"
                 >
                   {error && (
                     <p className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
@@ -202,7 +202,7 @@ export const ModalCrearCliente = ({ closeModal, isOpen }) => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
-                      Entrega:
+                      Entrega va en 0
                     </label>
                     <input
                       {...register("entrega", { required: true })}
@@ -214,7 +214,7 @@ export const ModalCrearCliente = ({ closeModal, isOpen }) => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
-                      Total:
+                      Total va en 0
                     </label>
                     <input
                       {...register("total_facturado", { required: true })}
@@ -226,7 +226,7 @@ export const ModalCrearCliente = ({ closeModal, isOpen }) => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
-                      Deuda:
+                      Deuda va en 0
                     </label>
                     <input
                       {...register("deuda_restante", { required: true })}
@@ -236,20 +236,20 @@ export const ModalCrearCliente = ({ closeModal, isOpen }) => {
                       placeholder="total"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <input
-                      className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer text-sm uppercase"
-                      type="submit"
-                      value={"Crear nuevo cliente"}
-                      // onClick={closeModal}
-                    />
-                  </div>
                 </form>
 
+                <div className="flex gap-2">
+                  <input
+                    className="bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-6 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer text-sm uppercase"
+                    type="submit"
+                    value={"Crear nuevo cliente"}
+                    // onClick={closeModal}
+                  />
+                </div>
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
+                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
                     onClick={closeModal}
                   >
                     Cerrar Ventana

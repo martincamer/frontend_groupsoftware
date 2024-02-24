@@ -99,7 +99,7 @@ export const ModalEditarEstadoFactura = ({
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium leading-6 text-gray-900 uppercase"
                 >
                   Estado del presupuesto
                 </Dialog.Title>
@@ -122,7 +122,7 @@ export const ModalEditarEstadoFactura = ({
                   </div>
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
+                      className="uppercase bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
                       type="submit"
                       value={"Editar estado"}
                       onClick={closeModalEstado}
@@ -133,7 +133,7 @@ export const ModalEditarEstadoFactura = ({
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
+                    className="uppercase inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
                     onClick={closeModalEstado}
                   >
                     Cerrar Ventana

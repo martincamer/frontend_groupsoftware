@@ -127,31 +127,31 @@ export const ModalSeleccionarProductoFactura = ({
                           {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                             {c.id}
                           </th> */}
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.nombre}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.stock}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.descripcion}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.color}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.categoria}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
                             {c.peso_neto_barra_6mts} kg
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm w-[120px] text-center">
+                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal w-[120px] text-center">
                             <Link
                               onClick={() => {
                                 openModalCantidad(),
                                   handleSeleccionarProducto(c.id);
                               }}
-                              className="bg-secondary py-1 px-2 text-center text-white rounded-md"
+                              className="bg-sky-500 py-1 px-2 text-center text-white rounded-md"
                             >
                               Seleccionar
                             </Link>

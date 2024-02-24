@@ -113,10 +113,10 @@ export const HomeApp = () => {
               key={mesVentas.mes}
               className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out"
             >
-              <p className="font-semibold text-center text-secondary">
+              <p className="font-semibold text-center text-sky-500">
                 VENTAS {mesVentas.mes.toUpperCase()}
               </p>
-              <p className="text-2xl font-bold text-center text-green-600">
+              <p className="text-2xl font-bold text-center text-slate-700">
                 {mesVentas.totalVentas.toLocaleString("es-ar", {
                   style: "currency",
                   currency: "ARS",
@@ -133,10 +133,10 @@ export const HomeApp = () => {
           ))}
           {/* Cuarto cuadro para los perfiles vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out">
-            <p className="font-semibold text-center text-secondary">
+            <p className="font-semibold text-center text-sky-500">
               PERFILES VENDIDOS
             </p>
-            <p className="text-2xl font-bold text-center text-green-600">
+            <p className="text-2xl font-bold text-center text-slate-700">
               {ventasPorMes.reduce(
                 (total, mesVentas) => total + mesVentas.perfilesVendidos,
                 0
@@ -145,19 +145,19 @@ export const HomeApp = () => {
           </div>
           {/* Quinto cuadro para los clientes vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out">
-            <p className="font-semibold text-center text-secondary">
+            <p className="font-semibold text-center text-sky-500">
               CLIENTES VENDIDOS
             </p>
-            <p className="text-2xl font-bold text-center text-green-600">
+            <p className="text-2xl font-bold text-center text-slate-700">
               {clientesVendidos}
             </p>
           </div>
           {/* Sexto cuadro para los KG vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out">
-            <p className="font-semibold text-center text-secondary">
+            <p className="font-semibold text-center text-sky-500">
               KG VENDIDOS
             </p>
-            <p className="text-2xl font-bold text-center text-green-600">
+            <p className="text-2xl font-bold text-center text-slate-700">
               {totalKgVendidos.toFixed(2)}
             </p>
           </div>

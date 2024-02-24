@@ -44,7 +44,6 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
     setPerfiles(perfilesActualizados);
 
     // console.log(results);
-    console.log(perfilesActualizados);
 
     toast.success("¡Producto editado correctamente!", {
       position: "top-right",
@@ -60,6 +59,8 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
     setTimeout(() => {
       location.reload();
     }, 1500);
+
+    closeModalEditar();
   });
 
   return (
@@ -123,6 +124,11 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   onSubmit={onSubmitEditar}
                   className="mt-2 border-t pt-4 pb-4 space-y-2"
                 >
+                  {errors.nombre && (
+                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
+                      El codigo es requerido
+                    </p>
+                  )}
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
                       Codigo:
@@ -134,6 +140,11 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                       placeholder="nombre del codigo"
                     />
                   </div>
+                  {errors.color && (
+                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
+                      El codigo es requerido
+                    </p>
+                  )}
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
                       Color:
@@ -150,6 +161,11 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                       ))}
                     </select>
                   </div>
+                  {errors.stock && (
+                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
+                      El stock es requerido
+                    </p>
+                  )}
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
                       Stock total:
@@ -161,6 +177,11 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                       placeholder="cantidad de productos"
                     />
                   </div>
+                  {errors.peso_neto_barra_6mts && (
+                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
+                      El peso es requerido
+                    </p>
+                  )}
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
                       Kg barra estimado:
@@ -190,6 +211,11 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                       ))}
                     </select>
                   </div>
+                  {errors.descripcion && (
+                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
+                      El detalle es requerido
+                    </p>
+                  )}
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
                       Detalle:
@@ -215,10 +241,10 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold uppercase text-center cursor-pointer text-sm"
+                      className="bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold uppercase text-center cursor-pointer text-sm"
                       type="submit"
                       value={"Editar producto"}
-                      onClick={closeModalEditar}
+                      // onClick={closeModalEditar}
                     />
                   </div>
                 </form>

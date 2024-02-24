@@ -6,7 +6,6 @@ import {
   BiLogoProductHunt,
   BiSolidBox,
   BiArea,
-  BiSolidUserAccount,
   BiUser,
   BiMenu,
   BiCart,
@@ -76,7 +75,7 @@ export const Sidebar = () => {
         click
           ? "w-[100px] transition-all ease-in-out duration-300"
           : "w-1/5 transition-all ease-in-out duration-300"
-      } w-1/5 bg-primary min-h-screen max-h-full`}
+      } w-1/5 bg-gray-100 min-h-screen max-h-full border-r-[1px]`}
     >
       <div
         className={`${
@@ -87,7 +86,7 @@ export const Sidebar = () => {
       >
         <BiMenu
           onClick={handleClick}
-          className="text-white text-[45px] hover:bg-secondary rounded-full py-[5px] transition-all ease-in-out duration-300"
+          className="text-sky-500 text-[45px] hover:text-white hover:bg-sky-500 rounded-full py-[5px] transition-all ease-in-out duration-300"
         />
       </div>
       <div className={`w-full flex flex-col gap-12`}>
@@ -96,11 +95,11 @@ export const Sidebar = () => {
             <div
               key={path}
               className={`${
-                location.pathname === path && "bg-secondary"
+                location.pathname === path && "bg-slate-300"
               } w-full py-3 px-8`}
             >
               <div className="flex items-center gap-2 hover:translate-x-2 transition-all ease duration-300">
-                <Link to={path} className="text-3xl text-white">
+                <Link to={path} className="text-3xl text-slate-800">
                   {icon}
                 </Link>
                 <Link
@@ -109,7 +108,7 @@ export const Sidebar = () => {
                     click
                       ? "hidden transition-all ease-in-out duration-300"
                       : "block transition-all ease-in-out duration-300"
-                  } text-md uppercase font-semibold text-white`}
+                  } text-md uppercase font-semibold text-sky-600`}
                 >
                   {name}
                 </Link>

@@ -2,8 +2,8 @@ import React from "react";
 
 export const IntroTitleClientes = () => {
   return (
-    <div>
-      <h3 className="text-2xl font-semibold text-gray-800 uppercase">
+    <div className="flex">
+      <h3 className="text-2xl font-semibold text-sky-500 border-b-[3px] border-sky-500  uppercase">
         Clientes
       </h3>
     </div>

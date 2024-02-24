@@ -230,7 +230,7 @@ export const ModalCrearDatosFacturar = () => {
                       // onClick={closeModal}
                       type="submit"
                       value={"Crear datos"}
-                      className="cursor-pointer py-2 px-2 bg-secondary rounded shadow shadow-black/20 text-white font-bold w-1/2 uppercase text-sm"
+                      className="cursor-pointer py-2 px-2 bg-sky-500 rounded shadow shadow-black/20 text-white font-bold w-1/2 uppercase text-sm"
                     />
                   </div>
                 </form>

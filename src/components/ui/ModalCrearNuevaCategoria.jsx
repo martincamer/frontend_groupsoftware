@@ -122,7 +122,7 @@ export const ModalCrearNuevaCategoria = ({
                   </div>
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer uppercase text-sm"
+                      className="bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer uppercase text-sm"
                       type="submit"
                       value={"Crear categoria"}
                       // onClick={closeModalCrearCategoria}

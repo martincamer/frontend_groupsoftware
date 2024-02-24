@@ -8,6 +8,7 @@ export const ModalSeleccionarCantidadProducto = ({
 }) => {
   const [cantidad, setCantidad] = useState(0);
   const [precio, setPrecio] = useState(0);
+  const [pesoBarraNeto, setPesoBarra6mts] = useState(0);
 
   const { productoUnicoState, addToProductos } = usePresupuestoContext();
 
@@ -60,7 +61,7 @@ export const ModalSeleccionarCantidadProducto = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="w-2/3 inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl space-y-6">
+              <div className="w-4/5 inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl space-y-6">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -88,7 +89,7 @@ export const ModalSeleccionarCantidadProducto = ({
                           Peso Barra
                         </th>
                         <th className="p-2 text-sm font-extrabold text-center">
-                          Barras
+                          Stock de brs.
                         </th>
                         <th className="p-2 text-sm font-extrabold text-center">
                           Cantidad de barras
@@ -102,22 +103,32 @@ export const ModalSeleccionarCantidadProducto = ({
                       {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                         {productoUnicoState.id}
                       </th> */}
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[20px]">
                         {productoUnicoState.nombre}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[50px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[50px]">
                         {productoUnicoState.descripcion}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[20px]">
                         {productoUnicoState.color}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
-                        {productoUnicoState.peso_neto_barra_6mts} kg
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[20px] capitalize">
+                        peso neto{" "}
+                        <span className="font-bold">
+                          ({productoUnicoState.peso_neto_barra_6mts} kg)
+                        </span>
+                        <input
+                          onChange={(e) => setPesoBarra6mts(e.target.value)}
+                          value={pesoBarraNeto}
+                          type="number"
+                          className="border-[1px] border-black/30 rounded p-2 w-[100px] outline-none ml-2"
+                          placeholder="ej: 2.55"
+                        />{" "}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[20px]">
                         {productoUnicoState.stock}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[100px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[100px]">
                         <input
                           onChange={(e) => setCantidad(e.target.value)}
                           type="number"
@@ -125,7 +136,7 @@ export const ModalSeleccionarCantidadProducto = ({
                           placeholder="cantidad"
                         />
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[100px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center w-[100px]">
                         <input
                           onChange={(e) => setPrecio(e.target.value)}
                           type="number"
@@ -145,15 +156,13 @@ export const ModalSeleccionarCantidadProducto = ({
                         productoUnicoState.descripcion,
                         productoUnicoState.color,
                         cantidad,
-                        productoUnicoState.peso_neto_barra_6mts * cantidad,
+                        pesoBarraNeto * cantidad,
                         productoUnicoState.categoria,
-                        productoUnicoState.peso_neto_barra_6mts *
-                          cantidad *
-                          precio
+                        pesoBarraNeto * cantidad * precio
                       ),
                         closeModalCantidad();
                     }}
-                    className="bg-secondary text-white py-2 px-2 rounded font-bold hover:shadow-md hover:shadow-black/20 hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
+                    className="bg-sky-500 text-white py-2 px-2 rounded font-bold hover:shadow-md hover:shadow-black/20 hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
                   >
                     Crear producto facturar
                   </button>

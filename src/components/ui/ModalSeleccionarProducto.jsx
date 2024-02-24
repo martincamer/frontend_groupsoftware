@@ -151,7 +151,7 @@ export const ModalSeleccionarProducto = ({
                                 openModalCantidad(),
                                   handleSeleccionarProducto(c.id);
                               }}
-                              className="bg-secondary py-1 px-2 text-white rounded-md text-center"
+                              className="bg-sky-500 py-1 px-2 text-white rounded-md text-center"
                             >
                               Seleccionar
                             </Link>

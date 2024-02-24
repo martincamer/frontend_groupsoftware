@@ -65,37 +65,37 @@ export const TableEstadistica = () => {
       <table className="border-[1px]  p-[5px] table-auto w-full rounded uppercase">
         <thead>
           <tr>
-            <th className="p-3 text-sm">Cliente</th>
-            <th className="p-3 text-sm">Total facturado</th>
-            <th className="p-3 text-sm">Entrego</th>
-            <th className="p-3 text-sm">Deuda restante</th>
-            <th className="p-3 text-sm">Resetear total deuda</th>
-            <th className="p-3 text-sm">Editar entrega</th>
-            <th className="p-3 text-sm">Ver facturas</th>
-            <th className="p-3 text-sm">Estado</th>
+            <th className="p-3 text-sm border-b-[2px]">Cliente</th>
+            <th className="p-3 text-sm border-b-[2px]">Total facturado</th>
+            <th className="p-3 text-sm border-b-[2px]">Entrego</th>
+            <th className="p-3 text-sm border-b-[2px]">Deuda restante</th>
+            <th className="p-3 text-sm border-b-[2px]">Resetear total deuda</th>
+            <th className="p-3 text-sm border-b-[2px]">Editar entrega</th>
+            <th className="p-3 text-sm border-b-[2px]">Ver facturas</th>
+            <th className="p-3 text-sm border-b-[2px]">Estado</th>
           </tr>
         </thead>
         <tbody>
           {currentResults?.map((c) => (
-            <tr>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+            <tr className="hover:bg-gray-100/60 transition-all ease-in-out duration-300 cursor-pointer">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 {c.nombre} {c.apellido}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 {Number(c.total_facturado).toLocaleString("es-ar", {
                   style: "currency",
                   currency: "ARS",
                   minimumFractionDigits: 2,
                 })}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 {Number(c?.entrega).toLocaleString("es-ar", {
                   style: "currency",
                   currency: "ARS",
                   minimumFractionDigits: 2,
                 })}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 {Number(c.deuda_restante).toLocaleString("es-ar", {
                   style: "currency",
                   currency: "ARS",
@@ -103,40 +103,42 @@ export const TableEstadistica = () => {
                 })}
               </th>
 
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 <button
                   type="button"
                   onClick={() => {
                     resetearCampos(c?.id);
                   }}
-                  className="bg-red-500 py-1 px-2 rounded shadow text-white font-bold uppercase text-xs"
+                  className="bg-red-100/20 text-red-800 border-[1px] border-red-800 py-1 px-2 rounded text-xs cursor-pointer uppercase"
                 >
                   resetear
                 </button>
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 <button
                   onClick={() => (openModal(), handleClienteSeleccionado(c.id))}
                   type="button"
-                  className="bg-secondary py-1 px-2 rounded shadow text-white font-bold uppercase text-xs"
+                  className="bg-sky-100/20 border-sky-500 border-[1px] py-1 px-2 text-sky-500 rounded text-xs uppercase cursor-pointer"
                 >
                   editar
                 </button>
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 <button
                   type="button"
-                  className="bg-green-500 py-1 px-2 rounded shadow text-white font-bold uppercase text-xs"
+                  className="bg-green-100/20 border-green-600 border-[1px] py-1 px-2 rounded shadow text-green-500 font-bold uppercase text-xs"
                 >
                   ver facturas
                 </button>
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 font-normal">
                 <button
                   type="button"
                   className={`${
-                    c.deuda_restante == 0 ? "bg-green-500" : "bg-orange-500"
-                  } py-1 px-2 rounded shadow text-white font-bold text-sm uppercase`}
+                    c.deuda_restante == 0
+                      ? "bg-green-100/20 border-green-600 border-[1px] py-1 px-2 rounded shadow text-green-500 font-bold uppercase text-md"
+                      : "bg-orange-100/20 border-orange-600 border-[1px] py-1 px-2 rounded shadow text-orange-500 font-bold uppercase text-md"
+                  } py-1 px-2 rounded shadow font-bold text-sm uppercase`}
                 >
                   {c.deuda_restante == 0 ? "pagado" : "pendiente"}
                 </button>
@@ -152,7 +154,7 @@ export const TableEstadistica = () => {
               key={index}
               className={`mx-1 px-3 py-1 rounded ${
                 currentPage === index + 1
-                  ? "bg-secondary hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                  ? "bg-sky-500 hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
                   : "bg-gray-100 shadow shadow-black/20 text-sm"
               }`}
               onClick={() => handlePageChange(index + 1)}

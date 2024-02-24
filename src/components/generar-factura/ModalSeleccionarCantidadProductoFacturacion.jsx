@@ -140,20 +140,20 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
                       {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                         {productoUnicoState.id}
                       </th> */}
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[20px]">
                         {productoUnicoState.nombre}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[50px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[50px]">
                         {productoUnicoState.descripcion}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[20px]">
                         {productoUnicoState.color}
                       </th>
 
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[20px]">
                         {productoUnicoState.stock}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[50px]">
+                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[50px]">
                         <div className="flex gap-5 items-center justify-center">
                           Peso neto - {productoUnicoState.peso_neto_barra_6mts}{" "}
                           kg
@@ -189,7 +189,7 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
                     onClick={() => {
                       handleClickEditarStock();
                     }}
-                    className="bg-secondary text-white py-2 px-2 rounded font-bold hover:shadow-md hover:shadow-black/20 hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
+                    className="bg-sky-500 text-white py-2 px-2 rounded font-bold hover:shadow-md hover:shadow-black/20 hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
                   >
                     Crear producto facturar
                   </button>

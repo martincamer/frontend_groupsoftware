@@ -65,6 +65,36 @@ export const ModalCrearFacturacionNueva = () => {
     await editarPerfilEliminarStock(click, { cantidad });
   };
 
+  const sumasPorCategoria = {};
+
+  // Iteramos sobre los resultados
+  productoSeleccionado?.forEach((producto) => {
+    const { categoria, totalPrecioUnitario, totalKG } = producto;
+
+    // Si la categoría ya existe en el objeto
+    if (sumasPorCategoria[categoria]) {
+      // Le sumamos el totalPrecioUnitario y totalKG
+      sumasPorCategoria[categoria].totalPrecioUnitario += totalPrecioUnitario;
+      sumasPorCategoria[categoria].totalKG += totalKG;
+    } else {
+      // Si no existe, creamos la entrada con el totalPrecioUnitario y totalKG
+      sumasPorCategoria[categoria] = {
+        totalPrecioUnitario,
+        totalKG,
+      };
+    }
+  });
+
+  // Convertimos el objeto a un arreglo
+  const arreglo = Object.entries(sumasPorCategoria).map(
+    ([categoria, valores]) => ({
+      categoria,
+      ...valores,
+    })
+  );
+
+  console.log("Arreglo:", arreglo);
+
   return (
     <Menu as="div" className="z-50">
       <ToastContainer />
@@ -132,7 +162,7 @@ export const ModalCrearFacturacionNueva = () => {
                   <div>
                     <Link
                       onClick={openModalCliente}
-                      className="font-bold uppercase text-sm bg-secondary text-white py-2 px-2 rounded shadow shadow-black/30 hover:translate-x-1 transition-all ease-in-out"
+                      className="font-bold uppercase text-sm bg-sky-500 text-white py-2 px-2 rounded shadow shadow-black/10 hover:translate-x-1 transition-all ease-in-out"
                     >
                       Seleccionar Cliente
                     </Link>
@@ -242,7 +272,7 @@ export const ModalCrearFacturacionNueva = () => {
                   <div>
                     <Link
                       onClick={openModalProductos}
-                      className="uppercase text-sm font-bold bg-secondary text-white py-2 px-2 rounded shadow shadow-black/30 hover:translate-x-1 transition-all ease-in-out"
+                      className="uppercase text-sm font-bold bg-sky-500 text-white py-2 px-2 rounded shadow shadow-black/10 hover:translate-x-1 transition-all ease-in-out"
                     >
                       Seleccionar Producto
                     </Link>
@@ -348,7 +378,7 @@ export const ModalCrearFacturacionNueva = () => {
                       onChange={(e) => setTipoFactura(e.target.value)}
                       className="py-2 px-4 rounded bg-white font-bold border-[1px] shadow uppercase"
                     >
-                      <option>SELECCIONAR</option>
+                      <option>-</option>
                       <option>A</option>
                       <option>B</option>
                       <option>C</option>
@@ -388,6 +418,27 @@ export const ModalCrearFacturacionNueva = () => {
                       {result}
                     </div>
                   </div>
+                  {arreglo?.map((a, index) => (
+                    <div key={index}>
+                      <p className="font-bold uppercase text-lg text-slate-700">
+                        TOTAL EN {a?.categoria}:{" "}
+                        <span className="text-sky-500 font-semibold">
+                          {" "}
+                          {a?.totalPrecioUnitario?.toLocaleString("es-ar", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumFractionDigits: 2,
+                          })}
+                        </span>
+                      </p>
+                      <p className="font-semibold uppercase text-sm text-slate-700 border-b-[1px] border-gray-300">
+                        Total en kg:{" "}
+                        <span className=" text-sky-500 font-semibold">
+                          {a?.totalKG} kg
+                        </span>
+                      </p>
+                    </div>
+                  ))}
 
                   <div className="mt-5">
                     <button
@@ -395,7 +446,7 @@ export const ModalCrearFacturacionNueva = () => {
                       onClick={() => {
                         closeModal(), handlePerfil();
                       }}
-                      className="bg-green-500 py-2 px-2 rounded text-white font-bold shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
+                      className="bg-sky-500 py-2 px-2 rounded text-white font-bold shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
                     >
                       Generar Venta
                     </button>

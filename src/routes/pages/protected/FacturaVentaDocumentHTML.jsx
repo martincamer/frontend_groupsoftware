@@ -37,17 +37,17 @@ export const FacturaVentaDocumentHTML = () => {
     <section className="py-[50px] mx-auto w-full flex flex-col gap-10 h-full">
       <div className="w-[1220px] mx-auto space-y-3">
         <div>
-          <p className="font-bold text-3xl text-secondary">
-            Factura de venta{" "}
+          <p className="font-bold text-3xl text-sky-500">
+            Pedido de venta{" "}
             <span className="text-black font-extrabold">0000-{datos?.id}</span>
           </p>
         </div>
 
         <div className="space-x-2 flex">
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-secondary font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
             <BiSend /> enviar factura
           </button>
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-secondary font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
             <BiDownload />{" "}
             <PDFDownloadLink
               fileName={`${datos?.clientes?.nombre}_${datos?.clientes?.apellido}_000111${datos?.id}`}
@@ -61,21 +61,21 @@ export const FacturaVentaDocumentHTML = () => {
               descargar factura
             </PDFDownloadLink>
           </button>
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-secondary font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
             <BiFile />{" "}
             <Link to={`/view-factura-venta/${datos.id}`}>ver factura</Link>
           </button>
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-secondary font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
             <BiEdit /> editar
           </button>
         </div>
 
         <div className="bg-white border-[1px] border-black/20 shadow-md shadow-black/20 rounded px-6 py-6 flex justify-around items-center">
           <div className="flex flex-col gap-2">
-            <p className="text-base uppercase font-semibold text-green-500 text-center">
+            <p className="text-base uppercase font-semibold text-slate-700 text-center">
               Total Facturado
             </p>
-            <p className="text-md font-bold text-center">
+            <p className="text-md font-bold text-center text-sky-500">
               {Number(datos?.estadistica?.total_pagar).toLocaleString("es-ar", {
                 style: "currency",
                 currency: "ARS",
@@ -84,16 +84,16 @@ export const FacturaVentaDocumentHTML = () => {
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="text-base uppercase font-semibold text-green-500 text-center">
+            <p className="text-base uppercase font-semibold text-slate-700 text-center">
               Cobrado
             </p>
-            <p className="text-sm font-bold text-center">-</p>
+            <p className="text-sm font-bold text-center text-sky-500">-</p>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="text-base uppercase font-semibold text-green-500 text-center">
+            <p className="text-base uppercase font-semibold text-slate-700 text-center">
               Por cobrar
             </p>
-            <p className="text-md font-bold text-center">
+            <p className="text-md font-bold text-center text-sky-500">
               {" "}
               {Number(datos?.estadistica?.total_pagar).toLocaleString("es-ar", {
                 style: "currency",
@@ -107,7 +107,7 @@ export const FacturaVentaDocumentHTML = () => {
 
       <div className="py-10 px-10 bg-white border-[1px] border-black/20 w-[1220px] mx-auto shadow-md shadow-black/20 rounded space-y-10">
         <div className="flex flex-col text-center space-y-1 w-full relative">
-          <p className="font-extrabold text-xl text-secondary capitalize">
+          <p className="font-extrabold text-xl text-sky-500 capitalize">
             {datosFacturar[0]?.nombre}
           </p>
           <p className="text-base text-gray-600">
@@ -115,7 +115,7 @@ export const FacturaVentaDocumentHTML = () => {
           </p>
           <p className="text-gray-600">{datosFacturar[0]?.email}</p>
           <div className="absolute right-0">
-            <span className="text-secondary font-extrabold text-2xl">No.</span>{" "}
+            <span className="text-slate-700 font-extrabold text-2xl">No.</span>{" "}
             0000-{datos?.id}
           </div>
         </div>
@@ -200,7 +200,7 @@ export const FacturaVentaDocumentHTML = () => {
                 <th className="border-[1px] border-gray-300 p-3 text-gray-600 font-normal">
                   {p?.detalle}
                 </th>
-                <th className="border-[1px] border-gray-300 p-3 text-secondary font-semibold">
+                <th className="border-[1px] border-gray-300 p-3 text-sky-500 font-semibold">
                   {Number(p?.totalPrecioUnitario)?.toLocaleString("es-ar", {
                     style: "currency",
                     currency: "ARS",
@@ -216,7 +216,7 @@ export const FacturaVentaDocumentHTML = () => {
           <div className="flex gap-6 border-b-[1px] border-black/20">
             <div className="pb-2">
               <p className="font-bold">Subtotal</p>{" "}
-              <p className="text-sm text-secondary font-semibold">
+              <p className="text-sm text-sky-500 font-semibold">
                 {Number(datos?.estadistica?.total_pagar)?.toLocaleString(
                   "es-ar",
                   {
@@ -234,13 +234,16 @@ export const FacturaVentaDocumentHTML = () => {
           </div>
 
           <div>
-            <p className="font-medium  text-xl flex gap-2 items-center text-secondary">
+            <p className="font-medium  text-xl flex gap-2 items-center text-sky-500">
               <span className="font-bold text-lg text-black">Total:</span>{" "}
-              {Number(datos?.estadistica?.total_pagar)?.toLocaleString("es-ar", {
-                style: "currency",
-                currency: "ARS",
-                minimumFractionDigits: 2,
-              })}
+              {Number(datos?.estadistica?.total_pagar)?.toLocaleString(
+                "es-ar",
+                {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumFractionDigits: 2,
+                }
+              )}
             </p>
           </div>
         </div>

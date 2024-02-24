@@ -191,7 +191,7 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
 
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
+                      className="bg-sky-500 text-sm uppercase hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
                       type="submit"
                       value={"Editar Entrega"}
                       // onClick={closeModal}
@@ -202,7 +202,7 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
+                    className="uppercase inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
                     onClick={closeModal}
                   >
                     Cerrar Ventana

@@ -29,7 +29,7 @@ export const DatosFacturacion = () => {
       <ToastContainer />
       <div className="py-[50px] flex flex-col items-center gap-5 border-[1px] border-gray-300">
         <div>
-          <h3 className="text-2xl font-bold uppercase">
+          <h3 className="text-2xl font-bold uppercase text-sky-500">
             Datos de la facturación
           </h3>
         </div>
@@ -123,7 +123,7 @@ export const DatosFacturacion = () => {
               type="submit"
               onClick={() => notify()}
               value={"Guardar cambios"}
-              className="cursor-pointer uppercase py-2 px-2 bg-secondary rounded shadow shadow-black/20 text-white font-bold text-sm"
+              className="cursor-pointer uppercase py-2 px-2 bg-sky-500 rounded shadow shadow-black/20 text-white font-bold text-sm"
             />
           </div>
         </form>

@@ -64,54 +64,59 @@ export const TablePresupuestos = ({
       <table className="border-[1px] p-[5px] table-auto w-full rounded uppercase">
         <thead>
           <tr>
-            <th className="p-3 text-sm">ID</th>
-            <th className="p-3 text-sm">Emision</th>
-            <th className="p-3 text-sm">Cliente</th>
-            <th className="p-3 text-sm">Total a pagar</th>
-            <th className="p-3 text-sm">Emitir Factura</th>
-            <th className="p-3 text-sm">Eliminar</th>
-            <th className="p-3 text-sm">Estado del presupuesto</th>
+            <th className="p-3 text-sm border-b-[2px]">ID</th>
+            <th className="p-3 text-sm border-b-[2px]">Emision</th>
+            <th className="p-3 text-sm border-b-[2px]">Cliente</th>
+            <th className="p-3 text-sm border-b-[2px]">Total a pagar</th>
+            <th className="p-3 text-sm border-b-[2px]">Emitir Factura</th>
+            <th className="p-3 text-sm border-b-[2px]">Eliminar</th>
+            <th className="p-3 text-sm border-b-[2px]">
+              Estado del presupuesto
+            </th>
           </tr>
         </thead>
         <tbody>
           {currentResults?.map((p) => (
-            <tr key={p.id}>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+            <tr
+              className="hover:bg-gray-100/60 transition-all ease-in-out duration-300 cursor-pointer"
+              key={p.id}
+            >
+              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
                 {p.id}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
                 {dateTime(p.created_at)}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
                 {p.clientes.nombre} {p.clientes.apellido}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 font-medium text-sm">
+              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
                 {p.estadistica.total_pagar.toLocaleString("es-ar", {
                   style: "currency",
                   currency: "ARS",
                   minimumFractionDigits: 2,
                 })}
               </th>
-              <th className="border-[1px] border-gray-300 p-3 space-x-2">
+              <th className="border-b-[1px] border-gray-300 py-4 px-3 space-x-2">
                 <Link
                   to={`/factura-presupuesto/${p.id}`}
-                  className="bg-secondary py-1 px-2 text-center font-bold text-xs text-white rounded"
+                  className="bg-sky-100/20 border-sky-500 border-[1px] py-1 px-2 text-sky-500 rounded text-xs uppercase cursor-pointer"
                 >
                   ver presupuesto
                 </Link>
               </th>
-              <th className="border-[1px] border-gray-300 p-3">
+              <th className="border-b-[1px] border-gray-300 py-4 px-3">
                 <Link
                   // onClick={() => handleDeletePresupuesto(p.id)}
                   onClick={() => {
                     handleIdEliminar(p?.id), openEliminarProducto();
                   }}
-                  className="bg-red-500 py-1 px-2 text-center font-bold text-xs text-white rounded"
+                  className="bg-red-100/20 text-red-800 border-[1px] border-red-800 py-1 px-2 rounded text-xs cursor-pointer uppercase"
                 >
                   eliminar
                 </Link>
               </th>
-              <th className="border-[1px] border-gray-300 p-3 relative">
+              <th className="border-b-[1px] border-gray-300 py-4 px-3 relative">
                 <Link
                   onClick={openModalEstado}
                   className={`${
@@ -146,7 +151,7 @@ export const TablePresupuestos = ({
           </div>
         )}
 
-        <ModalEnviarFactura isOpen={isOpen} closeModal={closeModal} />
+        {/* <ModalEnviarFactura isOpen={isOpen} closeModal={closeModal} /> */}
         <ModalPresupuestoEstado
           closeModalEstado={closeModalEstado}
           isOpenEstado={isOpenEstado}

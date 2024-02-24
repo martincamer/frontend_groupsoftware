@@ -20,6 +20,8 @@ export const FacturaViewVenta = ({}) => {
     obtenerDatos(unico);
   }, []);
 
+  console.log(unicoPresupuesto);
+
   return (
     <PDFViewer style={{ width: "100%", height: "100vh" }}>
       <FacturaViewFacturacion
