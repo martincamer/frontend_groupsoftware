@@ -143,7 +143,7 @@ export const TablePresupuestos = ({
                 key={index}
                 className={`mx-1 px-3 py-1 rounded ${
                   currentPage === index + 1
-                    ? "bg-secondary hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20"
+                    ? "bg-sky-500 hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20"
                     : "bg-gray-100 shadow shadow-black/20"
                 }`}
                 onClick={() => handlePageChange(index + 1)}
