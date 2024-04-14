@@ -32,7 +32,7 @@ export const IntroEstadisticas = () => {
           Total facturado a los clientes
         </p>
         <div className="flex justify-center">
-          <p className="font-bold text-xl text-green-700 bg-green-100 py-3 px-4 rounded-2xl flex gap-2 items-center">
+          <p className="font-normal text-lg text-green-700 bg-green-100 py-3 px-4 rounded-2xl flex gap-2 items-center">
             {resultadoTotal.toLocaleString("es-ar", {
               style: "currency",
               currency: "ARS",

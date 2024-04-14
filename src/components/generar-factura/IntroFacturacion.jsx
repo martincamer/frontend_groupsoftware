@@ -32,7 +32,7 @@ export const IntroFacturacion = () => {
         <p className="uppercase text-sky-500 font-semibold text-lg">
           Total Facturado - Ventas en el mes
         </p>
-        <p className="font-bold text-xl text-green-700 bg-green-100 py-3 px-6 rounded-2xl shadow-md shadow-gray-300 flex gap-2 items-center">
+        <p className="font-normal text-lg text-green-700 bg-green-100 py-3 px-6 rounded-2xl flex gap-2 items-center">
           {totalPagar().toLocaleString("es-ar", {
             style: "currency",
             currency: "ARS",

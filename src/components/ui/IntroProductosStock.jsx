@@ -91,8 +91,8 @@ export const IntroProductosStock = ({ results }) => {
         </p>
         <div className="font-bold text-lg text-slate-800 flex gap-2 items-center h-[60px] overflow-y-scroll justify-center">
           {dataArray.map((datos) => (
-            <div className="text-xs flex gap-2 border-slate-300 border-[1px] py-2 items-center px-5 rounded-xl shadow">
-              <p>{datos.categoria} -</p>
+            <div className="text-xs flex gap-2 border-slate-300 border-[1px] py-2 items-center px-5 rounded-xl shadow w-full justify-center">
+              <p>{datos.categoria}</p>
               <p className="bg-sky-100 text-sky-700 py-2 px-2 rounded-xl">
                 {Number(datos.totalPrecioUnitario).toLocaleString("es-ar", {
                   style: "currency",

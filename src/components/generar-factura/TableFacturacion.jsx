@@ -96,11 +96,18 @@ export const TableFacturacion = ({
                   {p.clientes.nombre} {p.clientes.apellido}
                 </th>
                 <th className="py-4 px-3 text-sm font-normal">
-                  {Number(p.estadistica.total_pagar).toLocaleString("es-ar", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumFractionDigits: 2,
-                  })}
+                  <div className="flex justify-center">
+                    <p className="bg-green-100 text-green-700 py-3 px-4 rounded-2xl hover:shadow-md transition-all ease-linear flex gap-2 items-center">
+                      {Number(p.estadistica.total_pagar).toLocaleString(
+                        "es-ar",
+                        {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumFractionDigits: 2,
+                        }
+                      )}
+                    </p>
+                  </div>
                 </th>
                 <th className="py-4 px-3 text-sm flex items-center justify-center">
                   <Link

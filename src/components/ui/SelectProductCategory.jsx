@@ -25,7 +25,13 @@ export const SelectProductCategory = () => {
       <option>TODAS LAS CATEGORIAS</option>
       {[...new Set(categorias?.map((dato) => dato.categoria))].map(
         (category) => (
-          <option className="uppercase" key={category} value={category}>
+          <option
+            style={{
+              textTransform: "uppercase",
+            }}
+            key={category.id}
+            value={category}
+          >
             {category}
           </option>
         )

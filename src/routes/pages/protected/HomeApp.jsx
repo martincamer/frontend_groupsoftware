@@ -1,28 +1,21 @@
 import { useEffect, useState } from "react";
-import { obtenerFacturasMensuales } from "../../../api/factura.api";
-import ChartVentasPorMes from "../../../components/ui/ChartJsVentas";
+import { useFacturaContext } from "../../../context/FacturaProvider";
+import ApexCharts from "react-apexcharts";
 
 export const HomeApp = () => {
   const [ventasPorMes, setVentasPorMes] = useState([]);
   const [clientesVendidos, setClientesVendidos] = useState(0);
   const [totalKgVendidos, setTotalKgVendidos] = useState(0);
-  const [data, setData] = useState([]);
+  const { facturasMensuales } = useFacturaContext();
+  const { datosPresupuesto } = useFacturaContext();
 
-  useEffect(() => {
-    async function loadData() {
-      const res = await obtenerFacturasMensuales();
-
-      setData(res.data);
-    }
-
-    loadData();
-  }, []);
+  console.log(datosPresupuesto);
 
   useEffect(() => {
     const calcularVentasPorMes = () => {
       const ventasMes = {};
 
-      data?.forEach((venta) => {
+      facturasMensuales?.forEach((venta) => {
         const fecha = new Date(venta?.created_at);
         const mes = fecha.toLocaleString("default", { month: "long" });
 
@@ -83,7 +76,9 @@ export const HomeApp = () => {
 
       // Calcular clientes vendidos en total
       const totalClientesVendidos = new Set();
-      data.forEach((venta) => totalClientesVendidos.add(venta.clientes.id));
+      facturasMensuales.forEach((venta) =>
+        totalClientesVendidos.add(venta.clientes.id)
+      );
       setClientesVendidos(totalClientesVendidos.size);
 
       // Calcular kg vendidos en total
@@ -95,7 +90,129 @@ export const HomeApp = () => {
     };
 
     calcularVentasPorMes();
-  }, [data]);
+  }, [facturasMensuales]);
+
+  // Calcular el total de totalPrecioUnitario por categoría y color
+  const totalPorCategoriaColor = facturasMensuales.reduce(
+    (acumulador, factura) => {
+      factura.productos.respuesta.forEach((producto) => {
+        if (!acumulador[producto.categoria]) {
+          acumulador[producto.categoria] = {};
+        }
+        if (!acumulador[producto.categoria][producto.color]) {
+          acumulador[producto.categoria][producto.color] = 0;
+        }
+        acumulador[producto.categoria][producto.color] +=
+          producto.totalPrecioUnitario;
+      });
+      return acumulador;
+    },
+    {}
+  );
+
+  // Calcular el total general de totalPrecioUnitario
+  const totalGeneral = Object.values(totalPorCategoriaColor)
+    .flatMap((categoria) => Object.values(categoria))
+    .reduce((total, precio) => total + precio, 0);
+
+  const totalPorCategoriaColorKG = facturasMensuales.reduce(
+    (acumulador, factura) => {
+      factura.productos.respuesta.forEach((producto) => {
+        if (!acumulador[producto.categoria]) {
+          acumulador[producto.categoria] = {};
+        }
+        if (!acumulador[producto.categoria][producto.color]) {
+          acumulador[producto.categoria][producto.color] = 0;
+        }
+        acumulador[producto.categoria][producto.color] += producto.totalKG;
+      });
+      return acumulador;
+    },
+    {}
+  );
+
+  // Calcular el total general de total_kg
+  const totalGeneralKg = Object.values(totalPorCategoriaColorKG)
+    .flatMap((categoria) => Object.values(categoria))
+    .reduce((total, kg) => total + kg, 0);
+
+  // Agrupar las facturas por trimestre
+  const facturasPorTrimestre = datosPresupuesto.reduce(
+    (acumulador, factura) => {
+      const fecha = new Date(factura.created_at);
+      const mes = fecha.toLocaleString("default", { month: "long" });
+      const trimestre = Math.floor(fecha.getMonth() / 2) + 1; // Obtener el trimestre
+      const trimestreKey = `${fecha.getFullYear()}-T${trimestre}`;
+
+      if (!acumulador[trimestreKey]) {
+        acumulador[trimestreKey] = {
+          trimestre: `${mes} - T${trimestre}`,
+          total_pagar: 0,
+        };
+      }
+
+      acumulador[trimestreKey].total_pagar += factura.estadistica.total_pagar;
+      return acumulador;
+    },
+    {}
+  );
+
+  // Calcular el total de ganancias por trimestre
+  const gananciasPorTrimestre = Object.values(facturasPorTrimestre);
+
+  // Configuración de ApexCharts
+  const options = {
+    chart: {
+      id: "ganancias-trimestrales",
+      toolbar: {
+        show: false,
+      },
+    },
+    xaxis: {
+      categories: gananciasPorTrimestre.map((item) => item.trimestre),
+      labels: {
+        rotate: -45,
+        style: {
+          colors: "#333",
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Ganancias (ARS)",
+      },
+      labels: {
+        formatter: function (value) {
+          return new Intl.NumberFormat("es-AR", {
+            style: "currency",
+            currency: "ARS",
+          }).format(value);
+        },
+      },
+    },
+    colors: ["rgba(14 165 233)"],
+
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        endingShape: "rounded",
+        columnWidth: "10%",
+        // Ajustar el ancho de las columnas si es necesario
+        borderRadius: "20",
+        borderRadiusApplication: "end",
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+  };
+
+  const series = [
+    {
+      name: "Ganancias",
+      data: gananciasPorTrimestre.map((item) => item.total_pagar),
+    },
+  ];
 
   return (
     <div className="py-[50px] px-[30px] w-full h-full flex flex-col gap-6">
@@ -156,8 +273,97 @@ export const HomeApp = () => {
           </div>
         </div>
       </div>
-      <div className="mt-8 w-full h-full mx-auto border-[1px] py-10 px-4 rounded shadow">
-        <ChartVentasPorMes ventasPorMes={ventasPorMes} />
+
+      <div>
+        <div className="text-slate-700 pb-2 mt-4">
+          PROGRESO EN VENTAS/GANANCIAS POR CATEGORIA
+        </div>
+        <div className="border-slate-200 border-[1px] rounded py-10 px-10 shadow flex flex-col gap-3">
+          {Object.entries(totalPorCategoriaColor).map(
+            ([categoria, colores]) => (
+              <div
+                className="flex flex-col gap-1 border-slate-200 border-[1px] py-2 px-3 rounded shadow"
+                key={categoria}
+              >
+                <h3 className="uppercase underline">{categoria}</h3>
+                {Object.entries(colores).map(([color, precio]) => {
+                  const porcentaje = (precio / totalGeneral) * 10;
+                  return (
+                    <div key={color}>
+                      <p className="uppercase font-semibold text-slate-600">
+                        {color}{" "}
+                        <span className="font-normal text-sky-700">
+                          {Number(precio).toLocaleString("es-ar", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumFractionDigits: 2,
+                          })}
+                        </span>
+                      </p>
+                      <progress
+                        className="bg-sky-100 w-full"
+                        value={porcentaje}
+                        max="100"
+                      >
+                        {porcentaje.toFixed(2)}%
+                      </progress>
+                    </div>
+                  );
+                })}
+              </div>
+            )
+          )}
+        </div>
+      </div>
+
+      <div>
+        <div className="text-slate-700 pb-2 mt-4">
+          PROGRESO DE KILOGRAMOS VENDIDOS SEPARADOS POR CATEGORIAS
+        </div>
+        <div className="border-slate-200 border-[1px] rounded py-10 px-10 shadow flex flex-col gap-3">
+          {Object.entries(totalPorCategoriaColorKG).map(
+            ([categoria, colores]) => (
+              <div
+                className="flex flex-col gap-1 border-slate-200 border-[1px] py-2 px-3 rounded shadow w-full"
+                key={categoria}
+              >
+                <h3 className="uppercase underline">{categoria}</h3>
+                {Object.entries(colores).map(([color, kg]) => {
+                  const porcentaje = (kg / totalGeneralKg) * 10;
+                  return (
+                    <div key={color}>
+                      <p className="uppercase font-semibold text-slate-600">
+                        {color}{" "}
+                        <span className="font-normal text-sky-700">
+                          {Number(kg).toFixed(2)} kg
+                        </span>
+                      </p>
+                      <progress
+                        className="bg-sky-100 w-full"
+                        value={porcentaje}
+                        max="100"
+                      >
+                        {porcentaje.toFixed(2)}%
+                      </progress>
+                    </div>
+                  );
+                })}
+              </div>
+            )
+          )}
+        </div>
+      </div>
+
+      <div className="uppercase text-slate-600">Grafico de ganancias</div>
+
+      <div className="border-slate-200 border-[1px] shadow rounded">
+        <ApexCharts
+          className="uppercase px-10 py-5"
+          options={options}
+          series={series}
+          type="bar"
+          height={350}
+        />
       </div>
     </div>
   );

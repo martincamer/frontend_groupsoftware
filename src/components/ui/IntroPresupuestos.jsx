@@ -11,8 +11,8 @@ export const IntroPresupuestos = () => {
     }, 0);
   };
   return (
-    <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex gap-2 w-full text-center">
-      <div className="py-[10px] px-[10px] border-gray-200 flex flex-col gap-2 border-r-[1px] w-full">
+    <div className="border-[1px] border-gray-300 rounded-2xl shadow-black/10 hover:shadow cursor-pointer flex gap-2 w-full text-center">
+      <div className="py-[30px] px-[10px] border-gray-200 flex flex-col justify-center gap-2 border-r-[1px] w-full">
         <p className="font-bold text-sky-500 text-lg uppercase">
           Presupuestos Totales
         </p>
@@ -20,11 +20,11 @@ export const IntroPresupuestos = () => {
           {results.length}
         </p>
       </div>
-      <div className="py-[10px] px-[10px] border-gray-200 flex flex-col gap-2 border-r-[1px] w-full">
+      <div className="py-[10px] px-[10px] border-gray-200 flex flex-col items-center justify-center gap-2 border-r-[1px] w-full">
         <p className="font-bold text-sky-500 text-lg uppercase">
           Total Facturado - Presupuestos
         </p>
-        <p className="font-bold text-xl uppercase text-slate-700">
+        <p className="font-normal text-lg uppercase text-green-700 bg-green-100 py-3 px-5 rounded-xl">
           {totalPagar().toLocaleString("es-ar", {
             style: "currency",
             currency: "ARS",
@@ -32,7 +32,7 @@ export const IntroPresupuestos = () => {
           })}
         </p>
       </div>
-      <div className="py-[10px] px-[10px] border-gray-200 flex flex-col gap-2 w-full">
+      <div className="py-[10px] px-[10px] border-gray-200 flex flex-col justify-center gap-2 w-full">
         <p className="font-bold text-sky-500 text-lg uppercase">
           Total clientes presupuestos
         </p>

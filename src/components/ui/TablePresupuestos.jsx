@@ -51,117 +51,160 @@ export const TablePresupuestos = ({
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentResults = results.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(results.length / itemsPerPage);
+  // Copia los resultados para evitar mutar el estado directamente
+  const sortedResults = [...results];
+
+  // Ordena los resultados por created_at en orden descendente (los últimos creados primero)
+  sortedResults.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  // Filtra los resultados para no mostrar los marcados como rechazados
+  const filteredResults = sortedResults.filter(
+    (result) => result.estado !== "rechazado"
+  );
+
+  // Obtiene los resultados de la página actual del array filtrado
+  const currentResults = filteredResults.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
   return (
-    <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full">
-      <table className="border-[1px] p-[5px] table-auto w-full rounded uppercase">
-        <thead>
-          <tr>
-            <th className="p-3 text-sm border-b-[2px]">ID</th>
-            <th className="p-3 text-sm border-b-[2px]">Emision</th>
-            <th className="p-3 text-sm border-b-[2px]">Cliente</th>
-            <th className="p-3 text-sm border-b-[2px]">Total a pagar</th>
-            <th className="p-3 text-sm border-b-[2px]">Emitir Factura</th>
-            <th className="p-3 text-sm border-b-[2px]">Eliminar</th>
-            <th className="p-3 text-sm border-b-[2px]">
-              Estado del presupuesto
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentResults?.map((p) => (
-            <tr
-              className="hover:bg-gray-100/60 transition-all ease-in-out duration-300 cursor-pointer"
-              key={p.id}
-            >
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
-                {p.id}
-              </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
-                {dateTime(p.created_at)}
-              </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
-                {p.clientes.nombre} {p.clientes.apellido}
-              </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 font-normal text-sm">
-                {p.estadistica.total_pagar.toLocaleString("es-ar", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumFractionDigits: 2,
-                })}
-              </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 space-x-2">
-                <Link
-                  to={`/factura-presupuesto/${p.id}`}
-                  className="bg-sky-100/20 border-sky-500 border-[1px] py-1 px-2 text-sky-500 rounded text-xs uppercase cursor-pointer"
-                >
-                  ver presupuesto
-                </Link>
-              </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3">
-                <Link
-                  // onClick={() => handleDeletePresupuesto(p.id)}
-                  onClick={() => {
-                    handleIdEliminar(p?.id), openEliminarProducto();
-                  }}
-                  className="bg-red-100/20 text-red-800 border-[1px] border-red-800 py-1 px-2 rounded text-xs cursor-pointer uppercase"
-                >
-                  eliminar
-                </Link>
-              </th>
-              <th className="border-b-[1px] border-gray-300 py-4 px-3 relative">
-                <Link
-                  onClick={openModalEstado}
-                  className={`${
-                    (p.estado === "aceptado" &&
-                      "bg-green-500/10 text-green-500 border-green-600 border-[1px]") ||
-                    (p.estado === "rechazado" &&
-                      "bg-red-500/10 text-red-500 border-red-600 border-[1px]") ||
-                    (p.estado === "pendiente" &&
-                      "bg-yellow-500/10 text-yellow-500 border-yellow-600 border-[1px]")
-                  } py-1 px-2 font-bold  rounded flex gap-1 flex-row justify-center items-center w-2/3 text-sm text-center mx-auto`}
-                >
-                  <span onClick={() => seleccionarId(p.id)}>{p.estado}</span>
-                  <BiSolidDownArrow className="text-[12px]" />
-                </Link>
-              </th>
+    <div>
+      <div className="border-[1px] border-gray-200 rounded-2xl shadow-black/10 hover:shadow w-full">
+        <table className="uppercase min-w-full divide-y-[1px] divide-slate-300">
+          <thead>
+            <tr>
+              <th className="py-4 px-3 text-sm">ID</th>
+              <th className="py-4 px-3 text-sm">Emision</th>
+              <th className="py-4 px-3 text-sm">Cliente</th>
+              <th className="py-4 px-3 text-sm">Total a pagar</th>
+              <th className="py-4 px-3 text-sm">Emitir Factura</th>
+              <th className="py-4 px-3 text-sm">Eliminar</th>
+              {/* <th className="py-4 px-3 text-sm">Estado del presupuesto</th> */}
             </tr>
-          ))}
-        </tbody>
+          </thead>
+          <tbody className="divide-y-[1px] divide-slate-300">
+            {currentResults?.map((p) => (
+              <tr
+                className="hover:bg-gray-100/60 transition-all ease-in-out duration-300 cursor-pointer"
+                key={p.id}
+              >
+                <th className="py-4 px-3 font-normal text-sm">{p.id}</th>
+                <th className="py-4 px-3 font-normal text-sm">
+                  {dateTime(p.created_at)}
+                </th>
+                <th className="py-4 px-3 font-normal text-sm">
+                  {p.clientes.nombre} {p.clientes.apellido}
+                </th>
+                <th className="py-4 px-3 font-normal text-sm">
+                  <div className="flex justify-center">
+                    <p className="bg-green-100 py-3 px-4 text-green-700 rounded-xl text-sm uppercase cursor-pointer">
+                      {p.estadistica.total_pagar.toLocaleString("es-ar", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumFractionDigits: 2,
+                      })}
+                    </p>
+                  </div>
+                </th>
+                <th className="py-4 px-3">
+                  <Link
+                    to={`/factura-presupuesto/${p.id}`}
+                    className="bg-sky-100 py-3 px-4 text-sky-700 rounded-xl text-xs uppercase cursor-pointer"
+                  >
+                    ver presupuesto
+                  </Link>
+                </th>
+                <th className="py-4 px-3">
+                  <Link
+                    // onClick={() => handleDeletePresupuesto(p.id)}
+                    onClick={() => {
+                      handleIdEliminar(p?.id), openEliminarProducto();
+                    }}
+                    className="bg-red-100 py-3 px-4 text-red-800 rounded-xl text-xs uppercase cursor-pointer"
+                  >
+                    eliminar
+                  </Link>
+                </th>
+                {/* <th className="py-4 px-3">
+                  <div>
+                    <Link
+                      onClick={openModalEstado}
+                      className={`${
+                        (p.estado === "aceptado" &&
+                          "bg-green-500/10 text-green-500 border-green-600 border-[1px]") ||
+                        (p.estado === "rechazado" &&
+                          "bg-red-500/10 text-red-500 border-red-600 border-[1px]") ||
+                        (p.estado === "pendiente" &&
+                          "bg-yellow-500/10 text-yellow-500 border-yellow-600 border-[1px]")
+                      } py-2 px-3 font-bold  rounded-xl flex gap-1 flex-row justify-center items-center w-2/3 text-sm text-center mx-auto`}
+                    >
+                      <span onClick={() => seleccionarId(p.id)}>
+                        {p.estado}
+                      </span>
+                      <BiSolidDownArrow className="text-[12px]" />
+                    </Link>
+                  </div>
+                </th> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-        {totalPages > 1 && (
-          <div className="flex flex-wrap justify-center mt-4 mb-4 gap-4">
-            {Array.from({ length: totalPages }).map((_, index) => (
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center mt-4 mb-4 gap-1">
+          {currentPage > 1 && (
+            <button
+              className="mx-1 px-3 py-1 rounded-xl bg-gray-100 shadow shadow-black/20 text-sm"
+              onClick={() => handlePageChange(currentPage - 1)}
+            >
+              {"<"}
+            </button>
+          )}
+          {Array.from({ length: Math.min(5, totalPages) }).map((_, index) => {
+            const pageNumber = index + 1;
+            const displayPageNumber =
+              currentPage > 5 ? currentPage - 1 + index : pageNumber;
+            return (
               <button
                 key={index}
-                className={`mx-1 px-3 py-1 rounded ${
-                  currentPage === index + 1
-                    ? "bg-sky-500 hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20"
-                    : "bg-gray-100 shadow shadow-black/20"
+                className={`mx-1 px-3 py-1 rounded-xl ${
+                  currentPage === displayPageNumber
+                    ? "bg-sky-500 hover:bg-primary transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                    : "bg-gray-100 shadow shadow-black/20 text-sm"
                 }`}
-                onClick={() => handlePageChange(index + 1)}
+                onClick={() => handlePageChange(displayPageNumber)}
               >
-                {index + 1}
+                {displayPageNumber}
               </button>
-            ))}
-          </div>
-        )}
+            );
+          })}
+          {currentPage < totalPages && (
+            <button
+              className="mx-1 px-3 py-1 rounded-xl bg-gray-100 shadow shadow-black/20 text-sm"
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+              {">"}
+            </button>
+          )}
+        </div>
+      )}
 
-        {/* <ModalEnviarFactura isOpen={isOpen} closeModal={closeModal} /> */}
-        <ModalPresupuestoEstado
-          closeModalEstado={closeModalEstado}
-          isOpenEstado={isOpenEstado}
-          obtenerId={obtenerId}
-          openModalEstado={openModalEstado}
-        />
-      </table>
+      {/* <ModalEnviarFactura isOpen={isOpen} closeModal={closeModal} /> */}
+      <ModalPresupuestoEstado
+        closeModalEstado={closeModalEstado}
+        isOpenEstado={isOpenEstado}
+        obtenerId={obtenerId}
+        openModalEstado={openModalEstado}
+      />
     </div>
   );
 };

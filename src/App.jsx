@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { HomePage } from "./routes/pages/HomePage";
 import { Login } from "./routes/pages/Login";
-import { Register } from "./routes/pages/Register";
 import { HomeApp } from "./routes/pages/protected/HomeApp";
 import { Productos } from "./routes/pages/protected/Productos";
 import { Clientes } from "./routes/pages/protected/Clientes";
@@ -19,18 +17,16 @@ import { FacturaView } from "./routes/pages/protected/FacturaView";
 import { DatosFacturacion } from "./routes/pages/protected/DatosFacturacion";
 import { FacturarDatosProvider } from "./context/FacturaDatosProvider";
 import { Estadistica } from "./routes/pages/protected/Estadistica";
-import { Planes } from "./routes/pages/Planes";
-import { Contacto } from "./routes/pages/Contacto";
-import { Footer } from "./components/Footer";
 import { FacturaProvider } from "./context/FacturaProvider";
 import { FacturaViewVenta } from "./routes/pages/protected/FacturaViewVenta";
 import { FacturaVentaDocumentHTML } from "./routes/pages/protected/FacturaVentaDocumentHTML";
+import { FacturaPresupuestoDocumentHTML } from "./routes/pages/protected/FacturaPresupuestoDocumentHTML";
+import { PasswordChange } from "./routes/pages/PasswordChange";
+import { VentasRegistradas } from "./routes/pages/protected/VentasRegistradas";
 //IMPORTS
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
-import { FacturaPresupuestoDocumentHTML } from "./routes/pages/protected/FacturaPresupuestoDocumentHTML";
-import { PasswordChange } from "./routes/pages/PasswordChange";
 
 function App() {
   const { isAuth } = useAuth();
@@ -43,11 +39,7 @@ function App() {
           <Route
             element={<RutaProtegida isAllowed={!isAuth} redirectTo={"/home"} />}
           >
-            {/* <Route path="/" index element={<HomePage />} /> */}
             <Route path="/" element={<Login />} />
-            {/* <Route path="/register" element={<Register />} />
-            <Route path="/planes" element={<Planes />} />
-            <Route path="/contacto" element={<Contacto />} /> */}
             <Route path="/password-change" element={<PasswordChange />} />
           </Route>
           <Route
@@ -85,6 +77,10 @@ function App() {
               <Route
                 path="factura-venta/:numero"
                 element={<FacturaVentaDocumentHTML />}
+              />
+              <Route
+                path="filtrar-ventas-mes"
+                element={<VentasRegistradas />}
               />
               <Route
                 path="factura-presupuesto/:numero"

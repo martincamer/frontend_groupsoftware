@@ -9,11 +9,12 @@ import { ToastContainer } from "react-toastify";
 import { FaUserPlus } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-// import { ModalResetearCampos } from "../eliminar/ModalResetearCampos";
+import { useAluminioContext } from "../../context/AluminioProvider";
 
 export const ModalCrearFacturacionNueva = () => {
   const { closeModal, isOpen, handleEditarProductoModalOpen } =
     useFacturaContext();
+  const { setPerfiles, setProductoUnico } = useAluminioContext();
   let [isOpenCliente, setIsOpenCliente] = useState(false);
   let [isOpenProductos, setIsOpenProductos] = useState(false);
   let [isOpenReset, setIsOpenReset] = useState(false);
@@ -22,8 +23,6 @@ export const ModalCrearFacturacionNueva = () => {
     register,
     deleteToResetClientes,
     productoSeleccionado,
-    deleteToResetProductos,
-    setTipoFactura,
     totalKg,
     totalBarras,
     handlePerfil,
@@ -64,7 +63,34 @@ export const ModalCrearFacturacionNueva = () => {
   const [cantidad, setCantidad] = useState(0);
 
   const handleEliminarRestaurarStock = async () => {
-    await editarPerfilEliminarStock(click, { cantidad });
+    const res = await editarPerfilEliminarStock(click, { cantidad });
+
+    const updatePerfil = JSON.parse(res.config.data);
+
+    // Actualizar total_facturado en setClientes
+    setPerfiles((perfiles) => {
+      return perfiles.map((perfil) => {
+        if (perfil.id === click) {
+          return {
+            ...perfil,
+            stock: Number(perfil.stock) + Number(updatePerfil.cantidad),
+          };
+        }
+        return perfil;
+      });
+    });
+
+    setProductoUnico((prevProducto) => {
+      // Realizar una copia del cliente actual
+      const nuevoProducto = { ...prevProducto };
+      // Buscar el cliente con el ID correspondiente y actualizar sus propiedades
+      if (nuevoProducto.id === click) {
+        nuevoProducto.stock =
+          Number(nuevoProducto.stock) + Number(updatePerfil.cantidad);
+      }
+      // Devolver el nuevo objeto cliente actualizado
+      return nuevoProducto;
+    });
   };
 
   const sumasPorCategoria = {};
@@ -350,9 +376,6 @@ export const ModalCrearFacturacionNueva = () => {
                       <tbody className="divide-slate-300 divide-y-[1px] font-normal">
                         {productoSeleccionado.map((p) => (
                           <tr key={p.id}>
-                            {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
-                              {p.id}
-                            </th> */}
                             <th className="py-3 px-3 text-sm text-center font-normal">
                               {p.nombre}
                             </th>
@@ -511,15 +534,6 @@ export const ModalCrearFacturacionNueva = () => {
                   </div>
                 </form>
 
-                {/* <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                    onClick={closeModal}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div> */}
                 <ModalEliminarProducto
                   handleEliminarRestaurarStock={handleEliminarRestaurarStock}
                 />

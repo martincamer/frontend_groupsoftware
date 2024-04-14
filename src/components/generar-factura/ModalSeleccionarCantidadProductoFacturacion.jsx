@@ -3,26 +3,51 @@ import { Fragment, useState } from "react";
 import { useFacturaContext } from "../../context/FacturaProvider";
 import { editarPerfilStock } from "../../api/perfiles.api";
 import { IoCloseOutline } from "react-icons/io5";
+import { useAluminioContext } from "../../context/AluminioProvider";
 
 export const ModalSeleccionarCantidadProductoFacturacion = ({
   isOpenModal,
   closeModalCantidad,
-  closeModalProductos,
 }) => {
   const [cantidad, setCantidad] = useState(0);
   const [precio, setPrecio] = useState(0);
   const [totalKgFinal, setTotalKgFinal] = useState(0);
+  const { productoUnicoState, setProductoUnico, addToProductos } =
+    useFacturaContext();
+  const { setPerfiles } = useAluminioContext();
 
-  const { productoUnicoState, addToProductos } = useFacturaContext();
   const [error, setError] = useState(false);
-
-  // const perfil = {
-  //   stock: cantidad,
-  // };
 
   const handleClickEditarStock = async () => {
     try {
-      await editarPerfilStock(productoUnicoState?.id, { cantidad });
+      const res = await editarPerfilStock(productoUnicoState?.id, { cantidad });
+
+      const updatePerfil = JSON.parse(res.config.data);
+
+      // Actualizar total_facturado en setClientes
+      setPerfiles((perfiles) => {
+        return perfiles.map((perfil) => {
+          if (perfil.id === productoUnicoState?.id) {
+            return {
+              ...perfil,
+              stock: Number(perfil.stock) - Number(updatePerfil.cantidad),
+            };
+          }
+          return perfil;
+        });
+      });
+
+      setProductoUnico((prevProducto) => {
+        // Realizar una copia del cliente actual
+        const nuevoProducto = { ...prevProducto };
+        // Buscar el cliente con el ID correspondiente y actualizar sus propiedades
+        if (nuevoProducto.id === productoUnicoState?.id) {
+          nuevoProducto.stock =
+            Number(nuevoProducto.stock) - Number(updatePerfil.cantidad);
+        }
+        // Devolver el nuevo objeto cliente actualizado
+        return nuevoProducto;
+      });
 
       // Agregar producto al contexto o hacer lo que sea necesario
       addToProductos(

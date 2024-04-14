@@ -454,6 +454,7 @@ export const FacturaProvider = ({ children }) => {
         handleEditarProductoModalOpen,
         facturasMensuales,
         setFacturasMensuales,
+        setProductoUnico,
       }}
     >
       {children}
