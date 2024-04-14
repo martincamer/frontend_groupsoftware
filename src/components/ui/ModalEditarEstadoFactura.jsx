@@ -1,9 +1,11 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import "react-phone-input-2/lib/style.css";
 import { actualizarFactura, obtenerFactura } from "../../api/factura.api";
+import { useFacturaContext } from "../../context/FacturaProvider";
+import { IoCloseOutline } from "react-icons/io5";
+import "react-phone-input-2/lib/style.css";
 
 export const ModalEditarEstadoFactura = ({
   closeModalEstado,
@@ -16,7 +18,10 @@ export const ModalEditarEstadoFactura = ({
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm();
+
+  const { facturasMensuales, setFacturasMensuales } = useFacturaContext();
 
   useEffect(() => {
     async function loadData() {
@@ -27,23 +32,52 @@ export const ModalEditarEstadoFactura = ({
     loadData();
   }, [openModalEstado]);
 
+  const estado = watch("estado");
+
   const onSubmitCrearCliente = handleSubmit(async (data) => {
-    await actualizarFactura(obtenerId, data);
+    try {
+      // Actualizar la factura
+      const res = await actualizarFactura(obtenerId, data);
+      const estadoActualizado = [...facturasMensuales];
 
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
+      console.log(res);
 
-    toast.success("!Estado actualizado correctamente!", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+      // Encuentra el índice del cliente que se actualizó
+      const clienteIndex = estadoActualizado.findIndex(
+        (cliente) => cliente.id === obtenerId
+      );
+
+      const estadoUpdated = JSON.parse(res.config.data);
+
+      // Verifica si se encontró el cliente
+      if (clienteIndex !== -1) {
+        // Actualiza los campos del cliente en la copia del estado de los clientes
+        estadoActualizado[clienteIndex] = {
+          ...estadoActualizado[clienteIndex],
+          estado: estadoUpdated.estado,
+        };
+      }
+
+      setFacturasMensuales(estadoActualizado);
+
+      toast.success("¡Estado editado correctamente!", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        style: {
+          padding: "10px",
+          borderRadius: "15px",
+        },
+      });
+    } catch (error) {
+      console.error("Error al actualizar la factura:", error);
+      // Manejar el error, si es necesario
+    }
   });
 
   return (
@@ -64,7 +98,7 @@ export const ModalEditarEstadoFactura = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -97,6 +131,13 @@ export const ModalEditarEstadoFactura = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModalEstado()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -105,40 +146,36 @@ export const ModalEditarEstadoFactura = ({
                 </Dialog.Title>
                 <form
                   onSubmit={onSubmitCrearCliente}
-                  className="mt-2 border-t pt-4 pb-4 space-y-2"
+                  className="mt-2 border-t pt-4 pb-4 space-y-2 uppercase"
                 >
                   <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">Nombre:</label>
+                    <label className="text-[14px] font-bold">
+                      TIPO ESTADO SELECCIONAR:
+                    </label>
                     <select
                       {...register("estado", { required: true })}
-                      className="border-gray-300 bg-white border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none text-[15px]"
-                      placeholder="estado"
+                      className={`${
+                        (estado === "pendiente" &&
+                          "bg-orange-100 text-orange-700") ||
+                        (estado === "rechazado" && "bg-red-100 text-red-700") ||
+                        (estado === "aceptado" && "bg-green-100 text-green-700")
+                      } py-2.5 px-4 rounded-xl outline-none text-[15px] uppercase text-sm`}
                     >
-                      <option>Seleccionar estado</option>
+                      <option value={"-"}>Seleccionar estado</option>
                       <option value={"pendiente"}>pendiente</option>
                       <option value={"aceptado"}>aceptado</option>
                       <option value={"rechazado"}>rechazado</option>
                     </select>
                   </div>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex">
                     <input
-                      className="uppercase bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
+                      className="uppercase bg-sky-100 hover:shadow-md transition-all ease-in-out py-3 px-5 rounded-xl outline-none text-sky-700 text-sm font-bold text-center cursor-pointer"
                       type="submit"
                       value={"Editar estado"}
                       onClick={closeModalEstado}
                     />
                   </div>
                 </form>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="uppercase inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
-                    onClick={closeModalEstado}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

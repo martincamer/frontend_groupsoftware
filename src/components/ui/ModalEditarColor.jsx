@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAluminioContext } from "../../context/AluminioProvider";
 import { editarColor, obtenerUnicaColor } from "../../api/colores.api";
 import { ToastContainer, toast } from "react-toastify";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalEditarColor = () => {
   const {
@@ -44,21 +45,24 @@ export const ModalEditarColor = () => {
 
     setColores(coloresActualizados);
 
-    toast.success("Color editado correctamente!", {
-      position: "top-right",
+    toast.success("¡Color editado correctamente!", {
+      position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "10px",
+        borderRadius: "15px",
+      },
     });
   });
 
   return (
     <Menu as="div" className="z-50">
-      {/* <ToastContainer /> */}
       <Transition appear show={isOpenEditarColor} as={Fragment}>
         <Dialog
           as="div"
@@ -74,7 +78,7 @@ export const ModalEditarColor = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -107,6 +111,13 @@ export const ModalEditarColor = () => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl w-[350px]">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModalVerColores()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -123,42 +134,32 @@ export const ModalEditarColor = () => {
                     </label>
                     <input
                       {...register("color", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
+                      className="border-gray-300 text-sm uppercase border-[1px] py-2 px-2 rounded-xl shadow shadow-black/10 outline-none"
                       type="text"
                       placeholder="Editar color"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
+                  {/* <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold uppercase">
                       ID color:
                     </label>
                     <input
                       {...register("id", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
+                      className="border-gray-300 text-sm uppercase border-[1px] py-2 px-2 rounded-xl shadow shadow-black/10 outline-none"
                       type="text"
                       placeholder="id no tocar"
                       disabled
                     />
-                  </div>
+                  </div> */}
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer uppercase text-sm"
+                      className="bg-sky-100 hover:shadow-md transition-all ease-linear py-3 px-2 rounded-xl outline-none text-sky-700 font-bold text-center cursor-pointer uppercase text-sm"
                       type="submit"
                       value={"Editar color"}
                       onClick={closeModalEditarColor}
                     />
                   </div>
                 </form>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                    onClick={closeModalEditarColor}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

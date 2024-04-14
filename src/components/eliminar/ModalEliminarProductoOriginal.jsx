@@ -1,6 +1,7 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { useAluminioContext } from "../../context/AluminioProvider";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalEliminarProductoOriginal = ({
   closeEliminarProducto,
@@ -27,7 +28,7 @@ export const ModalEliminarProductoOriginal = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -60,22 +61,23 @@ export const ModalEliminarProductoOriginal = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="space-y-4 w-1/3 inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeEliminarProducto()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-bold uppercase leading-6 text-gray-900"
                 >
                   Eliminar
                 </Dialog.Title>
                 <div className="flex gap-4 items-center justify-center w-full">
                   <button
-                    className="w-full px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
+                    className="w-full px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-xl hover:bg-red-200 duration-300 cursor-pointer"
                     type="button"
-                    // onClick={() => {
-                    //   handleEliminarRestaurarStock(),
-                    //     deleteProducto(),
-                    //     handleEditarProductoModalClose();
-                    // }}
-
                     onClick={() => {
                       handleEliminar(obtenerIdEliminar),
                         closeEliminarProducto();
@@ -84,20 +86,11 @@ export const ModalEliminarProductoOriginal = ({
                     ELIMINAR
                   </button>
                   <button
-                    className="w-full px-4 py-2 text-sm text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 duration-300 cursor-pointer"
+                    className="w-full px-4 py-2 text-sm text-green-900 bg-green-100 border border-transparent rounded-xl hover:bg-green-200 duration-300 cursor-pointer"
                     type="button"
                     onClick={() => closeEliminarProducto()}
                   >
                     CERRAR
-                  </button>
-                </div>
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                    onClick={() => closeEliminarProducto()}
-                  >
-                    Cerrar Ventana
                   </button>
                 </div>
               </div>

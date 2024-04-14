@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { Spinner } from "../../../components/Spinner";
 import { IntroEstadisticas } from "../../../components/ui/IntroEstadisticas";
 import { Search } from "../../../components/ui/Search";
@@ -11,10 +12,11 @@ export const Estadistica = () => {
   return spinner ? (
     <Spinner />
   ) : (
-    <section className="h-full w-full py-14 px-14">
-      <div className="max-md:w-full mx-auto py-[20px] px-[20px] h-full border-[1px] border-gray-300 rounded shadow-black/20 shadow-md flex flex-col gap-10">
+    <section className="h-full w-full py-10 px-5">
+      <ToastContainer />
+      <div className="max-md:w-full mx-auto flex flex-col gap-10">
         <div>
-          <h3 className="text-2xl font-semibold text-sky-500 uppercase">
+          <h3 className="text-xl font-semibold text-sky-500 uppercase">
             Estado de pago clientes
           </h3>
         </div>

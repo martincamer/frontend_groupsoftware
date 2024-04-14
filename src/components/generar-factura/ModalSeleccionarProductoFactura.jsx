@@ -5,6 +5,7 @@ import { ModalSeleccionarCantidadProductoFacturacion } from "./ModalSeleccionarC
 import { Search } from "../ui/Search";
 import { Link } from "react-router-dom";
 import { useFacturaContext } from "../../context/FacturaProvider";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalSeleccionarProductoFactura = ({
   closeModalProductos,
@@ -40,7 +41,7 @@ export const ModalSeleccionarProductoFactura = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -73,6 +74,12 @@ export const ModalSeleccionarProductoFactura = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="w-3/4 inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl space-y-6">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModalProductos()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -91,67 +98,72 @@ export const ModalSeleccionarProductoFactura = ({
                     </span>
                   </div>
                 )}
-                <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full h-[30vh] overflow-y-scroll">
-                  <table className="border-[1px]  p-[5px] table-auto w-full rounded uppercase">
+                <div className="border-[1px] border-gray-30 rounded-2xl hover:shadow-md w-full h-[30vh] overflow-y-scroll">
+                  <table className="cursor-pointer uppercase min-w-full divide-y-[1px] divide-slate-300">
                     <thead>
                       <tr>
-                        {/* <th className="p-2 text-sm font-extrabold text-center">
-                          Numero
-                        </th> */}
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Codigo
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Stock
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Detalle
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Color
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Categoria
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Peso Barra
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-4 px-3 text-sm font-extrabold text-center">
                           Seleccionar
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y-[1px] divide-slate-300">
                       {results.map((c) => (
                         <tr key={c.id}>
                           {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                             {c.id}
                           </th> */}
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
+                          <th className="py-3 px-3 text-sm font-bold text-center">
                             {c.nombre}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
-                            {c.stock}
+                          <th className="py-3 px-3 text-sm font-bold text-center flex justify-center">
+                            <p
+                              className={`${
+                                c.stock > 0
+                                  ? "bg-green-100 text-green-700 "
+                                  : "text-red-800 bg-red-100"
+                              } rounded-xl py-2 px-3 shadow-md shadow-gray-300`}
+                            >
+                              {c.stock}
+                            </p>
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
+                          <th className="py-3 px-3 text-sm font-normal text-center">
                             {c.descripcion}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
+                          <th className="py-3 px-3 text-sm font-normal text-center">
                             {c.color}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
+                          <th className="py-3 px-3 text-sm font-normal text-center">
                             {c.categoria}
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal text-center">
+                          <th className="py-3 px-3 text-sm font-bold text-center">
                             {c.peso_neto_barra_6mts} kg
                           </th>
-                          <th className="border-[1px] border-gray-300 p-2 text-sm font-normal w-[120px] text-center">
+                          <th className="py-3 px-3 text-sm font-normal w-[120px] text-center">
                             <Link
                               onClick={() => {
                                 openModalCantidad(),
                                   handleSeleccionarProducto(c.id);
                               }}
-                              className="bg-sky-500 py-1 px-2 text-center text-white rounded-md"
+                              className="bg-sky-100 py-3 px-2 text-center text-sky-700 rounded-xl"
                             >
                               Seleccionar
                             </Link>
@@ -167,13 +179,6 @@ export const ModalSeleccionarProductoFactura = ({
                   openModalCantidad={openModalCantidad}
                   closeModalProductos={closeModalProductos}
                 />
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                  onClick={closeModalProductos}
-                >
-                  Cerrar Ventana
-                </button>
               </div>
             </Transition.Child>
           </div>

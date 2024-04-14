@@ -7,7 +7,7 @@ export const CategoriaFacturacion = () => {
       <div>
         <button
           onClick={openModal}
-          className="bg-sky-500 text-white uppercase text-sm font-bold py-2 px-3 rounded cursor-pointer hover:shadow hover:shadow-black/20 transition-all ease-in-out"
+          className="bg-sky-100 text-sky-700 uppercase text-sm font-bold py-3 px-5 rounded-xl cursor-pointer hover:shadow-md transition-all ease-in-out"
         >
           Generar venta nueva
         </button>

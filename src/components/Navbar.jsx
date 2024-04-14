@@ -61,7 +61,7 @@ export const Navbar = () => {
   const { isAuth, signout, user } = useAuth();
 
   return (
-    <header className="shadow-md shadow-black/20 py-4 px-6">
+    <header className="shadow py-4 px-6 border-b-[1px] border-slate-300">
       <div
         className={`flex justify-between items-center gap-4 ${
           !isAuth ? "w-[1220px]" : "w-full px-6"
@@ -82,7 +82,7 @@ export const Navbar = () => {
           {!isAuth &&
             rutasPublicas.map(({ path, name }) => (
               <Link
-                className="text-[17px] font-semibold hover:text-sky-500 transition-all ease-in-out duration-300"
+                className="text-[13px] font-semibold hover:text-sky-500 transition-all ease-in-out duration-300"
                 to={path}
                 key={path}
               >

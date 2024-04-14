@@ -16,6 +16,7 @@ import { Spinner } from "../../../components/Spinner";
 import { SelectProductCategory } from "../../../components/ui/SelectProductCategory";
 import { ModalEliminarProductoOriginal } from "../../../components/eliminar/ModalEliminarProductoOriginal";
 import { useState } from "react";
+import { ModalCrearEditarStock } from "../../../components/ui/ModalCrearEditarStock";
 
 export const Productos = () => {
   const {
@@ -37,6 +38,11 @@ export const Productos = () => {
     openModalVerCategoria,
   } = useAluminioContext();
 
+  const [isEditarStock, setOpenEditarStock] = useState(false);
+
+  const openEditarStock = () => setOpenEditarStock(true);
+  const closeEditarStock = () => setOpenEditarStock(false);
+
   const { spinner } = useAuth();
 
   let [isOpenModal, setIsOpen] = useState(false);
@@ -57,8 +63,9 @@ export const Productos = () => {
   return spinner ? (
     <Spinner />
   ) : (
-    <main className="h-full w-full py-14 px-14">
-      <section className="max-md:w-full mx-auto py-[20px] px-[20px] h-full border-[1px] border-gray-300 rounded shadow-black/20 shadow-md flex flex-col gap-10">
+    <main className="h-full w-full py-10 px-5">
+      <ToastContainer />
+      <section className="max-md:w-full mx-auto h-full flex flex-col gap-10">
         <IntroTitleProductos />
 
         <IntroProductosStock results={results} />
@@ -79,6 +86,7 @@ export const Productos = () => {
         />
 
         <TableProducts
+          openEditarStock={openEditarStock}
           handleIdEliminar={handleIdEliminar}
           openEliminarProducto={openEliminarProducto}
           handlePerfilSeleccionado={handlePerfilSeleccionado}
@@ -118,7 +126,10 @@ export const Productos = () => {
           isOpenModal={isOpenModal}
         />
 
-        <ToastContainer />
+        <ModalCrearEditarStock
+          closeModalEditar={closeEditarStock}
+          isOpenEditar={isEditarStock}
+        />
       </section>
     </main>
   );

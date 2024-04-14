@@ -73,14 +73,18 @@ export const ClientesProvider = ({ children }) => {
     );
 
     toast.error("¡Cliente eliminado correctamente!", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "10px",
+        borderRadius: "15px",
+      },
     });
 
     setClientes(clienteActualizado);

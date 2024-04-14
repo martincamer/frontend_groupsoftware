@@ -6,9 +6,8 @@ import { useAluminioContext } from "../../context/AluminioProvider";
 import { toast } from "react-toastify";
 import { IoCloseOutline } from "react-icons/io5";
 
-export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
-  const { obtenerId, perfiles, setPerfiles, categorias, colores } =
-    useAluminioContext();
+export const ModalCrearEditarStock = ({ closeModalEditar, isOpenEditar }) => {
+  const { obtenerId, perfiles, setPerfiles } = useAluminioContext();
 
   const {
     register,
@@ -129,43 +128,6 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   onSubmit={onSubmitEditar}
                   className="mt-2 border-t pt-4 pb-4 space-y-2"
                 >
-                  {errors.nombre && (
-                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
-                      El codigo es requerido
-                    </p>
-                  )}
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold uppercase">
-                      Codigo:
-                    </label>
-                    <input
-                      {...register("nombre", { required: true })}
-                      className="border-gray-300 text-sm uppercase border-[1px] py-2 px-2 rounded-xl shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="nombre del codigo"
-                    />
-                  </div>
-                  {errors.color && (
-                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
-                      El codigo es requerido
-                    </p>
-                  )}
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold uppercase">
-                      Color:
-                    </label>
-                    <select
-                      {...register("color", { required: true })}
-                      className="border-gray-300 text-sm uppercase border-[1px] py-2.5 px-2 rounded-xl shadow shadow-black/10 outline-none bg-white"
-                    >
-                      <option className="text-black">Seleccionar color</option>
-                      {colores.map((c) => (
-                        <option className="text-black" key={c.id}>
-                          {c.color}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
                   {errors.stock && (
                     <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
                       El stock es requerido
@@ -182,68 +144,6 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                       placeholder="cantidad de productos"
                     />
                   </div>
-                  {errors.peso_neto_barra_6mts && (
-                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
-                      El peso es requerido
-                    </p>
-                  )}
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold uppercase">
-                      Kg barra estimado:
-                    </label>
-                    <input
-                      {...register("peso_neto_barra_6mts", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded-xl uppercase text-sm shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="kg estimado de la barra"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold uppercase">
-                      Categoria:
-                    </label>
-                    <select
-                      {...register("categoria", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded-xl uppercase text-sm shadow shadow-black/10 outline-none bg-white"
-                    >
-                      <option className="text-black" key={categorias.id}>
-                        Seleccionar categoria
-                      </option>
-                      {categorias.map((cat) => (
-                        <option className="text-black" key={cat.id}>
-                          {cat.categoria}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {errors.descripcion && (
-                    <p className="inline-flex justify-center px-4 py-2 text-xs text-red-900 bg-red-100 border border-transparent rounded-md w-full uppercase">
-                      El detalle es requerido
-                    </p>
-                  )}
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold uppercase">
-                      Detalle:
-                    </label>
-                    <input
-                      {...register("descripcion", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded-xl uppercase text-sm shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="detalle ej perfil pesado ventana"
-                    />
-                  </div>
-                  {/* <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold uppercase">
-                      ID:
-                    </label>
-                    <input
-                      {...register("id", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded-xl uppercase text-sm shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="id del perfil"
-                      disabled
-                    />
-                  </div> */}
                   <div className="flex">
                     <input
                       className="bg-sky-100 transition-all ease-in-out py-3 px-8 rounded-2xl outline-none text-sky-700 uppercase text-center cursor-pointer text-sm hover:shadow-md hover:font-bold"

@@ -1,13 +1,15 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import { useFacturaContext } from "../../context/FacturaProvider";
 import { ModalSeleccionarProductoFactura } from "./ModalSeleccionarProductoFactura";
 import { ModalSeleccionarClienteFacturacion } from "./ModalSeleccionarClienteFacturacion";
 import { editarPerfilEliminarStock } from "../../api/perfiles.api";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ToastContainer } from "react-toastify";
-import { ModalResetearCampos } from "../eliminar/ModalResetearCampos";
+import { FaUserPlus } from "react-icons/fa";
+import { IoCloseOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+// import { ModalResetearCampos } from "../eliminar/ModalResetearCampos";
 
 export const ModalCrearFacturacionNueva = () => {
   const { closeModal, isOpen, handleEditarProductoModalOpen } =
@@ -21,11 +23,11 @@ export const ModalCrearFacturacionNueva = () => {
     deleteToResetClientes,
     productoSeleccionado,
     deleteToResetProductos,
+    setTipoFactura,
     totalKg,
     totalBarras,
     handlePerfil,
     totalPagar,
-    setTipoFactura,
   } = useFacturaContext();
 
   function closeModalCliente() {
@@ -120,8 +122,6 @@ export const ModalCrearFacturacionNueva = () => {
   // Convertir el objeto de resultados de nuevo a un array
   const resultadosArray = Object.values(resultados);
 
-  // Mostrar los resultados
-  console.log(resultadosArray);
   return (
     <Menu as="div" className="z-50">
       <ToastContainer />
@@ -140,7 +140,7 @@ export const ModalCrearFacturacionNueva = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -173,6 +173,13 @@ export const ModalCrearFacturacionNueva = () => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModal()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -186,12 +193,13 @@ export const ModalCrearFacturacionNueva = () => {
                   <div className="font-bold text-[18px] uppercase">
                     Datos Cliente
                   </div>
-                  <div>
+                  <div className="flex">
                     <Link
                       onClick={openModalCliente}
-                      className="font-bold uppercase text-sm bg-sky-500 text-white py-2 px-2 rounded shadow shadow-black/10 hover:translate-x-1 transition-all ease-in-out"
+                      className="font-bold uppercase text-sm bg-sky-100 text-sky-700 py-3 px-5 rounded-xl hover:shadow shadow-black/10 hover:translate-x-1 transition-all ease-in-out flex items-center gap-2"
                     >
                       Seleccionar Cliente
+                      <FaUserPlus className="text-2xl" />
                     </Link>
                   </div>
                   <ModalSeleccionarClienteFacturacion
@@ -206,7 +214,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("nombre", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="nombre"
                         disabled
@@ -218,7 +226,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("apellido", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="apellido"
                         disabled
@@ -230,7 +238,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("localidad", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="localidad"
                         disabled
@@ -242,7 +250,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("provincia", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="provincia"
                         disabled
@@ -254,7 +262,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("email", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="email"
                         disabled
@@ -266,7 +274,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("telefono", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="telefono"
                         disabled
@@ -278,7 +286,7 @@ export const ModalCrearFacturacionNueva = () => {
                       </label>
                       <input
                         {...register("dni", { required: true })}
-                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none placeholder:uppercase"
+                        className="border-gray-300 uppercase text-sm border-[1px] py-3 px-4 rounded-2xl shadow shadow-black/10 outline-none placeholder:uppercase"
                         type="text"
                         placeholder="dni"
                         disabled
@@ -288,7 +296,7 @@ export const ModalCrearFacturacionNueva = () => {
                   <div>
                     <div
                       onClick={() => deleteToResetClientes()}
-                      className="inline-flex justify-center px-4 py-2 font-bold text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase text-sm"
+                      className="inline-flex justify-center px-6 py-3 font-bold text-red-900 bg-red-100 border border-transparent rounded-xl hover:bg-red-200 duration-300 cursor-pointer uppercase text-sm"
                     >
                       Resetear campos del cliente
                     </div>
@@ -299,7 +307,7 @@ export const ModalCrearFacturacionNueva = () => {
                   <div>
                     <Link
                       onClick={openModalProductos}
-                      className="uppercase text-sm font-bold bg-sky-500 text-white py-2 px-2 rounded shadow shadow-black/10 hover:translate-x-1 transition-all ease-in-out"
+                      className="uppercase text-sm font-bold bg-sky-100 text-sky-700 py-3 px-4 rounded-xl hover:shadow shadow-black/10 hover:translate-x-1 transition-all ease-in-out"
                     >
                       Seleccionar Producto
                     </Link>
@@ -309,64 +317,64 @@ export const ModalCrearFacturacionNueva = () => {
                     closeModalProductos={closeModalProductos}
                     isOpenProductos={isOpenProductos}
                   />
-                  <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full h-[30vh] overflow-y-scroll">
-                    <table className="border-[1px]  p-[5px] table-auto w-full rounded uppercase">
+                  <div className="border-[1px] border-gray-300 rounded-2xl shadow-black/10 hover:shadow w-full h-[30vh] overflow-y-scroll">
+                    <table className="min-w-full uppercase divide-slate-300 divide-y-[1px]">
                       <thead>
                         <tr>
                           {/* <th className="p-2 text-sm font-extrabold text-center w-[20px]">
                             Numero
                           </th> */}
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             Codigo
                           </th>
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             Detalle
                           </th>
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             Color
                           </th>
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             Categoria
                           </th>
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             Barras
                           </th>
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             kg
                           </th>
-                          <th className="p-2 text-sm font-extrabold text-center">
+                          <th className="py-4 px-3 text-sm font-extrabold text-center">
                             Eliminar
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className="divide-slate-300 divide-y-[1px] font-normal">
                         {productoSeleccionado.map((p) => (
                           <tr key={p.id}>
                             {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                               {p.id}
                             </th> */}
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-normal">
                               {p.nombre}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-normal">
                               {p.detalle}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-normal">
                               {p.color}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-normal">
                               {p.categoria}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-bold">
                               {p.barras}
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-bold">
                               {p.totalKG.toLocaleString("arg")} kg
                             </th>
-                            <th className="border-[1px] border-gray-300 p-2 text-sm text-center">
+                            <th className="py-3 px-3 text-sm text-center font-normal">
                               <button
                                 type="button"
-                                className="inline-flex justify-center px-4 py-2 text-sm uppercase text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer font-bold text-center"
+                                className="inline-flex justify-center px-6 py-3 text-sm uppercase text-red-900 bg-red-100 border border-transparent rounded-xl hover:bg-red-200 duration-300 cursor-pointer font-bold text-center"
                                 onClick={() => {
                                   handleEditarProductoModalOpen(),
                                     setClick(p?.id),
@@ -382,9 +390,8 @@ export const ModalCrearFacturacionNueva = () => {
                     </table>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <button
-                      // onClick={() => deleteToResetProductos()}
                       onClick={openModalReset}
                       className="inline-flex justify-center px-4 py-2 text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer font-bold uppercase text-sm"
                       type="button"
@@ -396,8 +403,8 @@ export const ModalCrearFacturacionNueva = () => {
                       closeModalReset={closeModalReset}
                       isOpenReset={isOpenReset}
                     />
-                  </div>
-                  <div className="flex gap-2 items-center">
+                  </div> */}
+                  {/* <div className="flex gap-2 items-center">
                     <p className="font-bold uppercase">
                       Seleccionar tipo factura:
                     </p>{" "}
@@ -414,19 +421,10 @@ export const ModalCrearFacturacionNueva = () => {
                       <option>X</option>
                       <option>-</option>
                     </select>
-                  </div>
-                  {/* <div className="flex gap-2 items-center">
-                    <p className="font-bold">Seleccionar Iva:</p>{" "}
-                    <select className="py-2 px-4 rounded bg-white font-bold border-[1px] shadow">
-                      <option>Seleccionar tipo de Iva</option>
-                      <option>2,5%</option>
-                      <option>5%</option>
-                      <option>10,5%</option>
-                    </select>
                   </div> */}
                   <div className="flex gap-2 items-center">
                     <p className="font-bold uppercase">Total kg:</p>{" "}
-                    <div className="border-[1px] border-gray-200 shadow rounded py-2 px-2 text-center w-[100px] font-extrabold">
+                    <div className="border-[1px] border-gray-200 shadow rounded-xl py-2 px-2 text-center w-[100px] font-extrabold">
                       {totalKg().toLocaleString("arg", {
                         minimumFractionDigits: 2,
                       })}{" "}
@@ -435,13 +433,13 @@ export const ModalCrearFacturacionNueva = () => {
                   </div>
                   <div className="flex gap-2 items-center">
                     <p className="font-bold uppercase">Total de barras:</p>{" "}
-                    <div className="border-[1px] border-gray-200 shadow rounded py-2 px-2 text-center w-[100px] font-extrabold">
+                    <div className="border-[1px] border-gray-200 shadow rounded-xl py-2 px-2 text-center w-[100px] font-extrabold">
                       {totalBarras()}
                     </div>
                   </div>
                   <div className="flex gap-2 items-center">
                     <p className="font-bold uppercase">Total pagar:</p>{" "}
-                    <div className="border-[1px] border-gray-200 shadow rounded py-2 px-2 text-center w-[130px] font-extrabold">
+                    <div className="border-[1px] border-gray-200 shadow rounded-xl py-2 px-2 text-center w-[130px] font-extrabold">
                       {result}
                     </div>
                   </div>
@@ -492,14 +490,28 @@ export const ModalCrearFacturacionNueva = () => {
                       onClick={() => {
                         closeModal(), handlePerfil();
                       }}
-                      className="bg-sky-500 py-2 px-2 rounded text-white font-bold shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
+                      className="bg-sky-100 py-3 px-5 rounded-xl text-sky-700 font-bold hover:shadow-md hover:translate-x-1 transition-all ease-in-out uppercase text-sm flex gap-2 items-center"
                     >
                       Generar Venta
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
                     </button>
                   </div>
                 </form>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
@@ -507,7 +519,7 @@ export const ModalCrearFacturacionNueva = () => {
                   >
                     Cerrar Ventana
                   </button>
-                </div>
+                </div> */}
                 <ModalEliminarProducto
                   handleEliminarRestaurarStock={handleEliminarRestaurarStock}
                 />

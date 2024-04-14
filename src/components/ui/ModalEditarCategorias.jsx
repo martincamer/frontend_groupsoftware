@@ -7,6 +7,7 @@ import {
   obtenerUnicaCategoria,
 } from "../../api/categorias.api";
 import { ToastContainer, toast } from "react-toastify";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalEditarCategorias = () => {
   const {
@@ -46,15 +47,19 @@ export const ModalEditarCategorias = () => {
 
     setCategorias(categoriaActualizada);
 
-    toast.success("Categoria editada correctamente!", {
-      position: "top-right",
+    toast.success("¡Categoria editada correctamente!", {
+      position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "10px",
+        borderRadius: "15px",
+      },
     });
   });
 
@@ -76,7 +81,7 @@ export const ModalEditarCategorias = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -109,6 +114,13 @@ export const ModalEditarCategorias = () => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl w-[350px]">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModalVerCategoria()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -125,42 +137,32 @@ export const ModalEditarCategorias = () => {
                     </label>
                     <input
                       {...register("categoria", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
+                      className="border-gray-300 border-[1px] py-2 px-2 rounded-xl text-sm uppercase shadow shadow-black/10 outline-none"
                       type="text"
                       placeholder="Editar la categoria"
                     />
                   </div>
-                  <div className="flex flex-col gap-2 uppercase">
+                  {/* <div className="flex flex-col gap-2 uppercase">
                     <label className="text-[14px] font-bold">
                       ID categoria:
                     </label>
                     <input
                       {...register("id", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
+                      className="border-gray-300 border-[1px] py-2 px-2 rounded-xl text-sm uppercase shadow shadow-black/10 outline-none"
                       type="text"
                       placeholder="id no tocar"
                       disabled
                     />
-                  </div>
+                  </div> */}
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-sky-500 hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer uppercase text-sm"
+                      className="bg-sky-100  transition-all ease-in-out py-3 px-2 rounded-xl outline-none text-sky-700 hover:shadow-md font-bold text-center cursor-pointer uppercase text-sm"
                       type="submit"
                       value={"Editar categoria"}
                       onClick={closeModalEditarCategoria}
                     />
                   </div>
                 </form>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                    onClick={closeModalEditarCategoria}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

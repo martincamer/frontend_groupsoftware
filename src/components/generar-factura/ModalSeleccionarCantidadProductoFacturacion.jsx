@@ -2,7 +2,7 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useFacturaContext } from "../../context/FacturaProvider";
 import { editarPerfilStock } from "../../api/perfiles.api";
-import { toast } from "react-toastify";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalSeleccionarCantidadProductoFacturacion = ({
   isOpenModal,
@@ -63,7 +63,7 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -96,6 +96,13 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="w-4/5 inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl space-y-6">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModalCantidad()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -107,54 +114,48 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
                     La cantidad ingresada es mayor al stock
                   </p>
                 )}
-                <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full">
-                  <table className="border-[1px]  p-[5px] table-auto w-full rounded uppercase">
+                <div className="border-[1px] border-gray-200 rounded-2xl shadow-black/10 hover:shadow w-full">
+                  <table className="uppercase divide-y-[1px] divide-slate-300 min-w-full">
                     <thead>
                       <tr>
-                        {/* <th className="p-2 text-sm font-extrabold text-center">
-                          Numero
-                        </th> */}
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Codigo
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Detalle
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Color
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Barras
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Peso de la barra
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Cantidad de barras
                         </th>
-                        <th className="p-2 text-sm font-extrabold text-center">
+                        <th className="py-3 px-3 text-sm font-extrabold text-center">
                           Precio total kg
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
-                        {productoUnicoState.id}
-                      </th> */}
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[20px]">
+                    <tbody className="divide-y-[1px] divide-slate-300 cursor-pointer">
+                      <th className="py-4 px-3 text-sm text-center font-normal w-[20px]">
                         {productoUnicoState.nombre}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[50px]">
+                      <th className="py-4 px-3 text-sm text-center font-normal w-[50px]">
                         {productoUnicoState.descripcion}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[20px]">
+                      <th className="py-4 px-3 text-sm text-center font-normal w-[20px]">
                         {productoUnicoState.color}
                       </th>
 
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[20px]">
+                      <th className="py-4 px-3 text-sm text-center font-normal w-[20px]">
                         {productoUnicoState.stock}
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center font-normal w-[50px]">
+                      <th className="py-4 px-3 text-sm text-center font-normal w-[50px]">
                         <div className="flex gap-5 items-center justify-center">
                           Peso neto - {productoUnicoState.peso_neto_barra_6mts}{" "}
                           kg
@@ -162,24 +163,24 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
                             onChange={(e) => setTotalKgFinal(e.target.value)}
                             type="text"
                             value={totalKgFinal}
-                            className="border-[1px] border-black/30 rounded p-2 w-[100px] outline-none"
+                            className="border-[1px] border-black/30 rounded-xl p-2 w-[100px] outline-none uppercase text-xs"
                           />
                         </div>
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[100px]">
+                      <th className="py-4 px-3 text-sm text-center w-[120px]">
                         <input
                           onChange={(e) => setCantidad(e.target.value)}
                           type="number"
-                          className="border-[1px] border-black/30 rounded p-2 w-[100px] outline-none"
-                          placeholder="cantidad"
+                          className="border-[1px] border-black/30 rounded-xl p-2 w-[130px] outline-none uppercase text-xs"
+                          placeholder="Cant de brs."
                         />
                       </th>
-                      <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[100px]">
+                      <th className="py-4 px-3 text-sm text-center w-[120px]">
                         <input
                           onChange={(e) => setPrecio(e.target.value)}
                           type="number"
-                          className="border-[1px] border-black/30 rounded p-2 w-[100px] outline-none"
-                          placeholder="precio kg"
+                          className="border-[1px] border-black/30 rounded-xl p-2 w-[115px] outline-none uppercase text-xs"
+                          placeholder="Precio kg"
                         />
                       </th>
                     </tbody>
@@ -190,18 +191,11 @@ export const ModalSeleccionarCantidadProductoFacturacion = ({
                     onClick={() => {
                       handleClickEditarStock();
                     }}
-                    className="bg-sky-500 text-white py-2 px-2 rounded font-bold hover:shadow-md hover:shadow-black/20 hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
+                    className="bg-sky-100 text-sky-700 py-3 px-4 rounded-xl font-bold hover:shadow-md hover:shadow-black/20 hover:translate-x-1 transition-all ease-in-out uppercase text-sm"
                   >
                     Crear producto facturar
                   </button>
                 </div>
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                  onClick={closeModalCantidad}
-                >
-                  Cerrar Ventana
-                </button>
               </div>
             </Transition.Child>
           </div>

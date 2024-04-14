@@ -41,8 +41,9 @@ export const Clientes = () => {
   };
 
   return (
-    <main className="h-full w-full py-14 px-14 ">
-      <section className="max-md:w-full mx-auto py-[20px] px-[20px] h-full border-[1px] border-gray-300 rounded shadow-black/20 shadow-md flex flex-col gap-10 ">
+    <main className="h-full w-full py-10 px-5">
+      <ToastContainer />
+      <section className="max-md:w-full mx-auto h-full flex flex-col gap-10 ">
         <IntroTitleClientes />
 
         <IntroClientesStock />
@@ -77,8 +78,6 @@ export const Clientes = () => {
           closeEliminarProducto={closeEliminarProducto}
           isOpenModal={isOpenModal}
         />
-
-        <ToastContainer />
       </section>
     </main>
   );

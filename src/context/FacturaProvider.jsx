@@ -8,17 +8,16 @@ import {
   deleteFactura,
   obtenerFactura,
   obtenerFacturas,
+  obtenerFacturasMensuales,
 } from "../api/factura.api";
 import { actualizarClienteFacturacion } from "../api/clientes.api";
+import { useClientesContext } from "./ClientesProvider";
 
 //context
 export const FacturaContext = createContext();
 
 //use context
 export const useFacturaContext = () => {
-  // const { obtenerId, setClientes, clientes, cliente, setCliente, results } =
-  //   useClientesContext();
-
   const context = useContext(FacturaContext);
   if (!context) {
     throw new Error("use factura context");
@@ -28,6 +27,8 @@ export const useFacturaContext = () => {
 
 //provider
 export const FacturaProvider = ({ children }) => {
+  const { setClientes } = useClientesContext();
+
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
@@ -40,7 +41,17 @@ export const FacturaProvider = ({ children }) => {
   const [datosPresupuesto, setDatosPresupuesto] = useState([]);
   const [unicoPresupuesto, setUnicoPresupuesto] = useState([]);
   const [tipoFactura, setTipoFactura] = useState([]);
-  // const [totalPagarF, setTotalPagarF] = useState(false);
+  const [facturasMensuales, setFacturasMensuales] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const res = await obtenerFacturasMensuales();
+
+      setFacturasMensuales(res.data);
+    }
+
+    loadData();
+  }, []);
 
   let [isOpen, setIsOpen] = useState(false);
   let [isOpenEditarProducto, setIsOpenEditarProducto] = useState(false);
@@ -62,7 +73,7 @@ export const FacturaProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const resultadosFiltrados = datosPresupuesto?.filter((dato) => {
+    const resultadosFiltrados = facturasMensuales?.filter((dato) => {
       const fechaPresupuesto = new Date(dato?.created_at);
       const esCategoriaValida =
         categoriaSeleccionada === "" ||
@@ -89,8 +100,8 @@ export const FacturaProvider = ({ children }) => {
       return esResultadoValido;
     });
 
-    setResults(resultadosFiltrados || datosPresupuesto);
-  }, [categoriaSeleccionada, anioSeleccionado, search, datosPresupuesto]);
+    setResults(resultadosFiltrados || facturasMensuales);
+  }, [categoriaSeleccionada, anioSeleccionado, search, facturasMensuales]);
 
   const handleCategoriaChange = (e) => {
     const nuevaCategoria = e.target.value;
@@ -108,9 +119,7 @@ export const FacturaProvider = ({ children }) => {
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    reset,
     setValue,
   } = useForm();
 
@@ -127,10 +136,6 @@ export const FacturaProvider = ({ children }) => {
       precio: e.precio,
     };
   });
-
-  // console.log(totalPagar() + clienteSeleccionado[0]?.total_facturado);
-
-  console.log(datosPresupuesto);
 
   const handlePerfil = async () => {
     try {
@@ -153,30 +158,56 @@ export const FacturaProvider = ({ children }) => {
           total_pagar: totalPagar(),
         },
         estado: "pendiente",
-        tipo_factura: tipoFactura,
+        tipo_factura: "-",
       });
+
+      const facturasActualizadas = [...facturasMensuales, res.data];
+
+      setFacturasMensuales(facturasActualizadas);
 
       // Actualizar información del cliente de facturación
-      await actualizarClienteFacturacion(clienteSeleccionado[0]?.id, {
-        total_facturado: totalPagar(),
-        entrega: 0,
-        deuda_restante: totalPagar(),
+      const resCliente = await actualizarClienteFacturacion(
+        clienteSeleccionado[0]?.id,
+        {
+          total_facturado: totalPagar(),
+          entrega: 0,
+          deuda_restante: totalPagar(),
+        }
+      );
+
+      const total_facturado_cliente = JSON.parse(resCliente.config.data);
+
+      // const totalPagarFactura = totalPagar(); // Almacenar totalPagar en una variable
+
+      // Actualizar total_facturado en setClientes
+      setClientes((clientes) => {
+        return clientes.map((cliente) => {
+          if (cliente.id === clienteSeleccionado[0]?.id) {
+            return {
+              ...cliente,
+              total_facturado:
+                Number(cliente.total_facturado) +
+                Number(total_facturado_cliente.total_facturado), // Sumar al total_facturado existente
+            };
+          }
+          return cliente;
+        });
       });
 
-      toast.success("Factura Venta creada correctamente!", {
-        position: "top-right",
+      toast.success("¡Facturado creada correctamente, crea la siguiente!", {
+        position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
+        style: {
+          padding: "10px",
+          borderRadius: "15px",
+        },
       });
-
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
     } catch (error) {
       console.error("Error creating invoice:", error);
       // Handle error, show a toast, etc.
@@ -357,26 +388,29 @@ export const FacturaProvider = ({ children }) => {
   const handleDeletePresupuesto = (id) => {
     deleteFactura(id);
 
-    const presupuestoActualizado = datosPresupuesto.filter(
+    const presupuestoActualizado = facturasMensuales.filter(
       (perfilState) => perfilState.id !== id
     );
 
-    toast.error("¡Presupuesto eliminado correctamente!", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.error(
+      "¡Facturado eliminada correctamente, no podras recuperar los datos ni los perfiles!",
+      {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        style: {
+          padding: "10px",
+          borderRadius: "15px",
+        },
+      }
+    );
 
-    setTimeout(() => {
-      location.reload();
-    }, 1500);
-
-    setDatosPresupuesto(presupuestoActualizado);
+    setFacturasMensuales(presupuestoActualizado);
   };
 
   return (
@@ -418,6 +452,8 @@ export const FacturaProvider = ({ children }) => {
         handleEditarProductoModalClose,
         isOpenEditarProducto,
         handleEditarProductoModalOpen,
+        facturasMensuales,
+        setFacturasMensuales,
       }}
     >
       {children}

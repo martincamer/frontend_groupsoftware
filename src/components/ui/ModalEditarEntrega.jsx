@@ -6,10 +6,11 @@ import {
   obtenerCliente,
 } from "../../api/clientes.api";
 import { useClientesContext } from "../../context/ClientesProvider";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
-  const { obtenerId, setClientes, clientes, cliente, setCliente, results } =
+  const { obtenerId, setClientes, clientes, cliente, setCliente } =
     useClientesContext();
 
   const {
@@ -17,8 +18,11 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
     handleSubmit,
     formState: { errors },
     setValue,
-    trigger,
+    watch,
+    reset,
   } = useForm();
+
+  const entrega = watch("entrega");
 
   //datos editar cliente
   useEffect(() => {
@@ -26,60 +30,66 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
       const res = await obtenerCliente(obtenerId);
       setCliente(res.data);
 
-      // setValue("nombre", res.data.nombre);
-      // setValue("apellido", res.data.apellido);
-      // setValue("email", res.data.email);
-      // setValue("telefono", res.data.telefono);
-      // setValue("domicilio", res.data.domicilio);
-      // setValue("localidad", res.data.localidad);
-      // setValue("provincia", res.data.provincia);
-      // setValue("id", res.data.id);
-      // setValue("total_facturado", res.data.total_facturado);
       setValue("entrega", res.data.entrega);
       setValue("deuda_restante", res.data.deuda_restante);
     }
     loadData();
   }, [obtenerId]);
 
+  console.log(clientes);
+
   const onSubmitEditarCliente = handleSubmit(async (data) => {
     try {
-      // Validar que la entrega no sea mayor que la deuda restante
-      // const entrega = parseFloat(data.entrega);
-      // const deudaRestante = parseFloat(data.deuda_restante);
-
-      // if (entrega > deudaRestante) {
-      //   toast.error("La entrega no puede ser mayor que la deuda restante", {
-      //     Configuración del mensaje de error
-      //   });
-      //   return;
-      // }
-
-      // Continuar con la lógica para actualizar el cliente si la validación es exitosa
-
       const res = await actualizarClienteEntrega(obtenerId, data);
 
-      // const objetEN = JSON.parse(res.config.data);
+      const updateRes = JSON.parse(res.config.data);
 
-      // const clientesActualizados = results.map((clienteState) =>
-      //   clienteState.id === objetEN.id ? objetEN : clienteState
-      // );
+      setClientes((clientes) => {
+        return clientes.map((cliente) => {
+          if (cliente.id === obtenerId) {
+            return {
+              ...cliente,
+              deuda_restante:
+                Number(cliente.deuda_restante) - Number(updateRes.entrega),
+              entrega: Number(cliente.entrega) + Number(updateRes.entrega), // Sumar al total_facturado existente
+            };
+          }
+          return cliente;
+        });
+      });
 
-      // setClientes(clientesActualizados);
+      setCliente((prevCliente) => {
+        // Realizar una copia del cliente actual
+        const nuevoCliente = { ...prevCliente };
+        // Buscar el cliente con el ID correspondiente y actualizar sus propiedades
+        if (nuevoCliente.id === obtenerId) {
+          nuevoCliente.deuda_restante =
+            Number(nuevoCliente.deuda_restante) - Number(updateRes.entrega);
+          nuevoCliente.entrega =
+            Number(nuevoCliente.entrega) + Number(updateRes.entrega);
+        }
+        // Devolver el nuevo objeto cliente actualizado
+        return nuevoCliente;
+      });
 
-      setTimeout(() => {
-        location.reload();
-      }, 1000);
-
-      toast.success("¡Cliente editado correctamente!", {
-        position: "top-right",
+      toast.success("¡Entrega del cliente realizada correctamente!", {
+        position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
+        style: {
+          padding: "10px",
+          borderRadius: "15px",
+        },
       });
+
+      closeModal();
+
+      reset();
 
       return res.config.data;
     } catch (error) {
@@ -87,9 +97,23 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
       const entrega = parseFloat(data.entrega);
       const deudaRestante = parseFloat(data.deuda_restante);
       if (entrega > deudaRestante) {
-        toast.error("La entrega no puede ser mayor que la deuda restante", {
-          // Configuración del mensaje de error
-        });
+        toast.error(
+          "¡La entrega no puede ser mayor a la deuda que queda restante!",
+          {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            style: {
+              padding: "10px",
+              borderRadius: "15px",
+            },
+          }
+        );
         return;
       }
       console.log(error.response.data);
@@ -97,11 +121,8 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
     }
   });
 
-  console.log(cliente?.deuda_restante);
-
   return (
     <Menu as="div" className="z-50">
-      <ToastContainer />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -150,37 +171,52 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModal()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium uppercase leading-6 text-gray-900"
                 >
-                  Editar entrega - cliente
+                  Editar entrega del cliente{" "}
+                  <span className="text-slate-500 font-normal underlines">
+                    {cliente.nombre} {cliente.apellido}
+                  </span>
                 </Dialog.Title>
                 <form
                   onSubmit={onSubmitEditarCliente}
                   className="mt-2 border-t pt-4 pb-4 space-y-2"
                 >
-                  {errors.entrega && <p>Debes pagar lo que falta</p>}
-
                   <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">
-                      Editar Entrega:
+                    <label className="text-[14px] font-bold uppercase">
+                      Poner el total de la entrega:
                     </label>
-                    <input
-                      // value={value}
-                      // onChange={(e) => setVal(e.target.value)}
-                      {...register("entrega", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="editar entrega"
-                    />
+                    <div className="flex gap-2 items-center">
+                      <input
+                        {...register("entrega", { required: true })}
+                        className="border-gray-300 border-[1px] py-2 px-2 rounded-xl shadow shadow-black/10 outline-none uppercase text-sm"
+                        type="text"
+                        placeholder="editar entrega"
+                      />
+                      <p className="bg-sky-100 text-sky-700 py-2 px-5 rounded-xl shadow-md shadow-gray-300">
+                        {Number(entrega).toLocaleString("es-ar", {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumFractionDigits: 2,
+                        })}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col items-start uppercase">
                     <label className="text-[14px] font-bold">
                       Deuda Restante:
                     </label>
-                    <div className="font-bold text-green-500 text-lg">
+                    <div className="font-bold text-green-700 bg-green-100 py-2 px-4 rounded-xl text-sm">
                       {Number(cliente?.deuda_restante).toLocaleString("es-ar", {
                         style: "currency",
                         currency: "ARS",
@@ -191,23 +227,13 @@ export const ModalEditarEntrega = ({ isOpen, closeModal }) => {
 
                   <div className="flex flex-col gap-2">
                     <input
-                      className="bg-sky-500 text-sm uppercase hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
+                      className="bg-sky-100 text-sm uppercase transition-all ease-in-out py-3 px-2 rounded-xl hover:shadow-md outline-none text-sky-700 font-bold text-center cursor-pointer"
                       type="submit"
-                      value={"Editar Entrega"}
+                      value={"Cargar la nueva entrega"}
                       // onClick={closeModal}
                     />
                   </div>
                 </form>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="uppercase inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
-                    onClick={closeModal}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

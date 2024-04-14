@@ -124,7 +124,7 @@ export const AluminioProvider = ({ children }) => {
 
   // Función de selección de categoría
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+    setSelectedCategory(category === "TODAS LAS CATEGORIAS" ? null : category);
     setSearch(""); // Clear the search when a category is selected
   };
 
@@ -139,6 +139,22 @@ export const AluminioProvider = ({ children }) => {
         ? dato.categoria === selectedCategory
         : true;
       return nombreMatches && categoryMatches;
+    });
+
+    // Ordenar por stock
+    results.sort((a, b) => {
+      // Si ambos tienen stock o ambos no tienen stock, mantén el orden actual
+      if ((a.stock > 0 && b.stock > 0) || (a.stock <= 0 && b.stock <= 0)) {
+        return 0;
+      }
+      // Si a tiene stock y b no, pon a antes que b
+      if (a.stock > 0 && b.stock <= 0) {
+        return -1;
+      }
+      // Si b tiene stock y a no, pon b antes que a
+      if (b.stock > 0 && a.stock <= 0) {
+        return 1;
+      }
     });
   }
 
@@ -158,14 +174,18 @@ export const AluminioProvider = ({ children }) => {
     );
 
     toast.error("¡Producto eliminado correctamente!", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "10px",
+        borderRadius: "15px",
+      },
     });
 
     setPerfiles(perfilActualizado);
@@ -185,14 +205,18 @@ export const AluminioProvider = ({ children }) => {
     );
 
     toast.error("¡Categoria eliminada correctamente!", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "10px",
+        borderRadius: "15px",
+      },
     });
 
     setCategorias(categoriaActualizada);
@@ -210,16 +234,19 @@ export const AluminioProvider = ({ children }) => {
     const colorActualizado = colores.filter(
       (colorState) => colorState.id !== id
     );
-
     toast.error("¡Color eliminado correctamente!", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "10px",
+        borderRadius: "15px",
+      },
     });
 
     setColores(colorActualizado);

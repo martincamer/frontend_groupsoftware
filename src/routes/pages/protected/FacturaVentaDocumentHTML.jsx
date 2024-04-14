@@ -37,14 +37,14 @@ export const FacturaVentaDocumentHTML = () => {
     <section className="py-[50px] mx-auto w-full flex flex-col gap-10 h-full">
       <div className="w-[1220px] mx-auto space-y-3">
         <div>
-          <p className="font-bold text-3xl text-sky-500">
+          <p className="font-bold text-3xl text-sky-500 uppercase">
             Pedido de venta{" "}
             <span className="text-black font-extrabold">0000-{datos?.id}</span>
           </p>
         </div>
 
         <div className="space-x-2 flex">
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out md:hidden">
             <BiSend /> enviar factura
           </button>
           <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
@@ -61,11 +61,11 @@ export const FacturaVentaDocumentHTML = () => {
               descargar factura
             </PDFDownloadLink>
           </button>
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out md:hidden">
             <BiFile />{" "}
             <Link to={`/view-factura-venta/${datos.id}`}>ver factura</Link>
           </button>
-          <button className="bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
+          <button className="md:hidden bg-gray-50 px-4 py-1 rounded border-[1px] border-black/20 text-sky-500 font-medium text-sm flex items-center gap-1 hover:shadow hover:shadow-black/10 transition-all ease-in-out">
             <BiEdit /> editar
           </button>
         </div>

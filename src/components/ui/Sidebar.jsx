@@ -10,6 +10,7 @@ import {
   BiMenu,
   BiCart,
 } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 
 export const Sidebar = () => {
@@ -73,9 +74,9 @@ export const Sidebar = () => {
     <div
       className={`${
         click
-          ? "w-[100px] transition-all ease-in-out duration-300"
+          ? "w-[70px] transition-all ease-in-out duration-300"
           : "w-1/5 transition-all ease-in-out duration-300"
-      } w-1/5 bg-gray-100 min-h-screen max-h-full border-r-[1px]`}
+      } w-1/5 bg-white min-h-screen max-h-full border-r-[1px]`}
     >
       <div
         className={`${
@@ -84,10 +85,17 @@ export const Sidebar = () => {
             : "justify-end transition-all ease-in-out duration-300"
         } w-full flex px-4 py-2 cursor-pointer`}
       >
-        <BiMenu
-          onClick={handleClick}
-          className="text-sky-500 text-[45px] hover:text-white hover:bg-sky-500 rounded-full py-[5px] transition-all ease-in-out duration-300"
-        />
+        {click ? (
+          <BiMenu
+            onClick={handleClick}
+            className="text-sky-500 text-[40px] hover:text-white hover:bg-sky-500 rounded-xl py-[5px] transition-all ease-in-out duration-300"
+          />
+        ) : (
+          <IoMdClose
+            onClick={handleClick}
+            className="text-sky-500 text-[40px] hover:text-white hover:bg-sky-500 rounded-xl py-[5px] transition-all ease-in-out duration-300"
+          />
+        )}
       </div>
       <div className={`w-full flex flex-col gap-12`}>
         <div>
@@ -95,10 +103,10 @@ export const Sidebar = () => {
             <div
               key={path}
               className={`${
-                location.pathname === path && "bg-slate-300"
-              } w-full py-3 px-8`}
+                location.pathname === path && "bg-slate-100"
+              } w-full py-3 px-5`}
             >
-              <div className="flex items-center gap-2 hover:translate-x-2 transition-all ease duration-300">
+              <div className="flex items-center gap-2">
                 <Link to={path} className="text-3xl text-slate-800">
                   {icon}
                 </Link>

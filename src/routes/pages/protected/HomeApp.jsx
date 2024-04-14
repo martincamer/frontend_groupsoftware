@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { Spinner } from "../../../components/Spinner";
-import { useAuth } from "../../../context/AuthProvider";
-import { useFacturaContext } from "../../../context/FacturaProvider";
 import { obtenerFacturasMensuales } from "../../../api/factura.api";
 import ChartVentasPorMes from "../../../components/ui/ChartJsVentas";
-import ChartPerfilesVendidosPorMes from "../../../components/ui/ChartPerfilesVendidosPorMes";
 
 export const HomeApp = () => {
-  const { spinner } = useAuth();
   const [ventasPorMes, setVentasPorMes] = useState([]);
   const [clientesVendidos, setClientesVendidos] = useState(0);
   const [totalKgVendidos, setTotalKgVendidos] = useState(0);
@@ -22,8 +17,6 @@ export const HomeApp = () => {
 
     loadData();
   }, []);
-
-  console.log(data);
 
   useEffect(() => {
     const calcularVentasPorMes = () => {
@@ -105,13 +98,13 @@ export const HomeApp = () => {
   }, [data]);
 
   return (
-    <div className="py-[30px] px-[30px] w-full h-full flex flex-col gap-6">
-      <div className="border-[1px] border-gray-100 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5">
+    <div className="py-[50px] px-[30px] w-full h-full flex flex-col gap-6">
+      <div className="">
         <div className="grid grid-cols-4 gap-10">
           {ventasPorMes.map((mesVentas) => (
             <div
               key={mesVentas.mes}
-              className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out"
+              className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out uppercase"
             >
               <p className="font-semibold text-center text-sky-500">
                 VENTAS {mesVentas.mes.toUpperCase()}
@@ -132,7 +125,7 @@ export const HomeApp = () => {
             </div>
           ))}
           {/* Cuarto cuadro para los perfiles vendidos */}
-          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out">
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
             <p className="font-semibold text-center text-sky-500">
               PERFILES VENDIDOS
             </p>
@@ -144,7 +137,7 @@ export const HomeApp = () => {
             </p>
           </div>
           {/* Quinto cuadro para los clientes vendidos */}
-          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out">
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
             <p className="font-semibold text-center text-sky-500">
               CLIENTES VENDIDOS
             </p>
@@ -153,7 +146,7 @@ export const HomeApp = () => {
             </p>
           </div>
           {/* Sexto cuadro para los KG vendidos */}
-          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out">
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
             <p className="font-semibold text-center text-sky-500">
               KG VENDIDOS
             </p>

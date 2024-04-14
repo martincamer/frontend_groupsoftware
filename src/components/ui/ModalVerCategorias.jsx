@@ -4,6 +4,7 @@ import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { useAluminioContext } from "../../context/AluminioProvider";
 import { ModalEditarCategorias } from "./ModalEditarCategorias";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ModalVerCategorias = ({
   isOpenVerCategorias,
@@ -18,7 +19,6 @@ export const ModalVerCategorias = ({
 
   return (
     <Menu as="div" className="z-50">
-      {/* <ToastContainer /> */}
       <Transition appear show={isOpenVerCategorias} as={Fragment}>
         <Dialog
           as="div"
@@ -34,7 +34,7 @@ export const ModalVerCategorias = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-10" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -67,6 +67,13 @@ export const ModalVerCategorias = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl w-[1000px]">
+                <div className="flex justify-end items-center">
+                  <IoCloseOutline
+                    onClick={() => closeModalVerCategoria()}
+                    className="bg-red-100 py-1 px-1 rounded-xl text-3xl text-red-700 cursor-pointer hover:text-white hover:bg-red-500 transition-all ease-linear"
+                  />
+                </div>
+
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 uppercase"
@@ -76,7 +83,7 @@ export const ModalVerCategorias = ({
                 <div className="grid grid-cols-4 gap-4 my-5 h-[120px] overflow-y-scroll w-full uppercase text-sm">
                   {categorias.map((cat) => (
                     <div
-                      className="bg-white border-[1px] border-gray-200 py-2 px-2 rounded shadow shadow-black/20 flex justify-around items-center h-[58px]"
+                      className="bg-white border-[1px] border-gray-200 py-2 px-2 rounded-2xl hover:shadow-md cursor-pointer transition-all ease-linear flex justify-around items-center h-[58px]"
                       key={cat.id}
                     >
                       <p className="text-black font-bold">{cat.categoria}</p>
@@ -96,16 +103,6 @@ export const ModalVerCategorias = ({
                 </div>
 
                 <ModalEditarCategorias />
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer uppercase"
-                    onClick={closeModalVerCategoria}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

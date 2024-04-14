@@ -8,21 +8,14 @@ import { CategoriaFacturacion } from "../../../components/generar-factura/Catego
 import { TableFacturacion } from "../../../components/generar-factura/TableFacturacion";
 import { ModalCrearFacturacionNueva } from "../../../components/generar-factura/ModalCrearFacturacionNueva";
 import { useFacturaContext } from "../../../context/FacturaProvider";
-import { SearchSelect } from "../../../components/gastos/SearchSelect";
-import { SearchSelectAnio } from "../../../components/gastos/SearchSelectAnio";
 import { useState } from "react";
 import { ModalEliminarVentas } from "../../../components/eliminar/ModalEliminarVentas";
+// import { SearchSelect } from "../../../components/gastos/SearchSelect";
+// import { SearchSelectAnio } from "../../../components/gastos/SearchSelectAnio";
 
 export const VentasRealizadas = () => {
   const { spinner } = useAuth();
-  const {
-    search,
-    searcher,
-    categoriaSeleccionada,
-    handleCategoriaChange,
-    anioSeleccionado,
-    handleAnioChange,
-  } = useFacturaContext();
+  const { search, searcher } = useFacturaContext();
 
   let [isOpenModal, setIsOpen] = useState(false);
   const [obtenerIdEliminar, setObtenerIdEliminar] = useState("");
@@ -42,8 +35,9 @@ export const VentasRealizadas = () => {
   return spinner ? (
     <Spinner />
   ) : (
-    <main className="h-full w-full py-14 px-14 ">
-      <section className="max-md:w-full mx-auto py-[20px] px-[20px] h-full border-[1px] border-gray-300 rounded shadow-black/20 shadow-md flex flex-col gap-10">
+    <main className="h-full w-full py-10 px-5 ">
+      <ToastContainer />
+      <section className="flex flex-col gap-10">
         <IntroTitleFactura />
 
         <IntroFacturacion />
@@ -53,14 +47,6 @@ export const VentasRealizadas = () => {
             variable={"Buscar por el cliente..."}
             search={search}
             searcher={searcher}
-          />
-          <SearchSelect
-            categoriaSeleccionada={categoriaSeleccionada}
-            handleCategoriaChange={handleCategoriaChange}
-          />
-          <SearchSelectAnio
-            anioSeleccionado={anioSeleccionado}
-            handleAnioChange={handleAnioChange}
           />
         </div>
         <CategoriaFacturacion />
@@ -77,8 +63,6 @@ export const VentasRealizadas = () => {
           closeEliminarProducto={closeEliminarProducto}
           isOpenModal={isOpenModal}
         />
-
-        <ToastContainer />
       </section>
     </main>
   );
