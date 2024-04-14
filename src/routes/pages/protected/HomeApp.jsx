@@ -141,7 +141,7 @@ export const HomeApp = () => {
     (acumulador, factura) => {
       const fecha = new Date(factura.created_at);
       const mes = fecha.toLocaleString("default", { month: "long" });
-      const trimestre = Math.floor(fecha.getMonth() / 2) + 1; // Obtener el trimestre
+      const trimestre = Math.floor(fecha.getMonth() / 3) + 1; // Obtener el trimestre
       const trimestreKey = `${fecha.getFullYear()}-T${trimestre}`;
 
       if (!acumulador[trimestreKey]) {
