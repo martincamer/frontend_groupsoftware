@@ -197,7 +197,6 @@ export const HomeApp = () => {
         horizontal: false,
         endingShape: "rounded",
         columnWidth: "10%",
-        // Ajustar el ancho de las columnas si es necesario
         borderRadius: "20",
         borderRadiusApplication: "end",
       },
@@ -301,7 +300,7 @@ export const HomeApp = () => {
                         </span>
                       </p>
                       <progress
-                        className="bg-sky-100 w-full"
+                        className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg rounded-full  [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-sky-400 [&::-moz-progress-bar]:bg-sky-400 w-full"
                         value={porcentaje}
                         max="100"
                       >
@@ -339,7 +338,7 @@ export const HomeApp = () => {
                         </span>
                       </p>
                       <progress
-                        className="bg-sky-100 w-full"
+                        className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg rounded-full  [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-sky-400 [&::-moz-progress-bar]:bg-sky-400 w-full"
                         value={porcentaje}
                         max="100"
                       >

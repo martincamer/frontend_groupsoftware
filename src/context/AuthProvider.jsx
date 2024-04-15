@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (Cookies.get("token")) {
+    if (!Cookies.get("token")) {
       axios
         .get("/profile")
         .then((res) => {
