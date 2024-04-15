@@ -47,7 +47,7 @@ export const IntroEstadisticas = () => {
           Total en deuda restante de los clientes
         </p>
         <div className="flex justify-center">
-          <p className="font-bold text-xl text-red-700 bg-red-100 py-3 px-4 rounded-2xl flex gap-2 items-center">
+          <p className="font-normal text-lg text-red-700 bg-red-100 py-3 px-4 rounded-2xl flex gap-2 items-center">
             {resultadoTotalDeudas.toLocaleString("es-ar", {
               style: "currency",
               currency: "ARS",
