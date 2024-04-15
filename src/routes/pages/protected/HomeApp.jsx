@@ -286,7 +286,7 @@ export const HomeApp = () => {
               >
                 <h3 className="uppercase underline">{categoria}</h3>
                 {Object.entries(colores).map(([color, precio]) => {
-                  const porcentaje = (precio / totalGeneral) * 100;
+                  const porcentaje = (precio / totalGeneral) * 1000;
                   return (
                     <div key={color}>
                       <p className="uppercase font-semibold text-slate-600">
@@ -328,7 +328,7 @@ export const HomeApp = () => {
               >
                 <h3 className="uppercase underline">{categoria}</h3>
                 {Object.entries(colores).map(([color, kg]) => {
-                  const porcentaje = (kg / totalGeneralKg) * 100;
+                  const porcentaje = (kg / totalGeneralKg) * 1000;
                   return (
                     <div key={color}>
                       <p className="uppercase font-semibold text-slate-600">
