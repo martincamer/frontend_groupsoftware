@@ -68,6 +68,7 @@ export const Sidebar = () => {
   ];
 
   const params = useParams();
+  const [hoveredName, setHoveredName] = useState(null);
 
   return location.pathname !== `/view-factura-venta/${params.numero}` &&
     location.pathname !== `/view-factura/${params.numero}` ? (
@@ -83,7 +84,7 @@ export const Sidebar = () => {
           click
             ? "justify-center transition-all ease-in-out duration-300"
             : "justify-end transition-all ease-in-out duration-300"
-        } w-full flex px-4 py-2 cursor-pointer`}
+        } w-full px-4 py-2 cursor-pointer hidden`}
       >
         {click ? (
           <BiMenu
@@ -98,28 +99,31 @@ export const Sidebar = () => {
         )}
       </div>
       <div className={`w-full flex flex-col gap-12`}>
-        <div>
+        <div className="">
           {navegacion.map(({ name, path, icon }) => (
             <div
               key={path}
               className={`${
                 location.pathname === path && "bg-slate-100"
               } w-full py-3 px-5`}
+              onMouseEnter={() => setHoveredName(name)}
+              onMouseLeave={() => setHoveredName(null)}
+              style={{ position: "relative" }}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 relative">
                 <Link to={path} className="text-3xl text-slate-800">
                   {icon}
                 </Link>
-                <Link
-                  to={path}
+                <div
                   className={`${
-                    click
-                      ? "hidden transition-all ease-in-out duration-300"
-                      : "block transition-all ease-in-out duration-300"
-                  } text-md uppercase font-semibold text-sky-600`}
+                    hoveredName === name
+                      ? "block transition-all ease-in-out duration-300"
+                      : "hidden transition-all ease-in-out duration-300"
+                  } text-md uppercase font-semibold text-sky-600 bg-white z-[100] border-slate-300 shadow-md transition-all ease-linear border-[1px] rounded-2xl absolute left-full ml-2 py-2 px-3 text-center w-[200px]`}
+                  style={{ top: "50%", transform: "translateY(-50%)" }}
                 >
                   {name}
-                </Link>
+                </div>
               </div>
             </div>
           ))}
