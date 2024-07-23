@@ -133,26 +133,6 @@ export const TablePresupuestos = ({
                     eliminar
                   </Link>
                 </th>
-                {/* <th className="py-4 px-3">
-                  <div>
-                    <Link
-                      onClick={openModalEstado}
-                      className={`${
-                        (p.estado === "aceptado" &&
-                          "bg-green-500/10 text-green-500 border-green-600 border-[1px]") ||
-                        (p.estado === "rechazado" &&
-                          "bg-red-500/10 text-red-500 border-red-600 border-[1px]") ||
-                        (p.estado === "pendiente" &&
-                          "bg-yellow-500/10 text-yellow-500 border-yellow-600 border-[1px]")
-                      } py-2 px-3 font-bold  rounded-xl flex gap-1 flex-row justify-center items-center w-2/3 text-sm text-center mx-auto`}
-                    >
-                      <span onClick={() => seleccionarId(p.id)}>
-                        {p.estado}
-                      </span>
-                      <BiSolidDownArrow className="text-[12px]" />
-                    </Link>
-                  </div>
-                </th> */}
               </tr>
             ))}
           </tbody>

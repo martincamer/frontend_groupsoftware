@@ -9,7 +9,7 @@ export const ModalSeleccionarClienteFacturacion = ({
   closeModalCliente,
   isOpenCliente,
 }) => {
-  const { search, searcher, results } = useClientesContext();
+  const { clientes: results } = useClientesContext();
   const { addToClientes } = useFacturaContext();
 
   return (
@@ -74,7 +74,6 @@ export const ModalSeleccionarClienteFacturacion = ({
                 >
                   Elegir cliente
                 </Dialog.Title>
-                <SearchClientes search={search} searcher={searcher} />
                 <div className="border-[1px] border-gray-300 rounded-2xl hover:shadow-black/10 hover:shadow flex flex-col gap-3 w-full h-[30vh] overflow-y-scroll">
                   <table className="min-w-full uppercase divide-y-[1px] divide-slate-300">
                     <thead>

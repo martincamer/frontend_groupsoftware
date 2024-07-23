@@ -11,7 +11,7 @@ export const ModalSeleccionarProductoFactura = ({
   closeModalProductos,
   isOpenProductos,
 }) => {
-  const { search, searcher, results } = useAluminioContext();
+  const { perfiles: results } = useAluminioContext();
   const { handleSeleccionarProducto, errorProducto } = useFacturaContext();
 
   let [isOpenModal, setIsModal] = useState(false);
@@ -23,6 +23,20 @@ export const ModalSeleccionarProductoFactura = ({
   function openModalCantidad() {
     setIsModal(true);
   }
+
+  const [searchTermCliente, setSearchTermCliente] = useState("");
+
+  const handleSearchClienteChange = (e) => {
+    setSearchTermCliente(e.target.value);
+  };
+
+  let filteredData = results.filter((cliente) => {
+    const matchesSearchTermNombre =
+      cliente.nombre.toLowerCase().includes(searchTermCliente.toLowerCase()) ||
+      cliente.apellido.toLowerCase().includes(searchTermCliente.toLowerCase());
+
+    return matchesSearchTermNombre;
+  });
 
   return (
     <Menu as="div" className="z-50">
@@ -86,11 +100,7 @@ export const ModalSeleccionarProductoFactura = ({
                 >
                   Elegir Producto
                 </Dialog.Title>
-                <Search
-                  variable={"Buscar por el codigo o detalle..."}
-                  search={search}
-                  searcher={searcher}
-                />
+
                 {errorProducto && (
                   <div>
                     <span className="bg-red-500 py-2 px-2 text-white font-bold rounded-md">
@@ -126,7 +136,7 @@ export const ModalSeleccionarProductoFactura = ({
                       </tr>
                     </thead>
                     <tbody className="divide-y-[1px] divide-slate-300">
-                      {results.map((c) => (
+                      {filteredData.map((c) => (
                         <tr key={c.id}>
                           {/* <th className="border-[1px] border-gray-300 p-2 text-sm text-center w-[20px]">
                             {c.id}

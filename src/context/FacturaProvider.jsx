@@ -12,6 +12,8 @@ import {
 } from "../api/factura.api";
 import { actualizarClienteFacturacion } from "../api/clientes.api";
 import { useClientesContext } from "./ClientesProvider";
+import client from "../api/axios";
+import { showSuccessToast } from "../helpers/toast";
 
 //context
 export const FacturaContext = createContext();
@@ -41,11 +43,12 @@ export const FacturaProvider = ({ children }) => {
   const [datosPresupuesto, setDatosPresupuesto] = useState([]);
   const [unicoPresupuesto, setUnicoPresupuesto] = useState([]);
   const [tipoFactura, setTipoFactura] = useState([]);
+  const [punto, setPunto] = useState("");
   const [facturasMensuales, setFacturasMensuales] = useState([]);
 
   useEffect(() => {
     async function loadData() {
-      const res = await obtenerFacturasMensuales();
+      const res = await client.get("/facturacion");
 
       setFacturasMensuales(res.data);
     }
@@ -94,9 +97,6 @@ export const FacturaProvider = ({ children }) => {
             ?.toLowerCase()
             .includes(search.toLowerCase()));
 
-      console.log("Fecha de Presupuesto:", fechaPresupuesto);
-      console.log("Mes Actual:", new Date().getMonth() + 1);
-      console.log("Resultado Válido:", esResultadoValido);
       return esResultadoValido;
     });
 
@@ -158,56 +158,13 @@ export const FacturaProvider = ({ children }) => {
           total_pagar: totalPagar(),
         },
         estado: "pendiente",
+        punto: punto,
         tipo_factura: "-",
       });
 
-      const facturasActualizadas = [...facturasMensuales, res.data];
+      setFacturasMensuales(res.data);
 
-      setFacturasMensuales(facturasActualizadas);
-
-      // Actualizar información del cliente de facturación
-      const resCliente = await actualizarClienteFacturacion(
-        clienteSeleccionado[0]?.id,
-        {
-          total_facturado: totalPagar(),
-          entrega: 0,
-          deuda_restante: totalPagar(),
-        }
-      );
-
-      const total_facturado_cliente = JSON.parse(resCliente.config.data);
-
-      // const totalPagarFactura = totalPagar(); // Almacenar totalPagar en una variable
-
-      // Actualizar total_facturado en setClientes
-      setClientes((clientes) => {
-        return clientes.map((cliente) => {
-          if (cliente.id === clienteSeleccionado[0]?.id) {
-            return {
-              ...cliente,
-              total_facturado:
-                Number(cliente.total_facturado) +
-                Number(total_facturado_cliente.total_facturado), // Sumar al total_facturado existente
-            };
-          }
-          return cliente;
-        });
-      });
-
-      toast.success("¡Facturado creada correctamente, crea la siguiente!", {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        style: {
-          padding: "10px",
-          borderRadius: "15px",
-        },
-      });
+      showSuccessToast("Orden creada correctamente");
     } catch (error) {
       console.error("Error creating invoice:", error);
       // Handle error, show a toast, etc.
@@ -455,6 +412,8 @@ export const FacturaProvider = ({ children }) => {
         facturasMensuales,
         setFacturasMensuales,
         setProductoUnico,
+        setPunto,
+        punto,
       }}
     >
       {children}

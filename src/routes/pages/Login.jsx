@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
-import img from "../../../public/06.jpg";
 
 export const Login = () => {
   const { signin, error } = useAuth();
@@ -24,22 +22,23 @@ export const Login = () => {
   });
 
   return (
-    <section
-      // style={{
-      //   backgroundImage: `url(${img})`,
-      //   height: "100vh",
-      //   backgroundSize: "cover",
-      // }}
-      className="flex justify-center items-center h-screen bg-gray-300"
-    >
+    <section className="flex items-center h-screen bg-white">
+      <div className="bg-gradient-to-br from-cyan-600 to-cyan-400 h-screen w-1/2 flex items-center max-md:hidden">
+        <div className="px-10 py-10 flex flex-col gap-2">
+          <p className="font-semibold text-3xl text-white">
+            Bienvenido/a al sistema de gestión aluminio.
+          </p>{" "}
+          <p className="font-medium text-sm text-white">
+            Empieza a gestiónar tus perfiles, ventas, facturas, presupuestos,
+            accesorios, etc.
+          </p>
+        </div>
+      </div>
       <form
         onSubmit={onSubmit}
-        className="bg-white border-[1px] border-gray-300 py-20 px-10 w-1/3 rounded-md shadow-lg shadow-black/30 relative"
+        className="bg-white border-[1px] border-gray-300 py-14 px-10 w-1/3 rounded-md mx-auto shadow-black/30 relative max-md:w-full max-md:mx-5"
       >
-        {/* <div className="text-2xl font-extrabold text-white bg-secondary rounded-lg absolute top-[-16px] left-[40%] p-2">
-          ALUMINIOS DEL SUR
-        </div> */}
-        <div className="space-y-2">
+        <div className="space-y-2 mb-3">
           {error &&
             error.map((err) => (
               <p className="text-sm bg-red-100/20 text-red-600 py-2 px-2 rounded w-2/3 mx-auto text-center border-[1px] border-red-200">
@@ -47,37 +46,37 @@ export const Login = () => {
               </p>
             ))}
 
-          <p className="text-lg text-center font-semibold uppercase">
-            Ingreso al sistema
+          <img src="./LOGO.jpeg" className="w-20 mx-auto cursor-pointer" />
+
+          <p className="text-lg text-center font-bold">
+            Ingreso al sistema de gestión de aluminio.
           </p>
         </div>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <label className="text-base font-semibold uppercase">Email</label>
+            <label className="text-base font-semibold">Email</label>
             <input
               {...register("email", { required: true })}
               type="text"
               placeholder="Email de usuario"
-              className="bg-gray-100 rounded-lg shadow-md border-[1px] border-gray-300 shadow-black/30 py-3 px-2 placeholder:text-black/50 outline-none"
+              className="rounded-md border-[1px] border-gray-300 py-2 px-2 outline-none text-sm font-medium"
             />
             {errors.email && (
-              <span className="text-sm bg-red-100/10  text-red-600 py-2 px-2 rounded w-1/3 text-center shadow border-[1px] border-red-200">
+              <span className="text-sm text-red-600 font-medium">
                 El email es requerido
               </span>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-base font-semibold uppercase">
-              Contraseña
-            </label>
+            <label className="text-base font-semibold">Contraseña</label>
             <input
               {...register("password", { required: true })}
               type="password"
               placeholder="Contraseña de usuario"
-              className="bg-gray-100 rounded-lg shadow-md border-[1px] border-gray-300 shadow-black/30 py-3 px-2 placeholder:text-black/50 outline-none"
+              className="rounded-md border-[1px] border-gray-300 py-2 px-2 outline-none text-sm font-medium"
             />
             {errors.password && (
-              <span className="text-sm bg-red-100/10 text-red-600 py-2 px-2 rounded w-1/3 text-center shadow border-[1px] border-red-200">
+              <span className="text-sm text-red-600 font-medium">
                 El password es requerido
               </span>
             )}
@@ -85,23 +84,9 @@ export const Login = () => {
           <div>
             <input
               type="submit"
-              value="Ingresar"
-              className="bg-cyan-500 uppercase font-semibold text-white rounded-2xl hover:shadow-md hover:shadow-black/30 hover:translate-x-1 transition-all ease-in-out py-3 px-4 text-center outline-none cursor-pointer"
+              value="Ingresar al sistema"
+              className="bg-cyan-500 py-1.5 px-6 text-sm font-bold text-white rounded-md hover:shadow-md transition-all cursor-pointer"
             />
-          </div>
-          <div className="flex justify-between text-sm font-semibold">
-            {/* <Link
-              className="hover:underline transition-all ease-in-out uppercase text-xs"
-              to={"/password-change"}
-            >
-              ¿Olvidaste tu contraseña?
-            </Link> */}
-            {/* <Link
-              className="hover:underline transition-all ease-in-out"
-              to={"/register"}
-            >
-              ¿No te registraste? Registrase
-            </Link> */}
           </div>
         </div>
       </form>

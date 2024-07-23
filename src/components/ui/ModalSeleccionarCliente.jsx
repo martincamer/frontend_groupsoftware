@@ -12,7 +12,7 @@ export const ModalSeleccionarCliente = ({
 }) => {
   const [dis, setDis] = useState(false);
 
-  const { search, searcher, results } = useClientesContext();
+  const { search, searcher, clientes: results } = useClientesContext();
 
   const { handleSeleccionarCliente, addToClientes } = usePresupuestoContext();
 

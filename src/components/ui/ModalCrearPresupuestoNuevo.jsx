@@ -71,9 +71,6 @@ export const ModalCrearPresupuestoNuevo = () => {
   // Convertir el objeto de resultados de nuevo a un array
   const resultadosArray = Object.values(resultados);
 
-  // Mostrar los resultados
-  console.log(resultadosArray);
-
   return (
     <Menu as="div" className="z-50">
       <Transition appear show={isOpen} as={Fragment}>

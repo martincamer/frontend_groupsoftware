@@ -27,6 +27,7 @@ import { VentasRegistradas } from "./routes/pages/protected/VentasRegistradas";
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import { Register } from "./routes/pages/Register";
 
 function App() {
   const { isAuth } = useAuth();
@@ -34,12 +35,12 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
         <Routes>
           <Route
             element={<RutaProtegida isAllowed={!isAuth} redirectTo={"/home"} />}
           >
             <Route path="/" element={<Login />} />
+            <Route path="/registrar-usuario-app" element={<Register />} />
             <Route path="/password-change" element={<PasswordChange />} />
           </Route>
           <Route
@@ -52,8 +53,9 @@ function App() {
                     <PresupuestoProvider>
                       <FacturarDatosProvider>
                         <FacturaProvider>
-                          <main className="flex gap-2 h-full">
-                            <Sidebar />
+                          <main className="w-full h-full">
+                            <Navbar />
+                            {/* <Sidebar /> */}
                             <Outlet />
                           </main>
                         </FacturaProvider>

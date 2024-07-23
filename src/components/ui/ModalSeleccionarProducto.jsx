@@ -10,7 +10,7 @@ export const ModalSeleccionarProducto = ({
   closeModalProductos,
   isOpenProductos,
 }) => {
-  const { search, searcher, results } = useAluminioContext();
+  const { search, searcher, perfiles: results } = useAluminioContext();
   const { handleSeleccionarProducto, errorProducto } = usePresupuestoContext();
 
   let [isOpenModal, setIsModal] = useState(false);
@@ -84,20 +84,11 @@ export const ModalSeleccionarProducto = ({
                   search={search}
                   searcher={searcher}
                 />
-                {errorProducto && (
-                  <div>
-                    <span className="bg-red-500 py-2 px-2 text-white font-bold rounded-md">
-                      ¡El producto ya existe!
-                    </span>
-                  </div>
-                )}
+
                 <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full h-[30vh] overflow-y-scroll uppercase">
                   <table className="border-[1px]  p-[5px] table-auto w-full rounded">
                     <thead>
                       <tr>
-                        {/* <th className="p-2 text-sm font-extrabold text-center">
-                          Numero
-                        </th> */}
                         <th className="p-2 text-sm font-extrabold text-center">
                           Codigo
                         </th>

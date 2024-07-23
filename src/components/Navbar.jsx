@@ -1,123 +1,156 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
-const rutasPublicas = [
-  // {
-  //   name: "Inicio",
-  //   path: "/",
-  // },
-  // {
-  //   name: "Planes",
-  //   path: "/planes",
-  // },
-  // {
-  //   name: "Contacto",
-  //   path: "/contacto",
-  // },
-];
-
-const rutasPrivadas = [
-  {
-    name: "Inicio",
-    path: "/home",
-  },
-  {
-    name: "Perfiles",
-    path: "/productos",
-  },
-  {
-    name: "Clientes",
-    path: "/clientes",
-  },
-  {
-    name: "Presupuestos",
-    path: "/presupuestos",
-  },
-  {
-    name: "Realizar Venta",
-    path: "/ventas-clientes",
-  },
-];
-
-const rutasuno = [
-  {
-    name: "Logout",
-    path: "/logout",
-  },
-];
-
-const rutasdos = [
-  // {
-  //   name: "Login",
-  //   path: "/",
-  // },
-  // {
-  //   name: "Registrarse",
-  //   path: "/register",
-  // },
-];
-
 export const Navbar = () => {
   const { isAuth, signout, user } = useAuth();
 
   return (
-    <header className="shadow py-4 px-6 border-b-[1px] border-slate-300">
-      <div
-        className={`flex justify-between items-center gap-4 ${
-          !isAuth ? "w-[1220px]" : "w-full px-6"
-        } mx-auto`}
-      >
-        <div className="flex gap-2 items-center">
-          <Link
-            to={"/"}
-            className={`${
-              isAuth ? "uppercase" : "capitalize"
-            } text-2xl font-extrabold text-sky-500`}
-          >
-            ALUMINIOS DEL SUR <span className="text-black">DISTRIBUIDORA.</span>{" "}
-          </Link>
-          <img src="./LOGO.jpeg" className="w-[50px] cursor-pointer" />
-        </div>
-        <div className="flex flex-row gap-4">
-          {!isAuth &&
-            rutasPublicas.map(({ path, name }) => (
-              <Link
-                className="text-[13px] font-semibold hover:text-sky-500 transition-all ease-in-out duration-300"
-                to={path}
-                key={path}
-              >
-                {name}
-              </Link>
-            ))}
-        </div>
-        <div className="flex flex-row gap-6">
-          {isAuth
-            ? rutasuno.map(({ path, name }) => (
-                <div className="flex items-center gap-4">
-                  <div className="font-semibold text-xs text-sky-500 bg-white shadow border-[1px] uppercase border-gray-500 py-[5px] rounded-full px-2">
-                    <span className="text-black text-sm">usuario:</span>{" "}
-                    {user?.username}
-                  </div>
-
-                  <Link
-                    onClick={() => signout()}
-                    className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-sky-500 px-4 rounded-xl py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02] uppercase text-sm"
-                    key={path}
-                  >
-                    {name}
-                  </Link>
-                </div>
-              ))
-            : rutasdos.map(({ path, name }) => (
-                <Link
-                  className="text-[17px] font-semibold transition-all ease-in-out duration-300 bg-sky-500 px-4 rounded-full py-2 text-white hover:shadow-md hover:shadow-black/20 hover:scale-[1.02]"
-                  to={path}
-                  key={path}
-                >
-                  {name}
+    <header className="bg-gray-700 py-3 px-8 flex justify-between items-center">
+      <nav className="flex gap-12 items-center">
+        <Link to={"/home"}>
+          <img src="./LOGO.jpeg" className="w-12 rounded-md" />
+        </Link>
+        <div className="flex gap-4">
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-white text-sm font-semibold hover:bg-gray-600 py-1 px-4 rounded-md"
+            >
+              Productos
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-white rounded-md z-[1] w-52 p-2 shadow-xl"
+            >
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/productos"} className=" font-semibold">
+                  Perfiles
                 </Link>
-              ))}
+              </li>
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/accesorios"} className=" font-semibold">
+                  Accesorios
+                </Link>
+              </li>
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/cortinas-rollers"} className=" font-semibold">
+                  Cortinas rollers
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-white text-sm font-semibold hover:bg-gray-600 py-1 px-4 rounded-md"
+            >
+              Clientes
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-white rounded-md z-[1] w-52 p-2 shadow-xl"
+            >
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/clientes"} className=" font-semibold">
+                  Clientes aluminio
+                </Link>
+              </li>
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/clientes"} className=" font-semibold">
+                  Clientes cortinas rollers
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-white text-sm font-semibold hover:bg-gray-600 py-1 px-4 rounded-md"
+            >
+              Acciones aluminio
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-white rounded-md z-[1] w-52 p-2 shadow-xl"
+            >
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/presupuestos"} className=" font-semibold">
+                  Generar presupuestos aluminios
+                </Link>
+              </li> */}
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/ventas-clientes"} className=" font-semibold">
+                  Generar ventas/presupuestos
+                </Link>
+              </li>
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/ventas-accesorios"} className=" font-semibold">
+                  Generar ventas accesorios
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-white text-sm font-semibold hover:bg-gray-600 py-1 px-4 rounded-md"
+            >
+              Acciones cortinas rollers
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-white rounded-md z-[1] w-52 p-2 shadow-xl"
+            >
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/presupuestos"} className=" font-semibold">
+                  Generar presupuesto cortinas
+                </Link>
+              </li>
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/ventas-clientes"} className=" font-semibold">
+                  Generar ventas cortinas
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-white text-sm font-semibold hover:bg-gray-600 py-1 px-4 rounded-md"
+            >
+              Datos de la facturación
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-white rounded-md z-[1] w-52 p-2 shadow-xl"
+            >
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/datos-facturacion"} className=" font-semibold">
+                  Datos de facturación aluminio
+                </Link>
+              </li>
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/ventas-clientes"} className=" font-semibold">
+                  Datos de facturación cortinas
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
+      </nav>
+      <div>
+        <button
+          type="submit"
+          onClick={() => signout()}
+          className="bg-[#FD454D] text-white font-bold text-sm px-5 py-1 rounded-md"
+        >
+          Salir de cuenta
+        </button>
       </div>
     </header>
   );
