@@ -8,7 +8,10 @@ export const Navbar = () => {
     <header className="bg-gray-700 py-3 px-8 flex justify-between items-center">
       <nav className="flex gap-12 items-center">
         <Link to={"/home"}>
-          <img src="./LOGO.jpeg" className="w-12 rounded-md" />
+          <img
+            src="https://app.holded.com/assets/img/brand/holded-logo.svg"
+            className="w-10 rounded-md"
+          />
         </Link>
         <div className="flex gap-4">
           <div className="dropdown dropdown-hover">
@@ -33,11 +36,11 @@ export const Navbar = () => {
                   Accesorios
                 </Link>
               </li>
-              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/cortinas-rollers"} className=" font-semibold">
                   Cortinas rollers
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="dropdown dropdown-hover">
@@ -57,11 +60,11 @@ export const Navbar = () => {
                   Clientes aluminio
                 </Link>
               </li>
-              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/clientes"} className=" font-semibold">
                   Clientes cortinas rollers
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="dropdown dropdown-hover">
@@ -83,17 +86,17 @@ export const Navbar = () => {
               </li> */}
               <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/ventas-clientes"} className=" font-semibold">
-                  Generar ventas/presupuestos
+                  Generar nueva orden de venta/presp.
                 </Link>
               </li>
-              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/ventas-accesorios"} className=" font-semibold">
                   Generar ventas accesorios
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
-          <div className="dropdown dropdown-hover">
+          {/* <div className="dropdown dropdown-hover">
             <div
               tabIndex={0}
               role="button"
@@ -116,7 +119,7 @@ export const Navbar = () => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div className="dropdown dropdown-hover">
             <div
               tabIndex={0}
@@ -134,11 +137,11 @@ export const Navbar = () => {
                   Datos de facturación aluminio
                 </Link>
               </li>
-              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/ventas-clientes"} className=" font-semibold">
                   Datos de facturación cortinas
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

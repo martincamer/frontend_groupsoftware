@@ -23,7 +23,7 @@ export const Login = () => {
 
   return (
     <section className="flex items-center h-screen bg-white">
-      <div className="bg-gradient-to-br from-cyan-600 to-cyan-400 h-screen w-1/2 flex items-center max-md:hidden">
+      <div className="bg-gradient-to-br from-gray-700 to-gray-900 h-screen w-1/2 flex items-center max-md:hidden">
         <div className="px-10 py-10 flex flex-col gap-2">
           <p className="font-semibold text-3xl text-white">
             Bienvenido/a al sistema de gestión aluminio.
@@ -46,7 +46,10 @@ export const Login = () => {
               </p>
             ))}
 
-          <img src="./LOGO.jpeg" className="w-20 mx-auto cursor-pointer" />
+          <img
+            src="https://app.holded.com/assets/img/brand/holded-logo.svg"
+            className="w-14 mx-auto cursor-pointer"
+          />
 
           <p className="text-lg text-center font-bold">
             Ingreso al sistema de gestión de aluminio.
@@ -85,7 +88,7 @@ export const Login = () => {
             <input
               type="submit"
               value="Ingresar al sistema"
-              className="bg-cyan-500 py-1.5 px-6 text-sm font-bold text-white rounded-md hover:shadow-md transition-all cursor-pointer"
+              className="bg-[#FD454D] py-1.5 px-6 text-sm font-bold text-white rounded-md hover:shadow-md transition-all cursor-pointer"
             />
           </div>
         </div>

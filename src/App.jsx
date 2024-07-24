@@ -28,6 +28,7 @@ import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { Register } from "./routes/pages/Register";
+import { Cliente } from "./routes/pages/protected/Cliente";
 
 function App() {
   const { isAuth } = useAuth();
@@ -68,6 +69,7 @@ function App() {
               <Route path="/home" element={<HomeApp />} />
               <Route path="productos" element={<Productos />} />
               <Route path="clientes" element={<Clientes />} />
+              <Route path="cliente/:id" element={<Cliente />} />
               <Route path="presupuestos" element={<Presupuestos />} />
               <Route path="ventas-clientes" element={<VentasRealizadas />} />
               <Route path="datos-facturacion" element={<DatosFacturacion />} />

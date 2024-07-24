@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { useForm } from "react-hook-form";
 import { useFacturarDatosContext } from "../../context/FacturaDatosProvider";
 import { crearDatosFacturacion } from "../../api/datosFacturacion.api";
-import { ToastContainer, toast } from "react-toastify";
+import { showSuccessToast } from "../../helpers/toast";
 
 export const ModalCrearDatosFacturar = () => {
   const { closeModal, isOpen, setDatosFacturar, datosFacturar } =
@@ -23,16 +23,7 @@ export const ModalCrearDatosFacturar = () => {
 
     setDatosFacturar(proyectoActualizado);
 
-    toast.success("Datos creados correctamente, ya podes facturar!", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    showSuccessToast("Datos creados correctamente");
 
     closeModal();
 
@@ -45,7 +36,6 @@ export const ModalCrearDatosFacturar = () => {
 
   return (
     <Menu as="div" className="z-50">
-      <ToastContainer />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"

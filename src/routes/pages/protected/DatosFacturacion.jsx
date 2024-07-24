@@ -1,44 +1,24 @@
-import { ToastContainer, toast } from "react-toastify";
 import { ModalCrearDatosFacturar } from "../../../components/ui/ModalCrearDatosFacturar";
 import { useFacturarDatosContext } from "../../../context/FacturaDatosProvider";
-import { Spinner } from "../../../components/Spinner";
-import { useAuth } from "../../../context/AuthProvider";
+import { showSuccessToast } from "../../../helpers/toast";
 
 export const DatosFacturacion = () => {
   const { register, onSubmit, openModal, datosFacturar } =
     useFacturarDatosContext();
-  const { spinner } = useAuth();
 
-  const notify = () =>
-    toast.success("¡Datos facturacioń editados correctamente!", {
-      position: "top-center",
-      autoClose: 1500,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      style: {
-        padding: "10px",
-        borderRadius: "15px",
-      },
-    });
+  const notify = () => showSuccessToast("Datos actualizados correctamente");
 
-  return spinner ? (
-    <Spinner />
-  ) : (
+  return (
     <section className="w-full my-[50px] px-[30px]">
-      <ToastContainer />
-      <div className="py-[50px] flex flex-col items-center gap-5 border-[1px] border-gray-300 shadow">
-        <div>
-          <h3 className="text-xl font-bold uppercase text-sky-500">
+      <div className="py-[50px] flex flex-col items-center gap-12">
+        <div className="bg-gray-700 py-5 px-10 rounded-md text-white">
+          <h3 className="text-xl font-bold">
             Datos de la facturación/presupuestos
           </h3>
         </div>
         <form
           onSubmit={onSubmit}
-          className="border-[1px] border-gray-300 hover:shadow shadow-black/10 rounded-2xl py-[35px] px-[30px] flex flex-col gap-5 w-6/12"
+          className="py-12 border rounded-md border-gray-300 px-12 flex flex-col gap-5 w-6/12"
         >
           <div className="flex flex-col gap-2 w-[70px] ">
             <label className="uppercase font-semibold" htmlFor="">
@@ -46,7 +26,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("id", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50 text-center"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium"
               type="text"
               placeholder="id"
               disabled
@@ -58,7 +38,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("nombre", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium uppercase"
               type="text"
               placeholder="Nombre de la compania"
             />
@@ -69,7 +49,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("email", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium uppercase"
               type="text"
               placeholder="Email de la compania"
             />
@@ -80,7 +60,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("detalle", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium uppercase"
               type="text"
               placeholder="Detalle de la distribucion"
             />
@@ -91,7 +71,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("telefono", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium uppercase"
               type="text"
               placeholder="Numero de telefono de la compania"
             />
@@ -102,7 +82,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("direccion", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium uppercase"
               type="text"
               placeholder="Dirección de la compania"
             />
@@ -113,7 +93,7 @@ export const DatosFacturacion = () => {
             </label>
             <input
               {...register("localidad", { required: true })}
-              className="border-[1px] border-gray-300 rounded-xl  hover:shadow uppercase text-sm transition-all ease-linear shadow-black/20 py-2 px-2 outline-none placeholder:text-black/50"
+              className="border border-gray-300 rounded-md outline-none py-2 px-2 text-sm font-medium uppercase"
               type="text"
               placeholder="Localidad de la compania"
             />
@@ -125,7 +105,7 @@ export const DatosFacturacion = () => {
             <button
               type="submit"
               onClick={() => notify()}
-              className="flex gap-2 items-center cursor-pointer py-3 px-5 bg-green-100 rounded-xl hover:shadow shadow-black/20 text-green-700 font-bold uppercase text-sm"
+              className="bg-blue-500 text-sm font-bold flex gap-2 items-center py-2 px-4 rounded-md text-white"
             >
               Guardar cambios
               <svg

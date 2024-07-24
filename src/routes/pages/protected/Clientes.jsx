@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { FaList, FaSearch, FaWindowClose } from "react-icons/fa";
 import { useClientesContext } from "../../../context/ClientesProvider";
 import { useForm } from "react-hook-form";
-import client from "../../../api/axios";
+import { Link } from "react-router-dom";
 import {
   showSuccessToast,
   showSuccessToastError,
 } from "../../../helpers/toast";
 import { useObtenerId } from "../../../helpers/obtenerId";
 import { formatearDinero } from "../../../helpers/formatearDinero";
+import client from "../../../api/axios";
 
 export const Clientes = () => {
   const { clientes } = useClientesContext();
@@ -128,6 +129,11 @@ export const Clientes = () => {
                         tabIndex={0}
                         className="dropdown-content menu bg-white rounded-md shadow-2xl z-[1] w-52 p-1"
                       >
+                        <li className="hover:bg-gray-700 hover:text-white text-xs rounded-md font-semibold">
+                          <Link className="capitalize" to={`/cliente/${p.id}`}>
+                            Cargar pagos
+                          </Link>
+                        </li>
                         <li className="hover:bg-gray-700 hover:text-white text-xs rounded-md font-semibold">
                           <button
                             onClick={() => {

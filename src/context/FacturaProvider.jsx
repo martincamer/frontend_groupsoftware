@@ -8,12 +8,11 @@ import {
   deleteFactura,
   obtenerFactura,
   obtenerFacturas,
-  obtenerFacturasMensuales,
 } from "../api/factura.api";
-import { actualizarClienteFacturacion } from "../api/clientes.api";
-import { useClientesContext } from "./ClientesProvider";
-import client from "../api/axios";
 import { showSuccessToast } from "../helpers/toast";
+import client from "../api/axios";
+import { useClientesContext } from "./ClientesProvider";
+import { useAluminioContext } from "./AluminioProvider";
 
 //context
 export const FacturaContext = createContext();
@@ -29,14 +28,14 @@ export const useFacturaContext = () => {
 
 //provider
 export const FacturaProvider = ({ children }) => {
-  const { setClientes } = useClientesContext();
-
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const [anioSeleccionado, setAnioSeleccionado] = useState("");
   const [obtenerProductoId, setObtenerProductoId] = useState("");
   const [clienteSeleccionado, setClienteSeleccionado] = useState([]);
+  const [clienteSeleccionadoActualizar, setClienteSeleccionadoActualizar] =
+    useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState([]);
   const [productoUnicoState, setProductoUnico] = useState([]);
   const [errorProducto, setErrorProducto] = useState(false);
@@ -45,6 +44,9 @@ export const FacturaProvider = ({ children }) => {
   const [tipoFactura, setTipoFactura] = useState([]);
   const [punto, setPunto] = useState("");
   const [facturasMensuales, setFacturasMensuales] = useState([]);
+
+  const { setClientes } = useClientesContext();
+  const { setPerfiles } = useAluminioContext();
 
   useEffect(() => {
     async function loadData() {
@@ -162,12 +164,60 @@ export const FacturaProvider = ({ children }) => {
         tipo_factura: "-",
       });
 
-      setFacturasMensuales(res.data);
+      setFacturasMensuales(res.data.facturas);
+      setPerfiles(res.data.productos);
+      setClientes(res.data.clientes);
 
       showSuccessToast("Orden creada correctamente");
+
+      setClienteSeleccionado([]);
+      setProductoSeleccionado([]);
+      setPunto([]);
+
+      document.getElementById("my_modal_crear_cliente").close();
     } catch (error) {
       console.error("Error creating invoice:", error);
       // Handle error, show a toast, etc.
+    }
+  };
+
+  const handlePerfilActualizar = async (idObtenida) => {
+    try {
+      // Crear factura nueva
+      const res = await client.put(`/facturacion/${idObtenida}`, {
+        clientes: {
+          id: clienteSeleccionadoActualizar?.id,
+          nombre: clienteSeleccionadoActualizar?.nombre,
+          apellido: clienteSeleccionadoActualizar?.apellido,
+          localidad: clienteSeleccionadoActualizar?.localidad,
+          provincia: clienteSeleccionadoActualizar?.provincia,
+          email: clienteSeleccionadoActualizar?.email,
+          telefono: clienteSeleccionadoActualizar?.telefono,
+          dni: clienteSeleccionadoActualizar?.dni,
+        },
+        productos: { respuesta },
+        estadistica: {
+          total_kg: totalKg(),
+          total_barras: totalBarras(),
+          total_pagar: totalPagar(),
+        },
+        estado: "pendiente",
+        punto: punto,
+        tipo_factura: "-",
+      });
+
+      setFacturasMensuales(res.data.facturas);
+      setPerfiles(res.data.productos);
+      setClientes(res.data.clientes);
+
+      setClienteSeleccionado([]);
+      setProductoSeleccionado([]);
+
+      showSuccessToast("Orden actualizada correctamente");
+
+      document.getElementById("my_modal_actualizar_presupuesto_venta").close();
+    } catch (error) {
+      console.error("Error creating invoice:", error);
     }
   };
 
@@ -198,8 +248,6 @@ export const FacturaProvider = ({ children }) => {
 
     setClienteSeleccionado([...clienteSeleccionado, newCliente]);
   };
-
-  console.log(clienteSeleccionado[0]);
 
   useEffect(() => {
     setValue("nombre", clienteSeleccionado[0]?.nombre);
@@ -301,8 +349,6 @@ export const FacturaProvider = ({ children }) => {
     }
     productoUnico();
   }, [obtenerProductoId]);
-
-  //generar presupuesto pdf and guardar datos
 
   //obtener datos presupuestos
   useEffect(() => {
@@ -414,6 +460,13 @@ export const FacturaProvider = ({ children }) => {
         setProductoUnico,
         setPunto,
         punto,
+        setProductoSeleccionado,
+        setClienteSeleccionado,
+        // setValue,
+        handlePerfilActualizar,
+        clienteSeleccionado,
+        setClienteSeleccionadoActualizar,
+        clienteSeleccionadoActualizar,
       }}
     >
       {children}

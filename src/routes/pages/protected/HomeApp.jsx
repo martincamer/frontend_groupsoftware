@@ -9,14 +9,54 @@ export const HomeApp = () => {
   const { facturasMensuales } = useFacturaContext();
   const { datosPresupuesto } = useFacturaContext();
 
-  console.log(datosPresupuesto);
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  // Convertir las fechas en formato YYYY-MM-DD para los inputs tipo date
+  const fechaInicioPorDefecto = firstDayOfMonth.toISOString().split("T")[0];
+  const fechaFinPorDefecto = lastDayOfMonth.toISOString().split("T")[0];
+
+  // Estado inicial de las fechas con el rango del mes actual
+  const [fechaInicio, setFechaInicio] = useState(fechaInicioPorDefecto);
+  const [fechaFin, setFechaFin] = useState(fechaFinPorDefecto);
+
+  // Handler para el cambio de fecha de inicio
+  const handleFechaInicioChange = (e) => {
+    setFechaInicio(e.target.value);
+  };
+
+  // Handler para el cambio de fecha de fin
+  const handleFechaFinChange = (e) => {
+    setFechaFin(e.target.value);
+  };
+
+  // Filtrar por rango de fechas
+  let facturasFiltradas = [...facturasMensuales]; // Copia de las facturas originales
+
+  if (fechaInicio && fechaFin) {
+    const fechaInicioObj = new Date(fechaInicio);
+    const fechaFinObj = new Date(fechaFin);
+
+    facturasFiltradas = facturasFiltradas.filter((item) => {
+      const fechaOrden = new Date(item.created_at);
+      return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
+    });
+  }
+
+  // Ordenar por fecha de mayor a menor
+  facturasFiltradas.sort((a, b) => {
+    const fechaA = new Date(a.created_at);
+    const fechaB = new Date(b.created_at);
+    return fechaB - fechaA; // Ordena de mayor a menor (fecha más reciente primero)
+  });
 
   useEffect(() => {
     const calcularVentasPorMes = () => {
       const ventasMes = {};
 
-      facturasMensuales?.forEach((venta) => {
-        const fecha = new Date(venta?.created_at);
+      facturasFiltradas.forEach((venta) => {
+        const fecha = new Date(venta.created_at);
         const mes = fecha.toLocaleString("default", { month: "long" });
 
         if (!ventasMes[mes]) {
@@ -76,7 +116,7 @@ export const HomeApp = () => {
 
       // Calcular clientes vendidos en total
       const totalClientesVendidos = new Set();
-      facturasMensuales.forEach((venta) =>
+      facturasFiltradas.forEach((venta) =>
         totalClientesVendidos.add(venta.clientes.id)
       );
       setClientesVendidos(totalClientesVendidos.size);
@@ -90,10 +130,10 @@ export const HomeApp = () => {
     };
 
     calcularVentasPorMes();
-  }, [facturasMensuales]);
+  }, [facturasFiltradas]);
 
   // Calcular el total de totalPrecioUnitario por categoría y color
-  const totalPorCategoriaColor = facturasMensuales.reduce(
+  const totalPorCategoriaColor = facturasFiltradas.reduce(
     (acumulador, factura) => {
       factura.productos.respuesta.forEach((producto) => {
         if (!acumulador[producto.categoria]) {
@@ -115,7 +155,7 @@ export const HomeApp = () => {
     .flatMap((categoria) => Object.values(categoria))
     .reduce((total, precio) => total + precio, 0);
 
-  const totalPorCategoriaColorKG = facturasMensuales.reduce(
+  const totalPorCategoriaColorKG = facturasFiltradas.reduce(
     (acumulador, factura) => {
       factura.productos.respuesta.forEach((producto) => {
         if (!acumulador[producto.categoria]) {
@@ -215,6 +255,27 @@ export const HomeApp = () => {
 
   return (
     <div className="py-[50px] px-[30px] w-full h-full flex flex-col gap-6">
+      {" "}
+      <div className="flex gap-2 items-center">
+        <div className="">
+          <input
+            value={fechaInicio}
+            onChange={handleFechaInicioChange}
+            type="date"
+            className="bg-white text-sm font-semibold border border-gray-300 rounded-md py-2 px-3 outline-none"
+            placeholder="Fecha de inicio"
+          />
+        </div>
+        <div>
+          <input
+            value={fechaFin}
+            onChange={handleFechaFinChange}
+            type="date"
+            className="bg-white text-sm font-semibold border border-gray-300 rounded-md py-2 px-3 outline-none"
+            placeholder="Fecha fin"
+          />
+        </div>
+      </div>
       <div className="">
         <div className="grid grid-cols-4 gap-10">
           {ventasPorMes.map((mesVentas) => (
@@ -222,7 +283,7 @@ export const HomeApp = () => {
               key={mesVentas.mes}
               className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out uppercase"
             >
-              <p className="font-semibold text-center text-sky-500">
+              <p className="font-semibold text-center text-blue-500">
                 VENTAS {mesVentas.mes.toUpperCase()}
               </p>
               <p className="text-2xl font-bold text-center text-slate-700">
@@ -242,7 +303,7 @@ export const HomeApp = () => {
           ))}
           {/* Cuarto cuadro para los perfiles vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
-            <p className="font-semibold text-center text-sky-500">
+            <p className="font-semibold text-center text-blue-500">
               PERFILES VENDIDOS
             </p>
             <p className="text-2xl font-bold text-center text-slate-700">
@@ -254,7 +315,7 @@ export const HomeApp = () => {
           </div>
           {/* Quinto cuadro para los clientes vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
-            <p className="font-semibold text-center text-sky-500">
+            <p className="font-semibold text-center text-blue-500">
               CLIENTES VENDIDOS
             </p>
             <p className="text-2xl font-bold text-center text-slate-700">
@@ -263,7 +324,7 @@ export const HomeApp = () => {
           </div>
           {/* Sexto cuadro para los KG vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
-            <p className="font-semibold text-center text-sky-500">
+            <p className="font-semibold text-center text-blue-500">
               KG VENDIDOS
             </p>
             <p className="text-2xl font-bold text-center text-slate-700">
@@ -272,9 +333,8 @@ export const HomeApp = () => {
           </div>
         </div>
       </div>
-
       <div>
-        <div className="text-slate-700 pb-2 mt-4">
+        <div className="text-slate-700 pb-2 mt-4 font-bold">
           PROGRESO EN VENTAS/GANANCIAS POR CATEGORIA
         </div>
         <div className="border-slate-200 border-[1px] rounded py-10 px-10 shadow flex flex-col gap-3">
@@ -284,14 +344,14 @@ export const HomeApp = () => {
                 className="flex flex-col gap-1 border-slate-200 border-[1px] py-2 px-3 rounded shadow"
                 key={categoria}
               >
-                <h3 className="uppercase underline">{categoria}</h3>
+                <h3 className="uppercase font-bold">{categoria}</h3>
                 {Object.entries(colores).map(([color, precio]) => {
                   const porcentaje = (precio / totalGeneral) * 1000;
                   return (
                     <div key={color}>
                       <p className="uppercase font-semibold text-slate-600">
                         {color}{" "}
-                        <span className="font-normal text-sky-700">
+                        <span className="font-extrabold text-[#FD454D]">
                           {Number(precio).toLocaleString("es-ar", {
                             style: "currency",
                             currency: "ARS",
@@ -300,7 +360,7 @@ export const HomeApp = () => {
                         </span>
                       </p>
                       <progress
-                        className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg rounded-full  [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-sky-400 [&::-moz-progress-bar]:bg-sky-400 w-full"
+                        className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg rounded-full  [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-[#FD454D] [&::-moz-progress-bar]:bg-[#FD454D] w-full"
                         value={porcentaje}
                         max="100"
                       >
@@ -314,9 +374,8 @@ export const HomeApp = () => {
           )}
         </div>
       </div>
-
       <div>
-        <div className="text-slate-700 pb-2 mt-4">
+        <div className="text-slate-700 font-bold pb-2 mt-4">
           PROGRESO DE KILOGRAMOS VENDIDOS SEPARADOS POR CATEGORIAS
         </div>
         <div className="border-slate-200 border-[1px] rounded py-10 px-10 shadow flex flex-col gap-3">
@@ -326,19 +385,19 @@ export const HomeApp = () => {
                 className="flex flex-col gap-1 border-slate-200 border-[1px] py-2 px-3 rounded shadow w-full"
                 key={categoria}
               >
-                <h3 className="uppercase underline">{categoria}</h3>
+                <h3 className="uppercase font-bold">{categoria}</h3>
                 {Object.entries(colores).map(([color, kg]) => {
                   const porcentaje = (kg / totalGeneralKg) * 1000;
                   return (
                     <div key={color}>
                       <p className="uppercase font-semibold text-slate-600">
                         {color}{" "}
-                        <span className="font-normal text-sky-700">
+                        <span className="font-extrabold text-[#FD454D]">
                           {Number(kg).toFixed(2)} kg
                         </span>
                       </p>
                       <progress
-                        className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg rounded-full  [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-sky-400 [&::-moz-progress-bar]:bg-sky-400 w-full"
+                        className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg rounded-full  [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-[#FD454D] [&::-moz-progress-bar]:bg-[#FD454D] w-full"
                         value={porcentaje}
                         max="100"
                       >
@@ -352,9 +411,7 @@ export const HomeApp = () => {
           )}
         </div>
       </div>
-
-      <div className="uppercase text-slate-600">Grafico de ganancias</div>
-
+      {/* <div className="uppercase text-slate-600">Grafico de ganancias</div>
       <div className="border-slate-200 border-[1px] shadow rounded">
         <ApexCharts
           className="uppercase px-10 py-5"
@@ -363,7 +420,7 @@ export const HomeApp = () => {
           type="bar"
           height={350}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
