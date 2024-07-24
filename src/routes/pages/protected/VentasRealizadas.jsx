@@ -38,17 +38,26 @@ export const VentasRealizadas = () => {
     setSearchTermCliente(e.target.value);
   };
 
-  let filteredData = facturasMensuales.filter((cliente) => {
-    const matchesSearchTermNombre =
-      cliente.clientes.nombre
-        .toLowerCase()
-        .includes(searchTermCliente.toLowerCase()) ||
-      cliente.clientes.apellido
-        .toLowerCase()
-        .includes(searchTermCliente.toLowerCase());
+let filteredData = facturasMensuales?.filter((cliente) => {
+  // Verificar que cliente y cliente.clientes estén definidos
+  if (cliente && cliente.clientes) {
+    // Convertir nombres y apellidos a minúsculas y buscar coincidencias
+    const nombreCliente = cliente.clientes.nombre
+      ? cliente.clientes.nombre.toLowerCase()
+      : "";
+    const apellidoCliente = cliente.clientes.apellido
+      ? cliente.clientes.apellido.toLowerCase()
+      : "";
+    const searchTerm = searchTermCliente.toLowerCase();
 
-    return matchesSearchTermNombre;
-  });
+    const matchesSearchTermNombre = nombreCliente.includes(searchTerm);
+    const matchesSearchTermApellido = apellidoCliente.includes(searchTerm);
+
+    return matchesSearchTermNombre || matchesSearchTermApellido;
+  }
+
+  return false; // Filtro por defecto retorna falso si cliente o cliente.clientes son undefined
+});
 
   const handleFechaInicioChange = (e) => {
     setFechaInicio(e.target.value);
