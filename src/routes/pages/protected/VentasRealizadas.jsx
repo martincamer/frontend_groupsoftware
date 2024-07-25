@@ -1147,8 +1147,6 @@ const ModalSeleccionarCantidadPerfil = () => {
 // VENTANAS MODAL.
 const ModalActualizarPresupuesto = ({ idObtenida }) => {
   const {
-    register,
-    deleteToResetClientes,
     productoSeleccionado,
     totalKg,
     totalBarras,
@@ -1162,10 +1160,17 @@ const ModalActualizarPresupuesto = ({ idObtenida }) => {
     clienteSeleccionadoActualizar,
   } = useFacturaContext();
 
+  const { handleObtenerId, idObtenida: id } = useObtenerId();
+
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleInputClick = () => {
+    setIsEditable(true);
+  };
+
   useEffect(() => {
     const obtenerDatos = async () => {
       const res = await client.get(`/facturacion/${idObtenida}`);
-      console.log("datos obtenidos", res.data);
 
       setPunto(res.data.punto);
 
@@ -1177,12 +1182,6 @@ const ModalActualizarPresupuesto = ({ idObtenida }) => {
   }, [idObtenida]);
 
   const { setPerfiles, setProductoUnico } = useAluminioContext();
-
-  const [isEditable, setIsEditable] = useState(false);
-
-  const handleInputClick = () => {
-    setIsEditable(true);
-  };
 
   const result = totalPagar().toLocaleString("es-ar", {
     style: "currency",
@@ -1328,6 +1327,19 @@ const ModalActualizarPresupuesto = ({ idObtenida }) => {
               </p>
             </div>
           </div>
+          <div className="pt-4">
+            <button
+              type="button"
+              onClick={() =>
+                document
+                  .getElementById("my_modal_seleccionar_productos")
+                  .showModal()
+              }
+              className="bg-blue-600 text-white py-1 px-4  rounded-md text-sm font-bold"
+            >
+              Seleccionar Producto
+            </button>
+          </div>
           <div>
             <table className="table">
               <thead className="text-gray-900 font-bold">
@@ -1350,6 +1362,31 @@ const ModalActualizarPresupuesto = ({ idObtenida }) => {
                     <th className="font-bold">{p.barras}</th>
                     <th className="font-bold">
                       {p.totalKG.toLocaleString("arg")} kg
+                    </th>{" "}
+                    <th className="font-bold">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            {
+                              handleObtenerId(p.id),
+                                document
+                                  .getElementById("my_modal_actualizar_perfil")
+                                  .showModal();
+                            }
+                          }}
+                          type="button"
+                          className="bg-blue-500 py-1 px-2 rounded-md text-white"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => deleteProducto(p.id)}
+                          type="button"
+                          className="bg-red-500 py-1 px-2 rounded-md text-white"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </th>
                   </tr>
                 ))}
@@ -1422,6 +1459,168 @@ const ModalActualizarPresupuesto = ({ idObtenida }) => {
             />
           </div>
         </form>
+
+        <ModalSeleccionarPerfiles />
+        <ModalEditarElPerfilSeleccionado id={id} />
+      </div>
+    </dialog>
+  );
+};
+
+const ModalEditarElPerfilSeleccionado = ({ id }) => {
+  const [barras, setBarras] = useState(0);
+  const [totalKG, setTotalKG] = useState(0);
+  const [precio, setPrecio] = useState(0);
+
+  const { setProductoSeleccionado, productoSeleccionado } = useFacturaContext();
+
+  const [producto, setProducto] = useState(null);
+
+  useEffect(() => {
+    // Buscar el producto en productoSeleccionado por el id
+    const productoEncontrado = productoSeleccionado.find(
+      (prod) => prod.id === id
+    );
+
+    // Actualizar estado con el producto encontrado
+    if (productoEncontrado) {
+      setProducto(productoEncontrado);
+      setBarras(productoEncontrado.barras);
+      setTotalKG(productoEncontrado.totalKG);
+      setPrecio(Number(productoEncontrado.precio)); // Asegúrate de convertir el precio a número si es necesario
+    }
+  }, [id, productoSeleccionado]);
+
+  const handleBarrasChange = (e) => {
+    setBarras(e.target.value);
+  };
+
+  const handleTotalKGChange = (e) => {
+    setTotalKG(e.target.value);
+  };
+
+  const handlePrecioChange = (e) => {
+    setPrecio(e.target.value);
+  };
+
+  const actualizarProducto = () => {
+    // Crear una copia del producto seleccionado y modificar los campos necesarios
+    const productoActualizado = productoSeleccionado.map((prod) => {
+      if (prod.id === id) {
+        return {
+          ...prod,
+          barras: barras,
+          totalKG: totalKG,
+          precio: precio.toString(), // Convertir de nuevo a string si es necesario
+          totalPrecioUnitario: totalKG * precio, // Actualizar totalPrecioUnitario basado en totalKG y precio
+        };
+      }
+
+      document.getElementById("my_modal_actualizar_perfil").close();
+      return prod;
+    });
+
+    // Actualizar el estado global con el producto modificado
+    setProductoSeleccionado(productoActualizado);
+
+    // Cerrar modal o hacer cualquier otra acción necesaria
+    setIsEditable(false);
+  };
+
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleInputClick = () => {
+    setIsEditable(true);
+  };
+
+  return (
+    <dialog id="my_modal_actualizar_perfil" className="modal">
+      <div className="modal-box rounded-md max-w-6xl scroll-bar">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <h3 className="font-bold text-lg">
+          Rellena los campos y crea el producto a facturar o presupuestar.
+        </h3>
+        <div className="my-4">
+          <table className="table">
+            <thead className="font-bold text-gray-900">
+              <tr>
+                <th>Codigo</th>
+                <th>Detalle</th>
+                <th>Color</th>
+                <th>Total en kgs</th>
+                <th>Barras</th>
+                <th>Precio kg</th>
+                <th>Precio final x kg</th>
+              </tr>
+            </thead>
+            <tbody className="uppercase text-xs font-medium">
+              <td>{producto?.nombre}</td>
+              <td>{producto?.detalle}</td>
+              <td>{producto?.color}</td>
+              <th>
+                <div className="flex gap-5 items-center justify-center">
+                  <input
+                    onChange={handleTotalKGChange}
+                    type="text"
+                    value={totalKG}
+                    className="border-[1px] border-gray-300 rounded-md p-2 outline-none uppercase text-xs"
+                  />
+                </div>
+              </th>
+              <th className="py-4 px-3 text-sm text-center ">
+                <input
+                  onChange={handleBarrasChange}
+                  value={barras}
+                  type="number"
+                  className="border-[1px] border-gray-300 rounded-md p-2 outline-none uppercase text-xs"
+                  placeholder="Cant de brs."
+                />
+              </th>
+              <th className="py-4 px-3 text-sm text-center">
+                <div onClick={handleInputClick}>
+                  {isEditable ? (
+                    <input
+                      value={precio}
+                      onChange={handlePrecioChange}
+                      onBlur={() => setIsEditable(false)}
+                      type="number"
+                      className="border-[1px] border-gray-300 rounded-md p-2 outline-none uppercase text-xs"
+                      placeholder="Precio kg"
+                    />
+                  ) : (
+                    <p
+                      className="border-[1px] border-gray-300 rounded-md p-2 outline-none uppercase text-xs"
+                      type="text"
+                    >
+                      {formatearDinero(Number(precio))}
+                    </p>
+                  )}
+                </div>
+              </th>
+              <th className="py-4 px-3 text-sm text-center">
+                <p
+                  className="py-2 px-2 text-xs text-white bg-blue-500 rounded-md"
+                  type="text"
+                >
+                  {formatearDinero(Number(precio * totalKG))}
+                </p>
+              </th>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button
+            onClick={actualizarProducto}
+            className="bg-[#FD454D] px-4 py-1 text-white font-semibold text-sm rounded-md"
+          >
+            Actualizar el producto
+          </button>
+        </div>
       </div>
     </dialog>
   );
