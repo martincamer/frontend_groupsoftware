@@ -38,26 +38,26 @@ export const VentasRealizadas = () => {
     setSearchTermCliente(e.target.value);
   };
 
-let filteredData = facturasMensuales?.filter((cliente) => {
-  // Verificar que cliente y cliente.clientes estén definidos
-  if (cliente && cliente.clientes) {
-    // Convertir nombres y apellidos a minúsculas y buscar coincidencias
-    const nombreCliente = cliente.clientes.nombre
-      ? cliente.clientes.nombre.toLowerCase()
-      : "";
-    const apellidoCliente = cliente.clientes.apellido
-      ? cliente.clientes.apellido.toLowerCase()
-      : "";
-    const searchTerm = searchTermCliente.toLowerCase();
+  let filteredData = facturasMensuales?.filter((cliente) => {
+    // Verificar que cliente y cliente.clientes estén definidos
+    if (cliente && cliente.clientes) {
+      // Convertir nombres y apellidos a minúsculas y buscar coincidencias
+      const nombreCliente = cliente.clientes.nombre
+        ? cliente.clientes.nombre.toLowerCase()
+        : "";
+      const apellidoCliente = cliente.clientes.apellido
+        ? cliente.clientes.apellido.toLowerCase()
+        : "";
+      const searchTerm = searchTermCliente.toLowerCase();
 
-    const matchesSearchTermNombre = nombreCliente.includes(searchTerm);
-    const matchesSearchTermApellido = apellidoCliente.includes(searchTerm);
+      const matchesSearchTermNombre = nombreCliente.includes(searchTerm);
+      const matchesSearchTermApellido = apellidoCliente.includes(searchTerm);
 
-    return matchesSearchTermNombre || matchesSearchTermApellido;
-  }
+      return matchesSearchTermNombre || matchesSearchTermApellido;
+    }
 
-  return false; // Filtro por defecto retorna falso si cliente o cliente.clientes son undefined
-});
+    return false; // Filtro por defecto retorna falso si cliente o cliente.clientes son undefined
+  });
 
   const handleFechaInicioChange = (e) => {
     setFechaInicio(e.target.value);
@@ -188,7 +188,7 @@ let filteredData = facturasMensuales?.filter((cliente) => {
                       Total en kg vendidos
                     </p>
                     <p className="text-white font-bold text-lg">
-                      {totalDeKgVendidos} kgs
+                      {totalDeKgVendidos.toFixed(2)} kgs
                     </p>
                   </div>{" "}
                   <div className="bg-gray-50/10 border border-gray-500 py-5 px-5 rounded-md flex flex-col gap-1">

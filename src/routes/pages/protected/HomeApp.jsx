@@ -351,7 +351,7 @@ export const HomeApp = () => {
                     <div key={color}>
                       <p className="uppercase font-semibold text-slate-600">
                         {color}{" "}
-                        <span className="font-extrabold text-[#FD454D]">
+                        <span className="font-extrabold text-blue-600">
                           {Number(precio).toLocaleString("es-ar", {
                             style: "currency",
                             currency: "ARS",
@@ -392,7 +392,7 @@ export const HomeApp = () => {
                     <div key={color}>
                       <p className="uppercase font-semibold text-slate-600">
                         {color}{" "}
-                        <span className="font-extrabold text-[#FD454D]">
+                        <span className="font-extrabold text-blue-600">
                           {Number(kg).toFixed(2)} kg
                         </span>
                       </p>
