@@ -7,3 +7,8 @@ export const formatearFecha = (fecha) =>
     minute: "2-digit",
     second: "2-digit",
   });
+
+export const formatearTipoMes = (fecha) =>
+  new Date(fecha).toLocaleString("es-AR", {
+    month: "long", // Para el nombre completo del mes
+  });

@@ -118,7 +118,7 @@ export const Navbar = () => {
                   to={"/ventas-clientes-accesorios"}
                   className=" font-semibold"
                 >
-                  Generar nuevo presupuesto
+                  Generar nuevo venta/prep.
                 </Link>
               </li>
               {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">

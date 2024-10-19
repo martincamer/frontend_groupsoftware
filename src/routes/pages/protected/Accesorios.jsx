@@ -8,6 +8,7 @@ import {
 } from "../../../helpers/toast";
 import { useObtenerId } from "../../../helpers/obtenerId";
 import { useAccesoriosContext } from "../../../context/AccesoriosProvider";
+import { formatearDinero } from "../../../helpers/formatearDinero";
 
 export const Accesorios = () => {
   const { accesorios } = useAccesoriosContext();
@@ -129,6 +130,7 @@ export const Accesorios = () => {
                 <th className="font-bold text-gray-900 text-xs">Codigo</th>
                 <th className="font-bold text-gray-900 text-xs">Detalle</th>
                 <th className="font-bold text-gray-900 text-xs">Stock</th>
+                <th className="font-bold text-gray-900 text-xs">Precio und</th>
                 <th className="font-bold text-gray-900 text-xs">Estado</th>
                 <th className="font-bold text-gray-900 text-xs"></th>
               </tr>
@@ -150,6 +152,9 @@ export const Accesorios = () => {
                         {p.stock}
                       </p>
                     </div>
+                  </td>
+                  <td className="font-bold text-blue-500">
+                    {formatearDinero(Number(p.precio))}
                   </td>
                   <td>
                     <div className="flex">
@@ -236,6 +241,7 @@ const ModalCrearAccesorio = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
   const onSubmit = async (formData) => {
@@ -257,6 +263,14 @@ const ModalCrearAccesorio = () => {
       console.error("Error creating product:", error);
     }
   };
+
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleInputClick = () => {
+    setIsEditable(true);
+  };
+
+  const precio = watch("precio");
 
   return (
     <dialog id="my_modal_crear_accesorio" className="modal">
@@ -319,11 +333,27 @@ const ModalCrearAccesorio = () => {
               placeholder="cantidad de productos"
             />
           </div>
-          {errors.peso_neto_barra_6mts && (
-            <p className="text-red-700 font-semibold text-sm">
-              El peso es requerido
-            </p>
-          )}
+
+          <div onClick={handleInputClick}>
+            {isEditable ? (
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold">Precio und</label>
+                <input
+                  {...register("precio", { required: true })}
+                  onBlur={() => setIsEditable(false)}
+                  className="border border-gray-300 rounded-md px-2 py-2 text-sm uppercase outline-none font-semibold"
+                  placeholder="Precio kg"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-bold">Precio und</p>
+                <p className="border border-gray-300 rounded-md px-2 py-2 text-sm uppercase outline-none font-semibold">
+                  {formatearDinero(Number(precio || 0))}
+                </p>
+              </div>
+            )}
+          </div>
 
           <div className="flex pt-3">
             <input
@@ -347,6 +377,7 @@ const ModalActualizarPerfil = ({ idObtenida }) => {
     formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm();
 
   useEffect(() => {
@@ -356,6 +387,7 @@ const ModalActualizarPerfil = ({ idObtenida }) => {
       setValue("codigo", res.data.codigo);
       setValue("descripcion", res.data.descripcion);
       setValue("stock", res.data.stock);
+      setValue("precio", res.data.precio);
     };
 
     obtenerDatos();
@@ -378,6 +410,14 @@ const ModalActualizarPerfil = ({ idObtenida }) => {
       console.error("Error creating product:", error);
     }
   };
+
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleInputClick = () => {
+    setIsEditable(true);
+  };
+
+  const precio = watch("precio");
 
   return (
     <dialog id="my_modal_actualizar_accesorio" className="modal">
@@ -435,11 +475,26 @@ const ModalActualizarPerfil = ({ idObtenida }) => {
               placeholder="cantidad de productos"
             />
           </div>
-          {errors.peso_neto_barra_6mts && (
-            <p className="text-red-700 font-semibold text-sm">
-              El peso es requerido
-            </p>
-          )}
+          <div onClick={handleInputClick}>
+            {isEditable ? (
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold">Precio und</label>
+                <input
+                  {...register("precio", { required: true })}
+                  onBlur={() => setIsEditable(false)}
+                  className="border border-gray-300 rounded-md px-2 py-2 text-sm uppercase outline-none font-semibold"
+                  placeholder="Precio kg"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-bold">Precio und</p>
+                <p className="border border-gray-300 rounded-md px-2 py-2 text-sm uppercase outline-none font-semibold">
+                  {formatearDinero(Number(precio || 0))}
+                </p>
+              </div>
+            )}
+          </div>
 
           <div className="flex pt-3">
             <input

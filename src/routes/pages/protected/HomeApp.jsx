@@ -3,6 +3,7 @@ import { useFacturaContext } from "../../../context/FacturaProvider";
 import ApexCharts from "react-apexcharts";
 import { useAccesoriosContext } from "../../../context/AccesoriosProvider";
 import { formatearDinero } from "../../../helpers/formatearDinero";
+import { formatearTipoMes } from "../../../helpers/formatearFecha";
 
 export const HomeApp = () => {
   const [ventasPorMes, setVentasPorMes] = useState([]);
@@ -275,7 +276,7 @@ export const HomeApp = () => {
   return (
     <div className="py-[50px] px-[30px] w-full h-full flex flex-col gap-6">
       {" "}
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-stretch">
         <div className="">
           <input
             value={fechaInicio}
@@ -294,6 +295,13 @@ export const HomeApp = () => {
             placeholder="Fecha fin"
           />
         </div>
+
+        <div className="flex gap-1 uppercase border border-gray-300 py-1.5 px-2 rounded-md">
+          <p className="font-medium">MES FILTRADO</p>
+          <p className="font-bold text-blue-500">
+            {formatearTipoMes(fechaFin)}
+          </p>
+        </div>
       </div>
       <div className="">
         <div className="grid grid-cols-4 gap-5">
@@ -303,7 +311,7 @@ export const HomeApp = () => {
               className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out uppercase"
             >
               <p className="font-semibold text-center text-blue-500">
-                VENTAS PERFILES {mesVentas.mes.toUpperCase()}
+                VENTAS EN PERFILES
               </p>
               <p className="text-2xl font-bold text-center text-slate-700">
                 {mesVentas.totalVentas.toLocaleString("es-ar", {
@@ -365,6 +373,20 @@ export const HomeApp = () => {
             </p>
             <p className="text-2xl font-bold text-center text-slate-700">
               {ventasFiltradasAccesorios.length}
+            </p>
+          </div>
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
+            <p className="font-semibold text-center text-blue-500">
+              GANANCIA TOTAL SISTEMA
+            </p>
+            <p className="text-2xl font-bold text-center text-slate-700">
+              {formatearDinero(
+                totalGlobal +
+                  ventasPorMes.reduce(
+                    (total, mesVentas) => total + mesVentas.totalVentas,
+                    0
+                  )
+              )}
             </p>
           </div>
         </div>
