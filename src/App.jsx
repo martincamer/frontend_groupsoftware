@@ -29,6 +29,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { Register } from "./routes/pages/Register";
 import { Cliente } from "./routes/pages/protected/Cliente";
+import { Accesorios } from "./routes/pages/protected/Accesorios";
+import { AccesoriosProvider } from "./context/AccesoriosProvider";
+import { VentasAccesorios } from "./routes/pages/protected/VentasAccesorios";
 
 function App() {
   const { isAuth } = useAuth();
@@ -54,11 +57,13 @@ function App() {
                     <PresupuestoProvider>
                       <FacturarDatosProvider>
                         <FacturaProvider>
-                          <main className="w-full h-full">
-                            <Navbar />
-                            {/* <Sidebar /> */}
-                            <Outlet />
-                          </main>
+                          <AccesoriosProvider>
+                            <main className="w-full h-full">
+                              <Navbar />
+                              {/* <Sidebar /> */}
+                              <Outlet />
+                            </main>
+                          </AccesoriosProvider>
                         </FacturaProvider>
                       </FacturarDatosProvider>
                     </PresupuestoProvider>
@@ -68,10 +73,15 @@ function App() {
             >
               <Route path="/home" element={<HomeApp />} />
               <Route path="productos" element={<Productos />} />
+              <Route path="accesorios" element={<Accesorios />} />
               <Route path="clientes" element={<Clientes />} />
               <Route path="cliente/:id" element={<Cliente />} />
               <Route path="presupuestos" element={<Presupuestos />} />
               <Route path="ventas-clientes" element={<VentasRealizadas />} />
+              <Route
+                path="ventas-clientes-accesorios"
+                element={<VentasAccesorios />}
+              />
               <Route path="datos-facturacion" element={<DatosFacturacion />} />
               <Route path="view-factura/:numero" element={<FacturaView />} />
               <Route

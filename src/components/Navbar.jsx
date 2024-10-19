@@ -57,7 +57,7 @@ export const Navbar = () => {
             >
               <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/clientes"} className=" font-semibold">
-                  Clientes aluminio
+                  Clientes
                 </Link>
               </li>
               {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
@@ -87,6 +87,38 @@ export const Navbar = () => {
               <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
                 <Link to={"/ventas-clientes"} className=" font-semibold">
                   Generar nueva orden de venta/presp.
+                </Link>
+              </li>
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/ventas-accesorios"} className=" font-semibold">
+                  Generar ventas accesorios
+                </Link>
+              </li> */}
+            </ul>
+          </div>
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-white text-sm font-semibold hover:bg-gray-600 py-1 px-4 rounded-md"
+            >
+              Acciones accesorios
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-white rounded-md z-[1] w-52 p-2 shadow-xl"
+            >
+              {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link to={"/presupuestos"} className=" font-semibold">
+                  Generar presupuestos aluminios
+                </Link>
+              </li> */}
+              <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">
+                <Link
+                  to={"/ventas-clientes-accesorios"}
+                  className=" font-semibold"
+                >
+                  Generar nuevo presupuesto
                 </Link>
               </li>
               {/* <li className="hover:bg-gray-600 rounded-md text-gray-800 hover:text-white">

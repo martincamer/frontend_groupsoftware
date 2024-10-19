@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useFacturaContext } from "../../../context/FacturaProvider";
 import ApexCharts from "react-apexcharts";
+import { useAccesoriosContext } from "../../../context/AccesoriosProvider";
+import { formatearDinero } from "../../../helpers/formatearDinero";
 
 export const HomeApp = () => {
   const [ventasPorMes, setVentasPorMes] = useState([]);
@@ -8,6 +10,7 @@ export const HomeApp = () => {
   const [totalKgVendidos, setTotalKgVendidos] = useState(0);
   const { facturasMensuales } = useFacturaContext();
   const { datosPresupuesto } = useFacturaContext();
+  const { ventasAccesorios } = useAccesoriosContext();
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -33,12 +36,18 @@ export const HomeApp = () => {
 
   // Filtrar por rango de fechas
   let facturasFiltradas = [...facturasMensuales]; // Copia de las facturas originales
+  let ventasFiltradasAccesorios = [...ventasAccesorios]; // Copia de las facturas originales
 
   if (fechaInicio && fechaFin) {
     const fechaInicioObj = new Date(fechaInicio);
     const fechaFinObj = new Date(fechaFin);
 
     facturasFiltradas = facturasFiltradas.filter((item) => {
+      const fechaOrden = new Date(item.created_at);
+      return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
+    });
+
+    ventasFiltradasAccesorios = ventasFiltradasAccesorios.filter((item) => {
       const fechaOrden = new Date(item.created_at);
       return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
     });
@@ -253,6 +262,16 @@ export const HomeApp = () => {
     },
   ];
 
+  console.log("asdasd", ventasFiltradasAccesorios);
+
+  const subtotales = ventasFiltradasAccesorios.map((venta) => {
+    return venta.productos.respuesta.reduce((acc, producto) => {
+      return acc + producto.subtotal;
+    }, 0);
+  });
+
+  const totalGlobal = subtotales.reduce((acc, subtotal) => acc + subtotal, 0);
+
   return (
     <div className="py-[50px] px-[30px] w-full h-full flex flex-col gap-6">
       {" "}
@@ -277,14 +296,14 @@ export const HomeApp = () => {
         </div>
       </div>
       <div className="">
-        <div className="grid grid-cols-4 gap-10">
+        <div className="grid grid-cols-4 gap-5">
           {ventasPorMes.map((mesVentas) => (
             <div
               key={mesVentas.mes}
               className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out uppercase"
             >
               <p className="font-semibold text-center text-blue-500">
-                VENTAS {mesVentas.mes.toUpperCase()}
+                VENTAS PERFILES {mesVentas.mes.toUpperCase()}
               </p>
               <p className="text-2xl font-bold text-center text-slate-700">
                 {mesVentas.totalVentas.toLocaleString("es-ar", {
@@ -293,12 +312,12 @@ export const HomeApp = () => {
                   minimumFractionDigits: 2,
                 })}
               </p>
-              <p className="text-sm text-gray-500 text-center">
+              {/* <p className="text-sm text-gray-500 text-center">
                 Perfiles Vendidos: {mesVentas.perfilesVendidos}
               </p>
               <p className="text-sm text-gray-500 text-center">
                 KG Vendidos: {mesVentas.kgVendidos.toFixed(2)}
-              </p>
+              </p> */}
             </div>
           ))}
           {/* Cuarto cuadro para los perfiles vendidos */}
@@ -314,14 +333,7 @@ export const HomeApp = () => {
             </p>
           </div>
           {/* Quinto cuadro para los clientes vendidos */}
-          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
-            <p className="font-semibold text-center text-blue-500">
-              CLIENTES VENDIDOS
-            </p>
-            <p className="text-2xl font-bold text-center text-slate-700">
-              {clientesVendidos}
-            </p>
-          </div>
+
           {/* Sexto cuadro para los KG vendidos */}
           <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
             <p className="font-semibold text-center text-blue-500">
@@ -329,6 +341,30 @@ export const HomeApp = () => {
             </p>
             <p className="text-2xl font-bold text-center text-slate-700">
               {totalKgVendidos.toFixed(2)}
+            </p>
+          </div>
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
+            <p className="font-semibold text-center text-blue-500">
+              CLIENTES VENDIDOS
+            </p>
+            <p className="text-2xl font-bold text-center text-slate-700">
+              {clientesVendidos + ventasFiltradasAccesorios.length}
+            </p>
+          </div>
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
+            <p className="font-semibold text-center text-blue-500">
+              TOTAL EN ACCESORIOS VENDIDOS
+            </p>
+            <p className="text-2xl font-bold text-center text-slate-700">
+              {formatearDinero(totalGlobal)}
+            </p>
+          </div>
+          <div className="border-[1px] border-gray-200 rounded w-full px-[20px] py-[20px] shadow-md shadow-black/5 flex flex-col gap-2 hover:shadow-black/20 hover:shadow-md hover:translate-x-1 cursor-pointer transition-all ease-in-out justify-center">
+            <p className="font-semibold text-center text-blue-500">
+              TOTAL UNIDADES DE ACCESORIOS
+            </p>
+            <p className="text-2xl font-bold text-center text-slate-700">
+              {ventasFiltradasAccesorios.length}
             </p>
           </div>
         </div>
